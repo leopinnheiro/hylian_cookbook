@@ -30,7 +30,7 @@ export function IngredientSlotModal({
       onClick={onClose}
     >
       <div
-        className="flex max-h-[80vh] w-full max-w-[80vw] flex-col border border-ash-steel/40 bg-deep-steel"
+        className="flex max-h-[80vh] w-full max-w-[90vw] flex-col border border-ash-steel/40 bg-deep-steel"
         onClick={(event) => event.stopPropagation()}
       >
         <div className="flex-none border-b border-ash-steel/20 p-4">
@@ -67,7 +67,7 @@ export function IngredientSlotModal({
           {filtered.map((material) => (
             <li
               key={material.id}
-              className="flex items-center gap-2 bg-panel px-2 py-1.5 text-sm font-chrome"
+              className="flex items-center gap-2 bg-panel px-2 py-1.5 text-sm font-chrome justify-between"
             >
               <img
                 src={`/assets/${material.image}`}
@@ -75,8 +75,10 @@ export function IngredientSlotModal({
                 className="h-6 w-6 object-contain"
                 loading="lazy"
               />
-              <span className="text-rune-paper">{material.name["pt-br"]}</span>
-              <span className="ml-auto text-xs text-ash-steel">
+              <span className="text-rune-paper flex-1">
+                {material.name["pt-br"]}
+              </span>
+              <span className="ml-auto text-xs text-ash-steel text-right flex-1">
                 {material.name.en}
               </span>
             </li>

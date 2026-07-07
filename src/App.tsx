@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { ChevronDown } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 import { effects, recipes } from "./data";
 import type { EffectId, Recipe } from "./data/types";
@@ -29,6 +30,7 @@ function App() {
   const [tab, setTab] = useState<Tab>("all");
   const [query, setQuery] = useState("");
   const [selectedEffect, setSelectedEffect] = useState<EffectId | null>(null);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const { isFavorite, toggleFavorite, favoriteIds } = useFavorites();
 
   const handleToggleFavorite = (recipe: Recipe) => {
@@ -73,11 +75,13 @@ function App() {
       <Toaster
         position="top-right"
         toastOptions={{
+          duration: 750,
           style: {
             background: "var(--color-obsidian)",
             color: "var(--color-rune-paper)",
             border: "1px solid var(--color-ember)",
-            boxShadow: "0 0 16px 1px color-mix(in srgb, var(--color-ember) 40%, transparent)",
+            boxShadow:
+              "0 0 16px 1px color-mix(in srgb, var(--color-ember) 40%, transparent)",
             fontFamily: "var(--font-chrome)",
             fontSize: "0.8rem",
             fontWeight: 600,
@@ -106,10 +110,25 @@ function App() {
             </nav>
           </div>
           <SearchBar value={query} onChange={setQuery} />
-          <EffectFilter
-            selected={selectedEffect}
-            onSelect={setSelectedEffect}
-          />
+          <div className="flex flex-col gap-2">
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((open) => !open)}
+              aria-expanded={filtersOpen}
+              className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah"
+            >
+              <ChevronDown
+                className={`h-4 w-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`}
+              />
+              Filtrar por efeito
+            </button>
+            {filtersOpen && (
+              <EffectFilter
+                selected={selectedEffect}
+                onSelect={setSelectedEffect}
+              />
+            )}
+          </div>
         </div>
       </header>
 
