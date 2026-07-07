@@ -1,1 +1,46 @@
+@import url("https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Zilla+Slab:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --color-obsidian: #0a1620;
+  --color-deep-steel: #10202a;
+  --color-panel: #142832;
+  --color-sheikah: #5fe1e8;
+  --color-ember: #e3a548;
+  --color-rune-paper: #ede6d6;
+  --color-ash-steel: #7c8a93;
+
+  --font-chrome: "Rajdhani", "Segoe UI", sans-serif;
+  --font-dish: "Zilla Slab", Georgia, serif;
+  --font-mono: "JetBrains Mono", "Consolas", monospace;
+}
+
+html,
+body {
+  background-color: var(--color-obsidian);
+  color: var(--color-rune-paper);
+  font-family: var(--font-chrome);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-ash-steel) var(--color-obsidian);
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--color-obsidian);
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-ash-steel);
+  border: 2px solid var(--color-obsidian);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-sheikah);
+}

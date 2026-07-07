@@ -24,7 +24,7 @@ export default defineConfig([
     },
     rules: {
       "@stylistic/indent": ["error", 2],
-      "@stylistic/quotes": ["error", "single"],
+      "@stylistic/quotes": ["error", "double"],
     },
   },
 ]);
