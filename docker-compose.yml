@@ -2,5 +2,5 @@ services:
   hylian-cookbook:
     build: .
     ports:
-      - "8080:80"
+      - "5600:80"
     restart: unless-stopped
