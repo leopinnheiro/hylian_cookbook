@@ -24,3 +24,6 @@ dist-ssr
 *.sw?
 
 .claude
+
+# Source icon font used to hand-extract public/assets/icons/*.svg
+botw-icons-dual-color-*.svg

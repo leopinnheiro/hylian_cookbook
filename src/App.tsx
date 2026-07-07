@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { effects, recipes } from "./data";
 import type { EffectId, Recipe } from "./data/types";
 import { SearchBar } from "./components/SearchBar";
@@ -30,6 +31,17 @@ function App() {
   const [selectedEffect, setSelectedEffect] = useState<EffectId | null>(null);
   const { isFavorite, toggleFavorite, favoriteIds } = useFavorites();
 
+  const handleToggleFavorite = (recipe: Recipe) => {
+    const wasFavorite = isFavorite(recipe.id);
+    toggleFavorite(recipe.id);
+    toast(
+      wasFavorite
+        ? `Removido dos favoritos: ${recipe.name["pt-br"]}`
+        : `Adicionado aos favoritos: ${recipe.name["pt-br"]}`,
+      { icon: wasFavorite ? "💔" : "⭐" },
+    );
+  };
+
   const filteredRecipes = useMemo(() => {
     const base =
       tab === "favorites"
@@ -58,6 +70,22 @@ function App() {
 
   return (
     <div className="flex h-screen flex-col bg-obsidian">
+      <Toaster
+        position="top-right"
+        toastOptions={{
+          style: {
+            background: "var(--color-obsidian)",
+            color: "var(--color-rune-paper)",
+            border: "1px solid var(--color-ember)",
+            boxShadow: "0 0 16px 1px color-mix(in srgb, var(--color-ember) 40%, transparent)",
+            fontFamily: "var(--font-chrome)",
+            fontSize: "0.8rem",
+            fontWeight: 600,
+            letterSpacing: "0.03em",
+            borderRadius: 0,
+          },
+        }}
+      />
       <header className="flex-none border-b border-ash-steel/30 bg-deep-steel/80 px-4 py-5 backdrop-blur">
         <div className="mx-auto flex max-w-4xl flex-col gap-4">
           <div className="flex items-center justify-between">
@@ -114,7 +142,7 @@ function App() {
                     key={recipe.id}
                     recipe={recipe}
                     favorite={isFavorite(recipe.id)}
-                    onToggleFavorite={() => toggleFavorite(recipe.id)}
+                    onToggleFavorite={() => handleToggleFavorite(recipe)}
                   />
                 ))}
               </div>
@@ -124,10 +152,9 @@ function App() {
 
         <footer className="mx-auto max-w-4xl px-4 pb-8 text-xs text-ash-steel">
           <p>
-            Existe ~10% de chance de bônus aleatório (crítico) em qualquer
-            prato cozido — 100% durante a lua de sangue. O resultado real no
-            jogo pode variar um pouco pra mais em relação aos valores
-            mostrados aqui.
+            Existe ~10% de chance de bônus aleatório (crítico) em qualquer prato
+            cozido — 100% durante a lua de sangue. O resultado real no jogo pode
+            variar um pouco pra mais em relação aos valores mostrados aqui.
           </p>
         </footer>
       </div>
