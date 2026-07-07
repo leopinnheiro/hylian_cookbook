@@ -17,12 +17,40 @@
 - Persistência de favoritos: `localStorage`
 - Deploy: GitHub Pages
 
-## Identidade visual (direção)
+## Identidade visual
 
-- Estética "Sheikah Slate": tons de azul/dourado, fundo escuro, detalhes com aparência tecnológica/antiga (linhas finas, cantos angulares em vez de border-radius genérico)
-- Tipografia: uma fonte serifada ou com peso pra títulos (sensação de "tábua antiga"/rúnico), sans-serif limpa pro corpo de texto
-- Ícones dos efeitos (cura, resistência ao frio/calor, velocidade, furtividade, ataque, defesa etc.) com cor de destaque própria por categoria
-- Card de item/receita como elemento central — precisa funcionar bem em grid no desktop e em lista/coluna única no mobile
+**Direção:** não é "tema escuro genérico tech" — é o contraste entre a Sheikah Slate (fria, tecnológica, angulosa) escaneando comida (quente, artesanal). O _chrome_ do app (nav, filtros, bordas de card, ícones) fica no registro Sheikah; o _conteúdo_ da receita (nome do prato, corações) usa tipografia quente, como se fosse uma ficha real sendo exibida dentro do scanner. Protótipo de referência: `mockup-visual-sheikah-slate.html`.
+
+### Paleta
+
+| Nome                 | Hex       | Uso                                                                                             |
+| -------------------- | --------- | ----------------------------------------------------------------------------------------------- |
+| Obsidian Circuit     | `#0A1620` | fundo da página                                                                                 |
+| Deep Steel           | `#10202A` | fundo de card                                                                                   |
+| Panel                | `#142832` | fundo de elemento dentro do card (tag de ingrediente)                                           |
+| Sheikah Glow (ciano) | `#5FE1E8` | acento frio — efeitos defensivos/técnicos (resistências, furtividade, velocidade), chrome ativo |
+| Ember (âmbar)        | `#E3A548` | acento quente — efeitos ofensivos/vitais (ataque, cura, hearty), favorito ativo                 |
+| Rune Paper           | `#EDE6D6` | texto principal (branco quente, não branco puro)                                                |
+| Ash Steel            | `#7C8A93` | texto secundário, bordas neutras                                                                |
+
+Cor por **categoria de efeito**, não decorativa: tudo que é "quente/ofensivo" (ataque, cura, hearty) usa âmbar; tudo "frio/defensivo/técnico" (resistências, furtividade, velocidade, vigor) usa ciano.
+
+### Tipografia
+
+- **Chrome do app** (nav, filtros, labels, badges): Rajdhani — angulosa, técnica, maiúsculas com letter-spacing
+- **Conteúdo da receita** (nome do prato): Zilla Slab — serifa quente, sensação de ficha/cookbook
+- **Números/estatísticas** (corações, duração): JetBrains Mono — leitura tipo "readout" de HUD
+
+### Layout e forma
+
+- Cantos **cortados em hexágono** (`clip-path`), nunca `border-radius` — é a assinatura visual mais reconhecível da Sheikah Slate
+- Badge de efeito como selo hexagonal no canto do card, cor por categoria
+- Favoritar = mesmo selo hexagonal, com glow sutil de âmbar quando ativo (único uso de glow no app — reservado pra esse momento, não decorar tudo)
+- Ingrediente "coringa"/filler (Vísceras etc.) com borda tracejada, visualmente diferenciado do ingrediente específico
+
+### Regra de contenção
+
+O glow é o "um acessório" do conjunto (referência: tirar um antes de sair de casa) — usar só no favorito ativo, nunca espalhar em todo botão/borda, pra não virar o clichê de "neon em fundo preto".
 
 ## Modelo de dados
 
@@ -210,6 +238,12 @@ public/assets/
 ```
 
 Convenção de nome de arquivo: sempre igual ao `id` do dado (kebab-case), pra dar pra montar o caminho direto a partir do `id` sem precisar de mais um campo redundante tipo `image: "hearty-durian.png"` — já dá pra assumir `materials/${id}.png` na maioria dos casos. Se algum ícone quebrar essa convenção (extensão diferente, nome legado), aí sim mantém o campo `image` explícito no dado pra sobrescrever.
+
+## Convenções de commit
+
+- **Nenhuma menção à Anthropic/Claude nos commits** — sem rodapé tipo `Co-authored-by: Claude`, sem menção a ferramenta de IA usada. Mensagens de commit só descrevem a mudança em si.
+
+## Origem dos dados
 
 Extração manual feita pelo usuário a partir dos arquivos do próprio jogo (mensagens/textos oficiais em pt-br), garantindo fidelidade total com o que aparece no jogo. Os combos de `recipes.ts` (com hearts/duração/tier já calculados pela fórmula oficial) também são preparados fora do app, antes da implementação — o app só consome os `.ts` já prontos, sem calcular nada em runtime.
 

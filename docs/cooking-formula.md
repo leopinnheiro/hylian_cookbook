@@ -12,16 +12,16 @@ hearts = soma(hp de cada ingrediente) × 2
 
 Cada **efeito** (não o ingrediente) tem uma duração-base fixa, somada uma vez por ingrediente que contribui esse efeito:
 
-| Efeito | Duração base |
-|---|---|
-| Attack Up | 0:20 |
-| Defense Up | 0:20 |
-| Speed Up | 0:30 |
-| Cold Resistance | 2:00 |
-| Heat Resistance | 2:00 |
-| Shock Resistance | 2:00 |
-| Fireproof | 2:00 |
-| Stealth Up | 1:30 |
+| Efeito           | Duração base |
+| ---------------- | ------------ |
+| Attack Up        | 0:20         |
+| Defense Up       | 0:20         |
+| Speed Up         | 0:30         |
+| Cold Resistance  | 2:00         |
+| Heat Resistance  | 2:00         |
+| Shock Resistance | 2:00         |
+| Fireproof        | 2:00         |
+| Stealth Up       | 1:30         |
 
 ```
 duration = soma(duração_base_do_efeito por ingrediente que dá efeito)
@@ -38,19 +38,19 @@ duration = soma(duração_base_do_efeito por ingrediente que dá efeito)
 
 ### Thresholds oficiais por efeito
 
-| Efeito (nome do jogo) | Nosso `EffectId` | Low | Mid | High |
-|---|---|---|---|---|
-| Mighty | `attack` | 1 | 5 | 7 |
-| Tough | `defense` | 1 | 5 | 7 |
-| Sneaky | `stealth` | 1 | 6 | 9 |
-| Hasty | `speed` | 1 | 5 | 7 |
-| Electro | `electric-resist` | 1 | 4 | 6 |
-| Spicy | `cold-resist` | 1 | 6 | — (só 2 níveis) |
-| Chilly | `heat-resist` | 1 | 6 | — (só 2 níveis) |
-| Fireproof | (sem ingrediente de comida — só elixir) | — | — | — |
-| Hearty | `extra-hearts` | linear, +1 coração amarelo por ponto, sem tier |
-| Energizing | `restore-stamina` | escala própria, ver seção 9 |
-| Enduring | `extra-stamina` | escala própria, ver seção 9 |
+| Efeito (nome do jogo) | Nosso `EffectId`                        | Low                                            | Mid | High            |
+| --------------------- | --------------------------------------- | ---------------------------------------------- | --- | --------------- |
+| Mighty                | `attack`                                | 1                                              | 5   | 7               |
+| Tough                 | `defense`                               | 1                                              | 5   | 7               |
+| Sneaky                | `stealth`                               | 1                                              | 6   | 9               |
+| Hasty                 | `speed`                                 | 1                                              | 5   | 7               |
+| Electro               | `electric-resist`                       | 1                                              | 4   | 6               |
+| Spicy                 | `cold-resist`                           | 1                                              | 6   | — (só 2 níveis) |
+| Chilly                | `heat-resist`                           | 1                                              | 6   | — (só 2 níveis) |
+| Fireproof             | (sem ingrediente de comida — só elixir) | —                                              | —   | —               |
+| Hearty                | `extra-hearts`                          | linear, +1 coração amarelo por ponto, sem tier |
+| Energizing            | `restore-stamina`                       | escala própria, ver seção 9                    |
+| Enduring              | `extra-stamina`                         | escala própria, ver seção 9                    |
 
 Efeitos com só 2 linhas (Spicy/Chilly) não têm um terceiro nível — o "Mid" já é o teto.
 
@@ -86,6 +86,7 @@ resultado = comparar contra a linha do efeito na tabela acima
 ## 4. Time boosts (ingredientes neutros)
 
 Ingredientes tipo Casca-de-Árvore-Chickaloo, Bolota, Arroz Hyliano, Halita, Trigo de Tabantha, Açúcar, Leite Fresco, Manteiga de Cabra, Ovo, Especiaria Goron somam um bônus de duração **fixo por tipo**, mas:
+
 - Não contam pra potência.
 - **O bônus só se aplica uma vez por tipo de ingrediente na receita.** Um segundo item do mesmo tipo conta só como ingrediente comum (+30s genérico), sem repetir o bônus especial.
 
@@ -108,6 +109,7 @@ No modelo de dados, isso vira um campo tipo `overridesDurationSeconds` no materi
 ## 7. Crítico (bônus aleatório — NÃO entra nos dados, é RNG)
 
 ~10% de chance por prato cozido, **exceto** quando: já tem Estrela Cadente ou parte de dragão (crítico garantido), ou o prato é Comida Duvidosa/Rock-Hard (nunca cricam). Garantido também das 23:30 à 00:30 durante lua de sangue. Um dos 5 bônus abaixo é aplicado com chance igual entre as opções válidas pro prato (não é sempre o mesmo, e só considera bônus que fazem sentido pro tipo de prato — ex: um prato de Tough não pode rolar vigor extra):
+
 - +3 corações restaurados
 - +5:00 de duração
 - +1 tier de potência (Low→Mid, Mid→High)
@@ -124,7 +126,8 @@ Randomiza corações (1/4 do valor base / sem mudança / +3 corações), potênc
 
 - **Hearty (`extra-hearts`):** linear, sem tier — soma direta dos pontos de cada ingrediente Hearty = quantidade de corações amarelos extras. Há um **teto de 30 corações totais** (base + amarelos) por prato, segundo os testes da comunidade.
 
-- **Enduring/`extra-stamina` (RESOLVIDO):** cada ponto = **1/5 de uma roda de vigor**, arredondado pra baixo, ciclando a cada 5 pontos (1 roda cheia). Confirmado pela nota oficial da wiki: *"5 Endura Shrooms (2,5 pontos) só dá 2/5 de roda"* — e exceção: se Endura Shroom for o único ingrediente Enduring do prato, o mínimo garantido é 1/5, mesmo dando menos que isso na conta.
+- **Enduring/`extra-stamina` (RESOLVIDO):** cada ponto = **1/5 de uma roda de vigor**, arredondado pra baixo, ciclando a cada 5 pontos (1 roda cheia). Confirmado pela nota oficial da wiki: _"5 Endura Shrooms (2,5 pontos) só dá 2/5 de roda"_ — e exceção: se Endura Shroom for o único ingrediente Enduring do prato, o mínimo garantido é 1/5, mesmo dando menos que isso na conta.
+
   ```
   rodas_de_vigor_extra = floor(soma_de_pontos_enduring) / 5
   // pontos 1,2,3,4 → 1/5,2/5,3/5,4/5 de roda
