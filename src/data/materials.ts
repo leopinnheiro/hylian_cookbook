@@ -16,7 +16,7 @@ export const materials: Material[] = [
   },
   {
     id: "wildberry",
-    name: { "pt-br": "Fruta Silvestre", en: "Wildberry" },
+    name: { "pt-br": "*Fruta Silvestre", en: "Wildberry" },
     image: "materials/wildberry_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -24,7 +24,7 @@ export const materials: Material[] = [
   },
   {
     id: "hydromelon",
-    name: { "pt-br": "Hidromelão", en: "Hydromelon" },
+    name: { "pt-br": "*Hidromelão", en: "Hydromelon" },
     image: "materials/hydromelon_icon.png",
     hp: 1,
     effect: "heat-resist",
@@ -34,7 +34,7 @@ export const materials: Material[] = [
   },
   {
     id: "spicy-pepper",
-    name: { "pt-br": "Pimenta Picante", en: "Spicy Pepper" },
+    name: { "pt-br": "Pimenta de Fogo", en: "Spicy Pepper" },
     image: "materials/spicy_pepper_icon.png",
     hp: 1,
     effect: "cold-resist",
@@ -44,7 +44,7 @@ export const materials: Material[] = [
   },
   {
     id: "voltfruit",
-    name: { "pt-br": "Fruta Elétrica", en: "Voltfruit" },
+    name: { "pt-br": "Fruta isolante", en: "Voltfruit" },
     image: "materials/voltfruit_icon.png",
     hp: 1,
     effect: "electric-resist",
@@ -54,7 +54,7 @@ export const materials: Material[] = [
   },
   {
     id: "mighty-bananas",
-    name: { "pt-br": "Banana Poderosa", en: "Mighty Bananas" },
+    name: { "pt-br": "Bananas valentes", en: "Mighty Bananas" },
     image: "materials/mighty_bananas_icon.png",
     hp: 1,
     effect: "attack",
@@ -64,7 +64,7 @@ export const materials: Material[] = [
   },
   {
     id: "fleet-lotus-seeds",
-    name: { "pt-br": "Semente de Lótus-Fugaz", en: "Fleet-Lotus Seeds" },
+    name: { "pt-br": "Grãos de lótus-fugaz", en: "Fleet-Lotus Seeds" },
     image: "materials/fleet-lotus_seeds_icon.png",
     hp: 1,
     effect: "speed",
@@ -74,7 +74,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-durian",
-    name: { "pt-br": "Durião Robusto", en: "Hearty Durian" },
+    name: { "pt-br": "*Durião Robusto", en: "Hearty Durian" },
     image: "materials/hearty_durian_icon.png",
     hp: 12,
     effect: "extra-hearts",
@@ -84,7 +84,7 @@ export const materials: Material[] = [
   },
   {
     id: "palm-fruit",
-    name: { "pt-br": "Fruta de Palmeira", en: "Palm Fruit" },
+    name: { "pt-br": "Coco", en: "Palm Fruit" },
     image: "materials/palm_fruit_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -92,7 +92,7 @@ export const materials: Material[] = [
   },
   {
     id: "hylian-shroom",
-    name: { "pt-br": "Cogumelo Hyliano", en: "Hylian Shroom" },
+    name: { "pt-br": "Cogumelo hyliano", en: "Hylian Shroom" },
     image: "materials/hylian_shroom_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -100,7 +100,7 @@ export const materials: Material[] = [
   },
   {
     id: "rushroom",
-    name: { "pt-br": "Cogumelo Veloz", en: "Rushroom" },
+    name: { "pt-br": "Agilimelo", en: "Rushroom" },
     image: "materials/rushroom_icon.png",
     hp: 1,
     effect: "speed",
@@ -110,7 +110,7 @@ export const materials: Material[] = [
   },
   {
     id: "ironshroom",
-    name: { "pt-br": "Cogumelo Blindado", en: "Ironshroom" },
+    name: { "pt-br": "Ferromelo", en: "Ironshroom" },
     image: "materials/ironshroom_icon.png",
     hp: 1,
     effect: "defense",
@@ -120,7 +120,7 @@ export const materials: Material[] = [
   },
   {
     id: "razorshroom",
-    name: { "pt-br": "Cogumelo Afiado", en: "Razorshroom" },
+    name: { "pt-br": "Talhamelo", en: "Razorshroom" },
     image: "materials/razorshroom_icon.png",
     hp: 1,
     effect: "attack",
@@ -130,7 +130,7 @@ export const materials: Material[] = [
   },
   {
     id: "zapshroom",
-    name: { "pt-br": "Cogumelo Elétrico", en: "Zapshroom" },
+    name: { "pt-br": "Aterramelo", en: "Zapshroom" },
     image: "materials/zapshroom_icon.png",
     hp: 1,
     effect: "electric-resist",
@@ -140,7 +140,7 @@ export const materials: Material[] = [
   },
   {
     id: "sunshroom",
-    name: { "pt-br": "Cogumelo Solar", en: "Sunshroom" },
+    name: { "pt-br": "Flamelo", en: "Sunshroom" },
     image: "materials/sunshroom_icon.png",
     hp: 1,
     effect: "cold-resist",
@@ -150,7 +150,7 @@ export const materials: Material[] = [
   },
   {
     id: "chillshroom",
-    name: { "pt-br": "Cogumelo Gélido", en: "Chillshroom" },
+    name: { "pt-br": "*Cogumelo Gélido", en: "Chillshroom" },
     image: "materials/chillshroom_icon.png",
     hp: 1,
     effect: "heat-resist",
@@ -160,7 +160,7 @@ export const materials: Material[] = [
   },
   {
     id: "silent-shroom",
-    name: { "pt-br": "Cogumelo Silencioso", en: "Silent Shroom" },
+    name: { "pt-br": "Silencimelo", en: "Silent Shroom" },
     image: "materials/silent_shroom_icon.png",
     hp: 1,
     effect: "stealth",
@@ -170,7 +170,7 @@ export const materials: Material[] = [
   },
   {
     id: "stamella-shroom",
-    name: { "pt-br": "Cogumelo Vigoroso", en: "Stamella Shroom" },
+    name: { "pt-br": "Energimelo", en: "Stamella Shroom" },
     image: "materials/stamella_shroom_icon.png",
     hp: 1,
     effect: "restore-stamina",
@@ -180,7 +180,7 @@ export const materials: Material[] = [
   },
   {
     id: "endura-shroom",
-    name: { "pt-br": "Cogumelo Resistente", en: "Endura Shroom" },
+    name: { "pt-br": "Cogumelo tenaz", en: "Endura Shroom" },
     image: "materials/endura_shroom_icon.png",
     hp: 1,
     effect: "extra-stamina",
@@ -190,7 +190,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-truffle",
-    name: { "pt-br": "Trufa Robusta", en: "Hearty Truffle" },
+    name: { "pt-br": "Trufa nutritiva", en: "Hearty Truffle" },
     image: "materials/hearty_truffle_icon.png",
     hp: 4,
     effect: "extra-hearts",
@@ -200,7 +200,7 @@ export const materials: Material[] = [
   },
   {
     id: "big-hearty-truffle",
-    name: { "pt-br": "Trufa Robusta Grande", en: "Big Hearty Truffle" },
+    name: { "pt-br": "Trufona nutritiva", en: "Big Hearty Truffle" },
     image: "materials/big_hearty_truffle_icon.png",
     hp: 8,
     effect: "extra-hearts",
@@ -210,7 +210,7 @@ export const materials: Material[] = [
   },
   {
     id: "hyrule-herb",
-    name: { "pt-br": "Erva de Hyrule", en: "Hyrule Herb" },
+    name: { "pt-br": "Capim hyruliano", en: "Hyrule Herb" },
     image: "materials/hyrule_herb_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -218,7 +218,7 @@ export const materials: Material[] = [
   },
   {
     id: "swift-carrot",
-    name: { "pt-br": "Cenoura Veloz", en: "Swift Carrot" },
+    name: { "pt-br": "Cenoura veloz", en: "Swift Carrot" },
     image: "materials/swift_carrot_icon.png",
     hp: 1,
     effect: "speed",
@@ -228,7 +228,7 @@ export const materials: Material[] = [
   },
   {
     id: "endura-carrot",
-    name: { "pt-br": "Cenoura Resistente", en: "Endura Carrot" },
+    name: { "pt-br": "Cenoura tenaz", en: "Endura Carrot" },
     image: "materials/endura_carrot_icon.png",
     hp: 1,
     effect: "extra-stamina",
@@ -238,7 +238,7 @@ export const materials: Material[] = [
   },
   {
     id: "fortified-pumpkin",
-    name: { "pt-br": "Abóbora Fortificada", en: "Fortified Pumpkin" },
+    name: { "pt-br": "Abóbora robusta", en: "Fortified Pumpkin" },
     image: "materials/fortified_pumpkin_icon.png",
     hp: 1,
     effect: "defense",
@@ -248,7 +248,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-radish",
-    name: { "pt-br": "Rabanete Robusto", en: "Hearty Radish" },
+    name: { "pt-br": "Rabanete nutritivo", en: "Hearty Radish" },
     image: "materials/hearty_radish_icon.png",
     hp: 6,
     effect: "extra-hearts",
@@ -258,7 +258,7 @@ export const materials: Material[] = [
   },
   {
     id: "big-hearty-radish",
-    name: { "pt-br": "Rabanete Robusto Grande", en: "Big Hearty Radish" },
+    name: { "pt-br": "Rabanete nutritivo grande", en: "Big Hearty Radish" },
     image: "materials/big_hearty_radish_icon.png",
     hp: 10,
     effect: "extra-hearts",
@@ -268,7 +268,7 @@ export const materials: Material[] = [
   },
   {
     id: "armoranth",
-    name: { "pt-br": "Amarantho", en: "Armoranth" },
+    name: { "pt-br": "Protechofra", en: "Armoranth" },
     image: "materials/armoranth_icon.png",
     hp: 1,
     effect: "defense",
@@ -278,7 +278,7 @@ export const materials: Material[] = [
   },
   {
     id: "blue-nightshade",
-    name: { "pt-br": "Erva-Moura Azul", en: "Blue Nightshade" },
+    name: { "pt-br": "Beladona azul", en: "Blue Nightshade" },
     image: "materials/blue_nightshade_icon.png",
     hp: 1,
     effect: "stealth",
@@ -288,7 +288,7 @@ export const materials: Material[] = [
   },
   {
     id: "silent-princess",
-    name: { "pt-br": "Princesa Silenciosa", en: "Silent Princess" },
+    name: { "pt-br": "Princesa plácida", en: "Silent Princess" },
     image: "materials/silent_princess_icon.png",
     hp: 1,
     effect: "stealth",
@@ -298,7 +298,7 @@ export const materials: Material[] = [
   },
   {
     id: "mighty-thistle",
-    name: { "pt-br": "Cardo Poderoso", en: "Mighty Thistle" },
+    name: { "pt-br": "*Cardo Poderoso", en: "Mighty Thistle" },
     image: "materials/mighty_thistle_icon.png",
     hp: 1,
     effect: "attack",
@@ -308,7 +308,7 @@ export const materials: Material[] = [
   },
   {
     id: "swift-violet",
-    name: { "pt-br": "Violeta Veloz", en: "Swift Violet" },
+    name: { "pt-br": "*Violeta Veloz", en: "Swift Violet" },
     image: "materials/swift_violet_icon.png",
     hp: 1,
     effect: "speed",
@@ -318,7 +318,7 @@ export const materials: Material[] = [
   },
   {
     id: "cool-safflina",
-    name: { "pt-br": "Cártamo Frio", en: "Cool Safflina" },
+    name: { "pt-br": "Erva fogueira", en: "Cool Safflina" },
     image: "materials/cool_safflina_icon.png",
     hp: 1,
     effect: "heat-resist",
@@ -328,7 +328,7 @@ export const materials: Material[] = [
   },
   {
     id: "warm-safflina",
-    name: { "pt-br": "Cártamo Quente", en: "Warm Safflina" },
+    name: { "pt-br": "*Cártamo Quente", en: "Warm Safflina" },
     image: "materials/warm_safflina_icon.png",
     hp: 1,
     effect: "cold-resist",
@@ -338,7 +338,7 @@ export const materials: Material[] = [
   },
   {
     id: "electric-safflina",
-    name: { "pt-br": "Cártamo Elétrico", en: "Electric Safflina" },
+    name: { "pt-br": "*Cártamo Elétrico", en: "Electric Safflina" },
     image: "materials/electric_safflina_icon.png",
     hp: 1,
     effect: "electric-resist",
@@ -348,7 +348,7 @@ export const materials: Material[] = [
   },
   {
     id: "chickaloo-tree-nut",
-    name: { "pt-br": "Castanha Chickaloo", en: "Chickaloo Tree Nut" },
+    name: { "pt-br": "*Castanha Chickaloo", en: "Chickaloo Tree Nut" },
     image: "materials/chickaloo_tree_nut_icon.png",
     hp: 1,
     durationSeconds: 600,
@@ -364,7 +364,7 @@ export const materials: Material[] = [
   },
   {
     id: "hylian-rice",
-    name: { "pt-br": "Arroz Hyliano", en: "Hylian Rice" },
+    name: { "pt-br": "Arroz hyliano", en: "Hylian Rice" },
     image: "materials/hylian_rice_icon.png",
     hp: 1,
     durationSeconds: 30,
@@ -380,7 +380,7 @@ export const materials: Material[] = [
   },
   {
     id: "tabantha-wheat",
-    name: { "pt-br": "Trigo de Tabantha", en: "Tabantha Wheat" },
+    name: { "pt-br": "*Trigo de Tabantha", en: "Tabantha Wheat" },
     image: "materials/tabantha_wheat_icon.png",
     hp: 1,
     durationSeconds: 90,
@@ -388,7 +388,7 @@ export const materials: Material[] = [
   },
   {
     id: "cane-sugar",
-    name: { "pt-br": "Açúcar", en: "Cane Sugar" },
+    name: { "pt-br": "Cana-de-açúcar", en: "Cane Sugar" },
     image: "materials/cane_sugar_icon.png",
     hp: 0,
     durationSeconds: 420,
@@ -396,7 +396,7 @@ export const materials: Material[] = [
   },
   {
     id: "fresh-milk",
-    name: { "pt-br": "Leite Fresco", en: "Fresh Milk" },
+    name: { "pt-br": "Leite fresco", en: "Fresh Milk" },
     image: "materials/fresh_milk_icon.png",
     hp: 1,
     durationSeconds: 90,
@@ -404,7 +404,7 @@ export const materials: Material[] = [
   },
   {
     id: "goat-butter",
-    name: { "pt-br": "Manteiga de Cabra", en: "Goat Butter" },
+    name: { "pt-br": "*Manteiga de Cabra", en: "Goat Butter" },
     image: "materials/goat_butter_icon.png",
     hp: 0,
     durationSeconds: 60,
@@ -412,7 +412,7 @@ export const materials: Material[] = [
   },
   {
     id: "bird-egg",
-    name: { "pt-br": "Ovo de Ave", en: "Bird Egg" },
+    name: { "pt-br": "Ovo", en: "Bird Egg" },
     image: "materials/bird_egg_icon.png",
     hp: 1,
     durationSeconds: 30,
@@ -420,7 +420,7 @@ export const materials: Material[] = [
   },
   {
     id: "goron-spice",
-    name: { "pt-br": "Especiaria Goron", en: "Goron Spice" },
+    name: { "pt-br": "*Especiaria Goron", en: "Goron Spice" },
     image: "materials/goron_spice_icon.png",
     hp: 0,
     durationSeconds: 300,
@@ -428,7 +428,7 @@ export const materials: Material[] = [
   },
   {
     id: "courser-bee-honey",
-    name: { "pt-br": "Mel de Abelha Corredora", en: "Courser Bee Honey" },
+    name: { "pt-br": "Mel de abelha", en: "Courser Bee Honey" },
     image: "materials/courser_bee_honey_icon.png",
     hp: 1,
     effect: "restore-stamina",
@@ -438,7 +438,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-meat",
-    name: { "pt-br": "Carne Crua", en: "Raw Meat" },
+    name: { "pt-br": "Carne de terceira", en: "Raw Meat" },
     image: "materials/raw_meat_icon.png",
     hp: 2,
     durationSeconds: 0,
@@ -446,7 +446,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-prime-meat",
-    name: { "pt-br": "Carne Nobre Crua", en: "Raw Prime Meat" },
+    name: { "pt-br": "Carne de segunda", en: "Raw Prime Meat" },
     image: "materials/raw_prime_meat_icon.png",
     hp: 3,
     durationSeconds: 0,
@@ -454,7 +454,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-gourmet-meat",
-    name: { "pt-br": "Carne Gourmet Crua", en: "Raw Gourmet Meat" },
+    name: { "pt-br": "Carne de primeira", en: "Raw Gourmet Meat" },
     image: "materials/raw_gourmet_meat_icon.png",
     hp: 5,
     durationSeconds: 0,
@@ -462,7 +462,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-bird-drumstick",
-    name: { "pt-br": "Coxa de Ave Crua", en: "Raw Bird Drumstick" },
+    name: { "pt-br": "Coxa", en: "Raw Bird Drumstick" },
     image: "materials/raw_bird_drumstick_icon.png",
     hp: 2,
     durationSeconds: 0,
@@ -470,7 +470,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-bird-thigh",
-    name: { "pt-br": "Sobrecoxa de Ave Crua", en: "Raw Bird Thigh" },
+    name: { "pt-br": "*Sobrecoxa de Ave Crua", en: "Raw Bird Thigh" },
     image: "materials/raw_bird_thigh_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -478,7 +478,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-whole-bird",
-    name: { "pt-br": "Ave Inteira Crua", en: "Raw Whole Bird" },
+    name: { "pt-br": "*Ave Inteira Crua", en: "Raw Whole Bird" },
     image: "materials/raw_whole_bird_icon.png",
     hp: 5,
     durationSeconds: 0,
@@ -486,7 +486,7 @@ export const materials: Material[] = [
   },
   {
     id: "hyrule-bass",
-    name: { "pt-br": "Perca de Hyrule", en: "Hyrule Bass" },
+    name: { "pt-br": "Robalo hyruliano", en: "Hyrule Bass" },
     image: "materials/hyrule_bass_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -494,7 +494,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-bass",
-    name: { "pt-br": "Perca Robusta", en: "Hearty Bass" },
+    name: { "pt-br": "*Perca Robusta", en: "Hearty Bass" },
     image: "materials/hearty_bass_icon.png",
     hp: 6,
     effect: "extra-hearts",
@@ -504,7 +504,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-salmon",
-    name: { "pt-br": "Salmão Robusto", en: "Hearty Salmon" },
+    name: { "pt-br": "*Salmão Robusto", en: "Hearty Salmon" },
     image: "materials/hearty_salmon_icon.png",
     hp: 10,
     effect: "extra-hearts",
@@ -515,7 +515,7 @@ export const materials: Material[] = [
   {
     id: "hearty-blueshell-snail",
     name: {
-      "pt-br": "Caracol-Concha-Azul Robusto",
+      "pt-br": "*Caracol-Concha-Azul Robusto",
       en: "Hearty Blueshell Snail",
     },
     image: "materials/hearty_blueshell_snail_icon.png",
@@ -527,7 +527,7 @@ export const materials: Material[] = [
   },
   {
     id: "mighty-carp",
-    name: { "pt-br": "Carpa Poderosa", en: "Mighty Carp" },
+    name: { "pt-br": "Carpa valente", en: "Mighty Carp" },
     image: "materials/mighty_carp_icon.png",
     hp: 1,
     effect: "attack",
@@ -537,7 +537,7 @@ export const materials: Material[] = [
   },
   {
     id: "armored-carp",
-    name: { "pt-br": "Carpa Blindada", en: "Armored Carp" },
+    name: { "pt-br": "Carpa blindada", en: "Armored Carp" },
     image: "materials/armored_carp_icon.png",
     hp: 1,
     effect: "defense",
@@ -547,7 +547,7 @@ export const materials: Material[] = [
   },
   {
     id: "sanke-carp",
-    name: { "pt-br": "Carpa Sanke", en: "Sanke Carp" },
+    name: { "pt-br": "Carpa tricolor", en: "Sanke Carp" },
     image: "materials/sanke_carp_icon.png",
     hp: 1,
     durationSeconds: 0,
@@ -555,7 +555,7 @@ export const materials: Material[] = [
   },
   {
     id: "voltfin-trout",
-    name: { "pt-br": "Truta Elétrica", en: "Voltfin Trout" },
+    name: { "pt-br": "*Truta Elétrica", en: "Voltfin Trout" },
     image: "materials/voltfin_trout_icon.png",
     hp: 1,
     effect: "electric-resist",
@@ -565,7 +565,7 @@ export const materials: Material[] = [
   },
   {
     id: "sizzlefin-trout",
-    name: { "pt-br": "Truta Crepitante", en: "Sizzlefin Trout" },
+    name: { "pt-br": "*Truta Crepitante", en: "Sizzlefin Trout" },
     image: "materials/sizzlefin_trout_icon.png",
     hp: 1,
     effect: "cold-resist",
@@ -575,7 +575,7 @@ export const materials: Material[] = [
   },
   {
     id: "chillfin-trout",
-    name: { "pt-br": "Truta Gélida", en: "Chillfin Trout" },
+    name: { "pt-br": "*Truta Gélida", en: "Chillfin Trout" },
     image: "materials/chillfin_trout_icon.png",
     hp: 1,
     effect: "heat-resist",
@@ -585,7 +585,7 @@ export const materials: Material[] = [
   },
   {
     id: "stealthfin-trout",
-    name: { "pt-br": "Truta Furtiva", en: "Stealthfin Trout" },
+    name: { "pt-br": "*Truta Furtiva", en: "Stealthfin Trout" },
     image: "materials/stealthfin_trout_icon.png",
     hp: 1,
     effect: "stealth",
@@ -595,7 +595,7 @@ export const materials: Material[] = [
   },
   {
     id: "staminoka-bass",
-    name: { "pt-br": "Perca Vigorosa", en: "Staminoka Bass" },
+    name: { "pt-br": "Robalo enérgico", en: "Staminoka Bass" },
     image: "materials/staminoka_bass_icon.png",
     hp: 1,
     effect: "restore-stamina",
@@ -605,7 +605,7 @@ export const materials: Material[] = [
   },
   {
     id: "mighty-porgy",
-    name: { "pt-br": "Porgy Poderoso", en: "Mighty Porgy" },
+    name: { "pt-br": "*Porgy Poderoso", en: "Mighty Porgy" },
     image: "materials/mighty_porgy_icon.png",
     hp: 1,
     effect: "attack",
@@ -615,7 +615,7 @@ export const materials: Material[] = [
   },
   {
     id: "armored-porgy",
-    name: { "pt-br": "Porgy Blindado", en: "Armored Porgy" },
+    name: { "pt-br": "*Porgy Blindado", en: "Armored Porgy" },
     image: "materials/armored_porgy_icon.png",
     hp: 1,
     effect: "defense",
@@ -625,7 +625,7 @@ export const materials: Material[] = [
   },
   {
     id: "ironshell-crab",
-    name: { "pt-br": "Caranguejo Blindado", en: "Ironshell Crab" },
+    name: { "pt-br": "*Caranguejo Blindado", en: "Ironshell Crab" },
     image: "materials/ironshell_crab_icon.png",
     hp: 1,
     effect: "defense",
@@ -635,7 +635,7 @@ export const materials: Material[] = [
   },
   {
     id: "razorclaw-crab",
-    name: { "pt-br": "Caranguejo de Garra Afiada", en: "Razorclaw Crab" },
+    name: { "pt-br": "*Caranguejo de Garra Afiada", en: "Razorclaw Crab" },
     image: "materials/razorclaw_crab_icon.png",
     hp: 1,
     effect: "attack",
@@ -645,7 +645,7 @@ export const materials: Material[] = [
   },
   {
     id: "bright-eyed-crab",
-    name: { "pt-br": "Caranguejo de Olhos Vivos", en: "Bright-Eyed Crab" },
+    name: { "pt-br": "Caranguejo esperto", en: "Bright-Eyed Crab" },
     image: "materials/bright-eyed_crab_icon.png",
     hp: 1,
     effect: "restore-stamina",
@@ -655,7 +655,7 @@ export const materials: Material[] = [
   },
   {
     id: "sneaky-river-snail",
-    name: { "pt-br": "Caracol de Rio Furtivo", en: "Sneaky River Snail" },
+    name: { "pt-br": "Caramujo discreto", en: "Sneaky River Snail" },
     image: "materials/sneaky_river_snail_icon.png",
     hp: 1,
     effect: "stealth",
@@ -665,7 +665,7 @@ export const materials: Material[] = [
   },
   {
     id: "restless-cricket",
-    name: { "pt-br": "Grilo Inquieto", en: "Restless Cricket" },
+    name: { "pt-br": "Gafanhoto agitado", en: "Restless Cricket" },
     image: "materials/restless_cricket_icon.png",
     hp: 0,
     effect: "extra-stamina",
@@ -676,7 +676,7 @@ export const materials: Material[] = [
   {
     id: "winterwing-butterfly",
     name: {
-      "pt-br": "Borboleta-de-Asa-de-Inverno",
+      "pt-br": "*Borboleta-de-Asa-de-Inverno",
       en: "Winterwing Butterfly",
     },
     image: "materials/winterwing_butterfly_icon.png",
@@ -688,7 +688,7 @@ export const materials: Material[] = [
   },
   {
     id: "summerwing-butterfly",
-    name: { "pt-br": "Borboleta-de-Asa-de-Verão", en: "Summerwing Butterfly" },
+    name: { "pt-br": "Borboleta estival", en: "Summerwing Butterfly" },
     image: "materials/summerwing_butterfly_icon.png",
     hp: 0,
     effect: "heat-resist",
@@ -699,7 +699,7 @@ export const materials: Material[] = [
   {
     id: "thunderwing-butterfly",
     name: {
-      "pt-br": "Borboleta-de-Asa-de-Trovão",
+      "pt-br": "Borboleta trovejante",
       en: "Thunderwing Butterfly",
     },
     image: "materials/thunderwing_butterfly_icon.png",
@@ -712,7 +712,7 @@ export const materials: Material[] = [
   {
     id: "smotherwing-butterfly",
     name: {
-      "pt-br": "Borboleta-de-Asa-Sufocante",
+      "pt-br": "*Borboleta-de-Asa-Sufocante",
       en: "Smotherwing Butterfly",
     },
     image: "materials/smotherwing_butterfly_icon.png",
@@ -724,7 +724,7 @@ export const materials: Material[] = [
   },
   {
     id: "sunset-firefly",
-    name: { "pt-br": "Vaga-Lume do Poente", en: "Sunset Firefly" },
+    name: { "pt-br": "Vagalume do poente", en: "Sunset Firefly" },
     image: "materials/sunset_firefly_icon.png",
     hp: 0,
     effect: "stealth",
@@ -734,7 +734,7 @@ export const materials: Material[] = [
   },
   {
     id: "cold-darner",
-    name: { "pt-br": "Libélula do Frio", en: "Cold Darner" },
+    name: { "pt-br": "*Libélula do Frio", en: "Cold Darner" },
     image: "materials/cold_darner_icon.png",
     hp: 0,
     effect: "cold-resist",
@@ -744,7 +744,7 @@ export const materials: Material[] = [
   },
   {
     id: "warm-darner",
-    name: { "pt-br": "Libélula do Calor", en: "Warm Darner" },
+    name: { "pt-br": "Libélula cálida", en: "Warm Darner" },
     image: "materials/warm_darner_icon.png",
     hp: 0,
     effect: "heat-resist",
@@ -754,7 +754,7 @@ export const materials: Material[] = [
   },
   {
     id: "electric-darner",
-    name: { "pt-br": "Libélula Elétrica", en: "Electric Darner" },
+    name: { "pt-br": "Libélula do relâmpago", en: "Electric Darner" },
     image: "materials/electric_darner_icon.png",
     hp: 0,
     effect: "electric-resist",
@@ -764,7 +764,7 @@ export const materials: Material[] = [
   },
   {
     id: "rugged-rhino-beetle",
-    name: { "pt-br": "Besouro-Rinoceronte Robusto", en: "Rugged Rhino Beetle" },
+    name: { "pt-br": "*Besouro-Rinoceronte Robusto", en: "Rugged Rhino Beetle" },
     image: "materials/rugged_rhino_beetle_icon.png",
     hp: 0,
     effect: "defense",
@@ -775,7 +775,7 @@ export const materials: Material[] = [
   {
     id: "energetic-rhino-beetle",
     name: {
-      "pt-br": "Besouro-Rinoceronte Enérgico",
+      "pt-br": "Escaravelho vibrante",
       en: "Energetic Rhino Beetle",
     },
     image: "materials/energetic_rhino_beetle_icon.png",
@@ -788,7 +788,7 @@ export const materials: Material[] = [
   {
     id: "bladed-rhino-beetle",
     name: {
-      "pt-br": "Besouro-Rinoceronte Cortante",
+      "pt-br": "Escaravelho brigão",
       en: "Bladed Rhino Beetle",
     },
     image: "materials/bladed_rhino_beetle_icon.png",
@@ -800,7 +800,7 @@ export const materials: Material[] = [
   },
   {
     id: "hightail-lizard",
-    name: { "pt-br": "Lagartixa Rabo-Alto", en: "Hightail Lizard" },
+    name: { "pt-br": "Lagarto fujão", en: "Hightail Lizard" },
     image: "materials/hightail_lizard_icon.png",
     hp: 0,
     effect: "speed",
@@ -810,7 +810,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-lizard",
-    name: { "pt-br": "Lagartixa Robusta", en: "Hearty Lizard" },
+    name: { "pt-br": "*Lagartixa Robusta", en: "Hearty Lizard" },
     image: "materials/hearty_lizard_icon.png",
     hp: 4,
     effect: "extra-hearts",
@@ -820,7 +820,7 @@ export const materials: Material[] = [
   },
   {
     id: "fireproof-lizard",
-    name: { "pt-br": "Lagartixa à Prova de Fogo", en: "Fireproof Lizard" },
+    name: { "pt-br": "*Lagartixa à Prova de Fogo", en: "Fireproof Lizard" },
     image: "materials/fireproof_lizard_icon.png",
     hp: 0,
     effect: "fireproof",
@@ -830,7 +830,7 @@ export const materials: Material[] = [
   },
   {
     id: "hot-footed-frog",
-    name: { "pt-br": "Sapo de Pés Quentes", en: "Hot-Footed Frog" },
+    name: { "pt-br": "Sapo apressado", en: "Hot-Footed Frog" },
     image: "materials/hot-footed_frog_icon.png",
     hp: 0,
     effect: "speed",
@@ -840,7 +840,7 @@ export const materials: Material[] = [
   },
   {
     id: "tireless-frog",
-    name: { "pt-br": "Sapo Incansável", en: "Tireless Frog" },
+    name: { "pt-br": "Sapo obstinado", en: "Tireless Frog" },
     image: "materials/tireless_frog_icon.png",
     hp: 0,
     effect: "extra-stamina",
@@ -850,7 +850,7 @@ export const materials: Material[] = [
   },
   {
     id: "bokoblin-horn",
-    name: { "pt-br": "Chifre de Bocoblin", en: "Bokoblin Horn" },
+    name: { "pt-br": "Chifre de koboblin", en: "Bokoblin Horn" },
     image: "materials/bokoblin_horn_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -858,7 +858,7 @@ export const materials: Material[] = [
   },
   {
     id: "bokoblin-fang",
-    name: { "pt-br": "Presa de Bocoblin", en: "Bokoblin Fang" },
+    name: { "pt-br": "Presa de koboblin", en: "Bokoblin Fang" },
     image: "materials/bokoblin_fang_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -866,7 +866,7 @@ export const materials: Material[] = [
   },
   {
     id: "bokoblin-guts",
-    name: { "pt-br": "Vísceras de Bocoblin", en: "Bokoblin Guts" },
+    name: { "pt-br": "Vísceras de koboblin", en: "Bokoblin Guts" },
     image: "materials/bokoblin_guts_icon.png",
     hp: 0,
     durationSeconds: 160,
@@ -874,7 +874,7 @@ export const materials: Material[] = [
   },
   {
     id: "moblin-horn",
-    name: { "pt-br": "Chifre de Moblin", en: "Moblin Horn" },
+    name: { "pt-br": "Chifre de moblin", en: "Moblin Horn" },
     image: "materials/moblin_horn_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -882,7 +882,7 @@ export const materials: Material[] = [
   },
   {
     id: "moblin-fang",
-    name: { "pt-br": "Presa de Moblin", en: "Moblin Fang" },
+    name: { "pt-br": "Presa de moblin", en: "Moblin Fang" },
     image: "materials/moblin_fang_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -890,7 +890,7 @@ export const materials: Material[] = [
   },
   {
     id: "moblin-guts",
-    name: { "pt-br": "Vísceras de Moblin", en: "Moblin Guts" },
+    name: { "pt-br": "Vísceras de moblin", en: "Moblin Guts" },
     image: "materials/moblin_guts_icon.png",
     hp: 0,
     durationSeconds: 160,
@@ -898,7 +898,7 @@ export const materials: Material[] = [
   },
   {
     id: "lizalfos-tail",
-    name: { "pt-br": "Rabo de Lizalfos", en: "Lizalfos Tail" },
+    name: { "pt-br": "Cauda de lagalfos", en: "Lizalfos Tail" },
     image: "materials/lizalfos_tail_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -906,7 +906,7 @@ export const materials: Material[] = [
   },
   {
     id: "red-lizalfos-tail",
-    name: { "pt-br": "Rabo de Lizalfos Vermelho", en: "Red Lizalfos Tail" },
+    name: { "pt-br": "Cauda de lagalfos ígneo", en: "Red Lizalfos Tail" },
     image: "materials/red_lizalfos_tail_icon.png",
     hp: 0,
     effect: "heat-resist",
@@ -916,7 +916,7 @@ export const materials: Material[] = [
   },
   {
     id: "yellow-lizalfos-tail",
-    name: { "pt-br": "Rabo de Lizalfos Amarelo", en: "Yellow Lizalfos Tail" },
+    name: { "pt-br": "Cauda de lagalfos elétrico", en: "Yellow Lizalfos Tail" },
     image: "materials/yellow_lizalfos_tail_icon.png",
     hp: 0,
     effect: "electric-resist",
@@ -926,7 +926,7 @@ export const materials: Material[] = [
   },
   {
     id: "icy-lizalfos-tail",
-    name: { "pt-br": "Rabo de Lizalfos Gélido", en: "Icy Lizalfos Tail" },
+    name: { "pt-br": "*Rabo de Lizalfos Gélido", en: "Icy Lizalfos Tail" },
     image: "materials/icy_lizalfos_tail_icon.png",
     hp: 0,
     effect: "cold-resist",
@@ -936,7 +936,7 @@ export const materials: Material[] = [
   },
   {
     id: "lizalfos-talon",
-    name: { "pt-br": "Garra de Lizalfos", en: "Lizalfos Talon" },
+    name: { "pt-br": "Garra de lagalfos", en: "Lizalfos Talon" },
     image: "materials/lizalfos_talon_icon.png",
     hp: 0,
     effect: "defense",
@@ -946,7 +946,7 @@ export const materials: Material[] = [
   },
   {
     id: "lizalfos-horn",
-    name: { "pt-br": "Chifre de Lizalfos", en: "Lizalfos Horn" },
+    name: { "pt-br": "Chifre de lagalfos", en: "Lizalfos Horn" },
     image: "materials/lizalfos_horn_icon.png",
     hp: 0,
     effect: "defense",
@@ -956,7 +956,7 @@ export const materials: Material[] = [
   },
   {
     id: "hinox-toenail",
-    name: { "pt-br": "Unha de Hinox", en: "Hinox Toenail" },
+    name: { "pt-br": "Unha de Rinox", en: "Hinox Toenail" },
     image: "materials/hinox_toenail_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -964,7 +964,7 @@ export const materials: Material[] = [
   },
   {
     id: "hinox-tooth",
-    name: { "pt-br": "Dente de Hinox", en: "Hinox Tooth" },
+    name: { "pt-br": "Dente de Rinox", en: "Hinox Tooth" },
     image: "materials/hinox_tooth_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -972,7 +972,7 @@ export const materials: Material[] = [
   },
   {
     id: "hinox-guts",
-    name: { "pt-br": "Vísceras de Hinox", en: "Hinox Guts" },
+    name: { "pt-br": "*Vísceras de Hinox", en: "Hinox Guts" },
     image: "materials/hinox_guts_icon.png",
     hp: 0,
     durationSeconds: 160,
@@ -980,7 +980,7 @@ export const materials: Material[] = [
   },
   {
     id: "lynel-hoof",
-    name: { "pt-br": "Casco de Lynel", en: "Lynel Hoof" },
+    name: { "pt-br": "*Casco de Lynel", en: "Lynel Hoof" },
     image: "materials/lynel_hoof_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -988,7 +988,7 @@ export const materials: Material[] = [
   },
   {
     id: "lynel-horn",
-    name: { "pt-br": "Chifre de Lynel", en: "Lynel Horn" },
+    name: { "pt-br": "*Chifre de Lynel", en: "Lynel Horn" },
     image: "materials/lynel_horn_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -996,7 +996,7 @@ export const materials: Material[] = [
   },
   {
     id: "lynel-guts",
-    name: { "pt-br": "Vísceras de Lynel", en: "Lynel Guts" },
+    name: { "pt-br": "*Vísceras de Lynel", en: "Lynel Guts" },
     image: "materials/lynel_guts_icon.png",
     hp: 0,
     durationSeconds: 160,
@@ -1004,7 +1004,7 @@ export const materials: Material[] = [
   },
   {
     id: "molduga-fin",
-    name: { "pt-br": "Barbatana de Molduga", en: "Molduga Fin" },
+    name: { "pt-br": "*Barbatana de Molduga", en: "Molduga Fin" },
     image: "materials/molduga_fin_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -1012,7 +1012,7 @@ export const materials: Material[] = [
   },
   {
     id: "molduga-guts",
-    name: { "pt-br": "Vísceras de Molduga", en: "Molduga Guts" },
+    name: { "pt-br": "*Vísceras de Molduga", en: "Molduga Guts" },
     image: "materials/molduga_guts_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -1020,7 +1020,7 @@ export const materials: Material[] = [
   },
   {
     id: "chuchu-jelly",
-    name: { "pt-br": "Geleca de Chuchu", en: "Chuchu Jelly" },
+    name: { "pt-br": "Geleca de chulchul", en: "Chuchu Jelly" },
     image: "materials/chuchu_jelly_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -1028,7 +1028,7 @@ export const materials: Material[] = [
   },
   {
     id: "red-chuchu-jelly",
-    name: { "pt-br": "Geleca de Chuchu Vermelha", en: "Red Chuchu Jelly" },
+    name: { "pt-br": "Geleca ígnea", en: "Red Chuchu Jelly" },
     image: "materials/red_chuchu_jelly_icon.png",
     hp: 0,
     effect: "cold-resist",
@@ -1038,7 +1038,7 @@ export const materials: Material[] = [
   },
   {
     id: "white-chuchu-jelly",
-    name: { "pt-br": "Geleca de Chuchu Branca", en: "White Chuchu Jelly" },
+    name: { "pt-br": "*Geleca de Chuchu Branca", en: "White Chuchu Jelly" },
     image: "materials/white_chuchu_jelly_icon.png",
     hp: 0,
     effect: "heat-resist",
@@ -1048,7 +1048,7 @@ export const materials: Material[] = [
   },
   {
     id: "yellow-chuchu-jelly",
-    name: { "pt-br": "Geleca de Chuchu Amarela", en: "Yellow Chuchu Jelly" },
+    name: { "pt-br": "Geleca elétrica", en: "Yellow Chuchu Jelly" },
     image: "materials/yellow_chuchu_jelly_icon.png",
     hp: 0,
     effect: "electric-resist",
@@ -1058,7 +1058,7 @@ export const materials: Material[] = [
   },
   {
     id: "keese-wing",
-    name: { "pt-br": "Asa de Keese", en: "Keese Wing" },
+    name: { "pt-br": "Asa de morci", en: "Keese Wing" },
     image: "materials/keese_wing_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -1066,7 +1066,7 @@ export const materials: Material[] = [
   },
   {
     id: "fire-keese-wing",
-    name: { "pt-br": "Asa de Keese de Fogo", en: "Fire Keese Wing" },
+    name: { "pt-br": "Asa de morci ígneo", en: "Fire Keese Wing" },
     image: "materials/fire_keese_wing_icon.png",
     hp: 0,
     effect: "heat-resist",
@@ -1076,7 +1076,7 @@ export const materials: Material[] = [
   },
   {
     id: "ice-keese-wing",
-    name: { "pt-br": "Asa de Keese de Gelo", en: "Ice Keese Wing" },
+    name: { "pt-br": "Asa de morci glacial", en: "Ice Keese Wing" },
     image: "materials/ice_keese_wing_icon.png",
     hp: 0,
     effect: "cold-resist",
@@ -1086,7 +1086,7 @@ export const materials: Material[] = [
   },
   {
     id: "electric-keese-wing",
-    name: { "pt-br": "Asa de Keese Elétrico", en: "Electric Keese Wing" },
+    name: { "pt-br": "Asa de morci elétrico", en: "Electric Keese Wing" },
     image: "materials/electric_keese_wing_icon.png",
     hp: 0,
     effect: "electric-resist",
@@ -1096,7 +1096,7 @@ export const materials: Material[] = [
   },
   {
     id: "keese-eyeball",
-    name: { "pt-br": "Olho de Keese", en: "Keese Eyeball" },
+    name: { "pt-br": "Olho de morci", en: "Keese Eyeball" },
     image: "materials/keese_eyeball_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -1104,7 +1104,7 @@ export const materials: Material[] = [
   },
   {
     id: "octorok-eyeball",
-    name: { "pt-br": "Olho de Octorok", en: "Octorok Eyeball" },
+    name: { "pt-br": "Olho de octoroc", en: "Octorok Eyeball" },
     image: "materials/octorok_eyeball_icon.png",
     hp: 0,
     durationSeconds: 40,
@@ -1112,7 +1112,7 @@ export const materials: Material[] = [
   },
   {
     id: "octorok-tentacle",
-    name: { "pt-br": "Tentáculo de Octorok", en: "Octorok Tentacle" },
+    name: { "pt-br": "Tentáculo de octoroc", en: "Octorok Tentacle" },
     image: "materials/octorok_tentacle_icon.png",
     hp: 0,
     durationSeconds: 80,
@@ -1120,7 +1120,7 @@ export const materials: Material[] = [
   },
   {
     id: "octo-balloon",
-    name: { "pt-br": "Balão de Octorok", en: "Octo Balloon" },
+    name: { "pt-br": "Balão de octoroc", en: "Octo Balloon" },
     image: "materials/octo_balloon_icon.png",
     hp: 0,
     durationSeconds: 160,
@@ -1128,7 +1128,7 @@ export const materials: Material[] = [
   },
   {
     id: "dinraals-scale",
-    name: { "pt-br": "Escama de Dinraal", en: "Dinraal's Scale" },
+    name: { "pt-br": "*Escama de Dinraal", en: "Dinraal's Scale" },
     image: "materials/dinraals_scale_icon.png",
     hp: 0,
     durationSeconds: 60,
@@ -1136,7 +1136,7 @@ export const materials: Material[] = [
   },
   {
     id: "dinraals-claw",
-    name: { "pt-br": "Garra de Dinraal", en: "Dinraal's Claw" },
+    name: { "pt-br": "*Garra de Dinraal", en: "Dinraal's Claw" },
     image: "materials/dinraals_claw_icon.png",
     hp: 0,
     durationSeconds: 180,
@@ -1145,7 +1145,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-dinraals-fang",
     name: {
-      "pt-br": "Fragmento de Presa de Dinraal",
+      "pt-br": "*Fragmento de Presa de Dinraal",
       en: "Shard of Dinraal's Fang",
     },
     image: "materials/shard_of_dinraals_fang_icon.png",
@@ -1157,7 +1157,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-dinraals-horn",
     name: {
-      "pt-br": "Fragmento de Chifre de Dinraal",
+      "pt-br": "*Fragmento de Chifre de Dinraal",
       en: "Shard of Dinraal's Horn",
     },
     image: "materials/shard_of_dinraals_horn_icon.png",
@@ -1168,7 +1168,7 @@ export const materials: Material[] = [
   },
   {
     id: "faroshs-scale",
-    name: { "pt-br": "Escama de Farosh", en: "Farosh's Scale" },
+    name: { "pt-br": "*Escama de Farosh", en: "Farosh's Scale" },
     image: "materials/faroshs_scale_icon.png",
     hp: 0,
     durationSeconds: 60,
@@ -1176,7 +1176,7 @@ export const materials: Material[] = [
   },
   {
     id: "faroshs-claw",
-    name: { "pt-br": "Garra de Farosh", en: "Farosh's Claw" },
+    name: { "pt-br": "*Garra de Farosh", en: "Farosh's Claw" },
     image: "materials/faroshs_claw_icon.png",
     hp: 0,
     durationSeconds: 180,
@@ -1185,7 +1185,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-faroshs-fang",
     name: {
-      "pt-br": "Fragmento de Presa de Farosh",
+      "pt-br": "*Fragmento de Presa de Farosh",
       en: "Shard of Farosh's Fang",
     },
     image: "materials/shard_of_faroshs_fang_icon.png",
@@ -1197,7 +1197,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-faroshs-horn",
     name: {
-      "pt-br": "Fragmento de Chifre de Farosh",
+      "pt-br": "*Fragmento de Chifre de Farosh",
       en: "Shard of Farosh's Horn",
     },
     image: "materials/shard_of_faroshs_horn_icon.png",
@@ -1208,7 +1208,7 @@ export const materials: Material[] = [
   },
   {
     id: "naydras-scale",
-    name: { "pt-br": "Escama de Naydra", en: "Naydra's Scale" },
+    name: { "pt-br": "*Escama de Naydra", en: "Naydra's Scale" },
     image: "materials/naydras_scale_icon.png",
     hp: 0,
     durationSeconds: 60,
@@ -1216,7 +1216,7 @@ export const materials: Material[] = [
   },
   {
     id: "naydras-claw",
-    name: { "pt-br": "Garra de Naydra", en: "Naydra's Claw" },
+    name: { "pt-br": "*Garra de Naydra", en: "Naydra's Claw" },
     image: "materials/naydras_claw_icon.png",
     hp: 0,
     durationSeconds: 180,
@@ -1225,7 +1225,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-naydras-fang",
     name: {
-      "pt-br": "Fragmento de Presa de Naydra",
+      "pt-br": "*Fragmento de Presa de Naydra",
       en: "Shard of Naydra's Fang",
     },
     image: "materials/shard_of_naydras_fang_icon.png",
@@ -1237,7 +1237,7 @@ export const materials: Material[] = [
   {
     id: "shard-of-naydras-horn",
     name: {
-      "pt-br": "Fragmento de Chifre de Naydra",
+      "pt-br": "*Fragmento de Chifre de Naydra",
       en: "Shard of Naydra's Horn",
     },
     image: "materials/shard_of_naydras_horn_icon.png",
@@ -1257,7 +1257,7 @@ export const materials: Material[] = [
   },
   {
     id: "monster-extract",
-    name: { "pt-br": "Extrato de Monstro", en: "Monster Extract" },
+    name: { "pt-br": "Extrato de monstro", en: "Monster Extract" },
     image: "materials/monster_extract_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1267,7 +1267,7 @@ export const materials: Material[] = [
   },
   {
     id: "star-fragment",
-    name: { "pt-br": "Fragmento de Estrela", en: "Star Fragment" },
+    name: { "pt-br": "Fragmento de estrela", en: "Star Fragment" },
     image: "materials/star_fragment_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1277,7 +1277,7 @@ export const materials: Material[] = [
   },
   {
     id: "flint",
-    name: { "pt-br": "Silex", en: "Flint" },
+    name: { "pt-br": "Sílex", en: "Flint" },
     image: "materials/flint_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1297,7 +1297,7 @@ export const materials: Material[] = [
   },
   {
     id: "amber",
-    name: { "pt-br": "Ambar", en: "Amber" },
+    name: { "pt-br": "Âmbar", en: "Amber" },
     image: "materials/amber_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1347,7 +1347,7 @@ export const materials: Material[] = [
   },
   {
     id: "topaz",
-    name: { "pt-br": "Topazio", en: "Topaz" },
+    name: { "pt-br": "Topázio", en: "Topaz" },
     image: "materials/topaz_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1357,7 +1357,7 @@ export const materials: Material[] = [
   },
   {
     id: "luminous-stone",
-    name: { "pt-br": "Pedra Luminosa", en: "Luminous Stone" },
+    name: { "pt-br": "Pedra luminosa", en: "Luminous Stone" },
     image: "materials/luminous_stone_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1367,7 +1367,7 @@ export const materials: Material[] = [
   },
   {
     id: "ancient-screw",
-    name: { "pt-br": "Parafuso Antigo", en: "Ancient Screw" },
+    name: { "pt-br": "Parafuso ancestral", en: "Ancient Screw" },
     image: "materials/ancient_screw_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1377,7 +1377,7 @@ export const materials: Material[] = [
   },
   {
     id: "ancient-spring",
-    name: { "pt-br": "Mola Antiga", en: "Ancient Spring" },
+    name: { "pt-br": "Mola ancestral", en: "Ancient Spring" },
     image: "materials/ancient_spring_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1387,7 +1387,7 @@ export const materials: Material[] = [
   },
   {
     id: "ancient-shaft",
-    name: { "pt-br": "Eixo Antigo", en: "Ancient Shaft" },
+    name: { "pt-br": "Eixo ancestral", en: "Ancient Shaft" },
     image: "materials/ancient_shaft_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1397,7 +1397,7 @@ export const materials: Material[] = [
   },
   {
     id: "ancient-gear",
-    name: { "pt-br": "Engrenagem Antiga", en: "Ancient Gear" },
+    name: { "pt-br": "Engrenagem ancestral", en: "Ancient Gear" },
     image: "materials/ancient_gear_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1407,7 +1407,7 @@ export const materials: Material[] = [
   },
   {
     id: "ancient-core",
-    name: { "pt-br": "Nucleo Antigo", en: "Ancient Core" },
+    name: { "pt-br": "Núcleo ancestral", en: "Ancient Core" },
     image: "materials/ancient_core_icon.png",
     hp: 0,
     durationSeconds: 0,
@@ -1417,7 +1417,7 @@ export const materials: Material[] = [
   },
   {
     id: "giant-ancient-core",
-    name: { "pt-br": "Nucleo Antigo Gigante", en: "Giant Ancient Core" },
+    name: { "pt-br": "Núcleo ancestral gigante", en: "Giant Ancient Core" },
     image: "materials/giant_ancient_core_icon.png",
     hp: 0,
     durationSeconds: 0,
