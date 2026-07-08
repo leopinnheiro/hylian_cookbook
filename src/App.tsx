@@ -90,8 +90,8 @@ function App() {
           },
         }}
       />
-      <header className="flex-none border-b border-ash-steel/30 bg-deep-steel/80 px-4 py-5 backdrop-blur">
-        <div className="mx-auto flex max-w-4xl flex-col gap-4">
+      <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 py-4 backdrop-blur border">
+        <div className="mx-auto flex max-w-4xl flex-col gap-2">
           <div className="flex items-center justify-between">
             <h1 className="font-chrome text-xl font-semibold uppercase tracking-[0.2em] text-rune-paper">
               Hylian <span className="text-sheikah">Cookbook</span>
@@ -110,14 +110,12 @@ function App() {
             </nav>
           </div>
           <SearchBar value={query} onChange={setQuery} />
-          <div
-            className={`flex flex-col transition-[gap] duration-300 ease-out ${filtersOpen ? "gap-2" : "gap-0"}`}
-          >
+          <div className={`flex flex-col ${filtersOpen ? "gap-2" : "gap-0"}`}>
             <button
               type="button"
               onClick={() => setFiltersOpen((open) => !open)}
               aria-expanded={filtersOpen}
-              className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah"
+              className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah border pr-3.5 pt-2"
             >
               <ChevronDown
                 className={`h-4 w-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`}

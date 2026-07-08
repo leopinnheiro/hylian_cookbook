@@ -7,7 +7,7 @@ interface SearchBarProps {
 
 export function SearchBar({ value, onChange }: SearchBarProps) {
   return (
-    <div className="flex items-center gap-2 border border-ash-steel/40 bg-panel px-4 py-2">
+    <div className="flex items-center gap-2 border border-ash-steel/40 bg-panel px-4 py-2 mt-2">
       <Search className="h-4 w-4 shrink-0 text-sheikah" aria-hidden="true" />
       <input
         type="search"
