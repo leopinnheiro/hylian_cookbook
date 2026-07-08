@@ -110,7 +110,9 @@ function App() {
             </nav>
           </div>
           <SearchBar value={query} onChange={setQuery} />
-          <div className="flex flex-col gap-2">
+          <div
+            className={`flex flex-col transition-[gap] duration-300 ease-out ${filtersOpen ? "gap-2" : "gap-0"}`}
+          >
             <button
               type="button"
               onClick={() => setFiltersOpen((open) => !open)}
@@ -122,12 +124,20 @@ function App() {
               />
               Filtrar por efeito
             </button>
-            {filtersOpen && (
-              <EffectFilter
-                selected={selectedEffect}
-                onSelect={setSelectedEffect}
-              />
-            )}
+            <div
+              className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${
+                filtersOpen
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="min-h-0">
+                <EffectFilter
+                  selected={selectedEffect}
+                  onSelect={setSelectedEffect}
+                />
+              </div>
+            </div>
           </div>
         </div>
       </header>
