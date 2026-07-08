@@ -115,7 +115,7 @@ function App() {
               type="button"
               onClick={() => setFiltersOpen((open) => !open)}
               aria-expanded={filtersOpen}
-              className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah border pr-3.5 pt-2"
+              className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah pr-3.5 pt-2"
             >
               <ChevronDown
                 className={`h-4 w-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`}
