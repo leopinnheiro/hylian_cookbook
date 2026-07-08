@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createPortal } from "react-dom";
 import { Search, X } from "lucide-react";
 import type { IngredientSlot, Material } from "../data/types";
+import { assetUrl } from "../lib/format";
 
 interface IngredientSlotModalProps {
   slot: IngredientSlot;
@@ -70,7 +71,7 @@ export function IngredientSlotModal({
               className="flex items-center gap-2 bg-panel px-2 py-1.5 text-sm font-chrome justify-between"
             >
               <img
-                src={`/assets/${material.image}`}
+                src={assetUrl(material.image)}
                 alt=""
                 className="h-6 w-6 object-contain"
                 loading="lazy"

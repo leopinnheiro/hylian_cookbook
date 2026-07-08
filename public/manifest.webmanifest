@@ -2,14 +2,14 @@
   "name": "Hylian Cookbook",
   "short_name": "Hylian Cookbook",
   "description": "Guia de receitas de Zelda: Breath of the Wild em pt-br, com busca, filtro por efeito e favoritos.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "/hylian_cookbook/",
+  "scope": "/hylian_cookbook/",
   "display": "standalone",
   "background_color": "#0a1620",
   "theme_color": "#0a1620",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "/hylian_cookbook/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any"

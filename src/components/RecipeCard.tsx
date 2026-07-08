@@ -2,7 +2,12 @@ import { useState } from "react";
 import { Clock, Info } from "lucide-react";
 import type { IngredientSlot, Recipe } from "../data/types";
 import { effects, materialsById } from "../data";
-import { formatDuration, groupIngredientSlots, tierCount } from "../lib/format";
+import {
+  assetUrl,
+  formatDuration,
+  groupIngredientSlots,
+  tierCount,
+} from "../lib/format";
 import { FavoriteButton } from "./FavoriteButton";
 import { IngredientSlotModal } from "./IngredientSlotModal";
 
@@ -26,7 +31,7 @@ export function RecipeCard({
       <header className="relative flex items-stretch gap-3 border-b border-ash-steel/20 p-3">
         {recipe.image && (
           <img
-            src={`/assets/${recipe.image}`}
+            src={assetUrl(recipe.image)}
             alt=""
             className="aspect-square h-22 border-ash-steel/30 object-cover"
             loading="lazy"
@@ -51,7 +56,7 @@ export function RecipeCard({
                 {Array.from({ length: repeats }).map((_, index) => (
                   <img
                     key={`${recipe.id}-effect-${index}`}
-                    src={`/assets/${effect.icon}`}
+                    src={assetUrl(effect.icon)}
                     alt=""
                     className="h-5 w-5 object-contain"
                     loading="lazy"
@@ -74,7 +79,7 @@ export function RecipeCard({
               title="Corações restaurados"
             >
               <img
-                src="/assets/icons/heart.svg"
+                src={assetUrl("icons/heart.svg")}
                 alt=""
                 className="h-5 w-5 object-contain"
               />
@@ -96,7 +101,7 @@ export function RecipeCard({
                   <>
                     {primary && (
                       <img
-                        src={`/assets/${primary.image}`}
+                        src={assetUrl(primary.image)}
                         alt={primary.name["pt-br"]}
                         className="h-5 w-5 object-contain"
                         loading="lazy"

@@ -1,5 +1,9 @@
 import type { EffectId, IngredientSlot, Recipe } from "../data/types";
 
+export function assetUrl(path: string): string {
+  return `${import.meta.env.BASE_URL}assets/${path}`;
+}
+
 export function formatDuration(totalSeconds: number): string {
   if (totalSeconds <= 0) return "—";
   const minutes = Math.floor(totalSeconds / 60);
