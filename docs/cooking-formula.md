@@ -138,6 +138,15 @@ Randomiza corações (1/4 do valor base / sem mudança / +3 corações), potênc
 
 - Ingredientes Hearty e Endura sempre restauram vida/vigor **por completo**, independente de outros ingredientes de cura no prato.
 
+## 9.1. Cura total independente da vida atual (PENDÊNCIA — não modelado)
+
+Existem dois casos de "cura completa" no jogo que hoje não têm representação no modelo de dados (`hearts` em `Recipe` é sempre um número fixo, não existe um valor tipo "full"):
+
+- **Fada como ingrediente:** qualquer prato/elixir que leve uma Fada cura os corações por completo e revive automaticamente 1x ao morrer (efeito de Poção de Fada). O material `fairy` já tem essa nota, mas nenhuma `Recipe` com Fada existe em `recipes.ts` ainda.
+- **Hearty/Endura crus (não cozidos):** comer o ingrediente direto, sem cozinhar, restaura vida/vigor por completo. É uma mecânica de "ingrediente cru", fora do escopo de receitas cozidas do app.
+
+Antes de modelar, decidir: (a) se isso entra no v1 como uma `Recipe` especial (com um jeito de marcar "cura total" em vez de um número em `hearts`), ou (b) fica de fora e só vira nota de UI, como já foi decidido pro Monster Extract (seção 8).
+
 ## 10. Conclusões práticas (pra escolher que combos virar receita "otimizada")
 
 - "Prato perfeito" = bater o mais perto possível do threshold de 45 (High) com o menor número de ingredientes de efeito, preenchendo os slots restantes com Vísceras de Bocoblin/Moblin (potência 0, servem só pra ocupar espaço e reduzir a chance de precisar de ingrediente raro).
