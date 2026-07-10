@@ -39,8 +39,12 @@ export function AppHeader({
     <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 py-4 backdrop-blur border">
       <div className="mx-auto flex max-w-4xl flex-col gap-2">
         <div className="flex items-center justify-between">
-          <h1 className="font-chrome text-xl font-semibold uppercase tracking-[0.2em] text-rune-paper">
-            Hylian <span className="text-sheikah">Cookbook</span>
+          <h1>
+            <img
+              src={`${import.meta.env.BASE_URL}logo.svg`}
+              alt="Hylian Cookbook"
+              className="h-8 w-auto"
+            />
           </h1>
           <nav className="flex gap-1" aria-label="Navegação principal">
             <TabButton
