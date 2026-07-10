@@ -39,9 +39,7 @@ function App() {
   const [query, setQuery] = useState("");
   const [selectedEffect, setSelectedEffect] = useState<EffectId | null>(null);
   const [materialsQuery, setMaterialsQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(
-    null,
-  );
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { isFavorite, toggleFavorite, favoriteIds } = useFavorites();
 
   const handleToggleFavorite = (recipe: Recipe) => {
@@ -126,7 +124,10 @@ function App() {
 
       <div className="flex-1 overflow-y-auto">
         {tab === "materials" ? (
-          <MaterialsView items={filteredMaterials} showEmpty={showEmptyMaterials} />
+          <MaterialsView
+            items={filteredMaterials}
+            showEmpty={showEmptyMaterials}
+          />
         ) : (
           <RecipesView
             groups={groups}
