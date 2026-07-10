@@ -17,6 +17,9 @@
 
 html,
 body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
   background-color: var(--color-obsidian);
   color: var(--color-rune-paper);
   font-family: var(--font-chrome);

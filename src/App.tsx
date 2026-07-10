@@ -89,7 +89,7 @@ function App() {
   const showEmptyMaterials = filteredMaterials.length === 0;
 
   return (
-    <div className="flex h-screen flex-col bg-obsidian">
+    <div className="flex h-dvh flex-col overflow-hidden bg-obsidian">
       <Toaster
         position="top-right"
         toastOptions={{
