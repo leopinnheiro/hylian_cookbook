@@ -74,7 +74,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-durian",
-    name: { "pt-br": "*Durião Robusto", en: "Hearty Durian" },
+    name: { "pt-br": "Durião nutritivo", en: "Hearty Durian" },
     image: "materials/hearty_durian_icon.png",
     hp: 12,
     effect: "extra-hearts",
@@ -764,7 +764,10 @@ export const materials: Material[] = [
   },
   {
     id: "rugged-rhino-beetle",
-    name: { "pt-br": "*Besouro-Rinoceronte Robusto", en: "Rugged Rhino Beetle" },
+    name: {
+      "pt-br": "*Besouro-Rinoceronte Robusto",
+      en: "Rugged Rhino Beetle",
+    },
     image: "materials/rugged_rhino_beetle_icon.png",
     hp: 0,
     effect: "defense",
@@ -810,7 +813,7 @@ export const materials: Material[] = [
   },
   {
     id: "hearty-lizard",
-    name: { "pt-br": "*Lagartixa Robusta", en: "Hearty Lizard" },
+    name: { "pt-br": "Lagarto nutritivo", en: "Hearty Lizard" },
     image: "materials/hearty_lizard_icon.png",
     hp: 4,
     effect: "extra-hearts",
@@ -1152,7 +1155,7 @@ export const materials: Material[] = [
     hp: 0,
     durationSeconds: 0,
     category: "dragon-part",
-    notes: "Nao e ingrediente de culinaria, usado em melhorias de equipamento.",
+    notes: "Não é ingrediente de culinária, usado em melhorias de equipamento.",
   },
   {
     id: "shard-of-dinraals-horn",
@@ -1192,7 +1195,7 @@ export const materials: Material[] = [
     hp: 0,
     durationSeconds: 0,
     category: "dragon-part",
-    notes: "Nao e ingrediente de culinaria, usado em melhorias de equipamento.",
+    notes: "Não é ingrediente de culinária, usado em melhorias de equipamento.",
   },
   {
     id: "shard-of-faroshs-horn",
@@ -1232,7 +1235,7 @@ export const materials: Material[] = [
     hp: 0,
     durationSeconds: 0,
     category: "dragon-part",
-    notes: "Nao e ingrediente de culinaria, usado em melhorias de equipamento.",
+    notes: "Não é ingrediente de culinária, usado em melhorias de equipamento.",
   },
   {
     id: "shard-of-naydras-horn",
@@ -1253,7 +1256,7 @@ export const materials: Material[] = [
     hp: 0,
     durationSeconds: 0,
     category: "misc",
-    notes: "Usada na Pocao de Fada, nao segue a formula normal de culinaria.",
+    notes: "Usada na Poção de Fada, não segue a fórmula normal de culinária.",
   },
   {
     id: "monster-extract",
@@ -1263,7 +1266,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "misc",
     notes:
-      "Randomiza o resultado do prato, fora do calculo padrao (ver secao 8 da formula).",
+      "Randomiza o resultado do prato, fora do cálculo padrão (ver seção 8 da fórmula).",
   },
   {
     id: "star-fragment",
@@ -1273,7 +1276,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; forca critico garantido como as partes de dragao.",
+      "Não é ingrediente de culinária; força crítico garantido como as partes de dragão.",
   },
   {
     id: "flint",
@@ -1283,7 +1286,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "wood",
@@ -1293,7 +1296,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "amber",
@@ -1303,7 +1306,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "opal",
@@ -1313,7 +1316,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "diamond",
@@ -1323,7 +1326,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ruby",
@@ -1333,7 +1336,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "sapphire",
@@ -1343,7 +1346,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "topaz",
@@ -1353,7 +1356,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "luminous-stone",
@@ -1363,7 +1366,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ancient-screw",
@@ -1373,7 +1376,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ancient-spring",
@@ -1383,7 +1386,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ancient-shaft",
@@ -1393,7 +1396,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ancient-gear",
@@ -1403,7 +1406,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "ancient-core",
@@ -1413,7 +1416,7 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
   {
     id: "giant-ancient-core",
@@ -1423,6 +1426,6 @@ export const materials: Material[] = [
     durationSeconds: 0,
     category: "mineral",
     notes:
-      "Nao e ingrediente de culinaria; resulta em Comida Duvidosa se cozido.",
+      "Não é ingrediente de culinária; resulta em Comida Duvidosa se cozido.",
   },
 ];

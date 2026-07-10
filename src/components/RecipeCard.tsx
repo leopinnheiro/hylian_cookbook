@@ -85,10 +85,15 @@ export function RecipeCard({
               />
               {recipe.hearts}
             </span>
-            <span className="flex items-center gap-1" title="Duração do efeito">
-              <Clock className="h-4 w-4 text-ash-steel" />
-              {formatDuration(recipe.durationSeconds)}
-            </span>
+            {recipe.durationSeconds > 0 && (
+              <span
+                className="flex items-center gap-1"
+                title="Duração do efeito"
+              >
+                <Clock className="h-4 w-4 text-ash-steel" />
+                {formatDuration(recipe.durationSeconds)}
+              </span>
+            )}
           </div>
 
           <ul className="flex flex-wrap gap-2">
