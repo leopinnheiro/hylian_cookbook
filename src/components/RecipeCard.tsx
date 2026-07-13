@@ -9,7 +9,10 @@ import {
   groupIngredientSlots,
   tierCount,
 } from "../lib/format";
-import { IngredientChipList, type IngredientChipData } from "./IngredientChipList";
+import {
+  IngredientChipList,
+  type IngredientChipData,
+} from "./IngredientChipList";
 import { IngredientSlotModal } from "./IngredientSlotModal";
 import { RecipeIcon } from "./RecipeIcon";
 
@@ -28,7 +31,11 @@ export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
   return (
     <article className="flex flex-col overflow-hidden border border-ash-steel/30 bg-deep-steel">
       <header className="relative flex items-stretch gap-3 border-b border-ash-steel/20 p-3">
-        <RecipeIcon image={recipe.image} effect={recipe.effect} hearts={recipe.hearts} />
+        <RecipeIcon
+          image={recipe.image}
+          effect={recipe.effect}
+          hearts={recipe.hearts}
+        />
         <div className="flex min-w-0 flex-1 flex-col justify-between gap-1">
           <div className="flex items-start gap-1">
             <div className="flex min-w-0 flex-1 flex-col">
@@ -85,8 +92,8 @@ export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
 
       <div className="flex flex-col gap-3 p-4 justify-between flex-1">
         <div className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-rune-paper">
-            {recipe.durationSeconds > 0 && (
+          {recipe.durationSeconds > 0 && (
+            <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-rune-paper">
               <span
                 className="flex items-center gap-1"
                 title="Duração do efeito"
@@ -94,8 +101,8 @@ export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
                 <Clock className="h-4 w-4 text-ash-steel" />
                 {formatDuration(recipe.durationSeconds)}
               </span>
-            )}
-          </div>
+            </div>
+          )}
 
           <IngredientChipList
             items={groupIngredientSlots(recipe.ingredients).map(

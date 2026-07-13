@@ -17,7 +17,7 @@ interface IngredientChipListProps {
 
 export function IngredientChipList({ items }: IngredientChipListProps) {
   return (
-    <ul className="flex flex-wrap gap-2">
+    <ul className="flex flex-wrap gap-1">
       {items.map((item) => {
         const content = (
           <>
@@ -25,14 +25,17 @@ export function IngredientChipList({ items }: IngredientChipListProps) {
               <img
                 src={assetUrl(item.image)}
                 alt=""
-                className="h-5 w-5 object-contain"
+                className="h-5 aspect-square"
                 loading="lazy"
               />
             )}
             <span className="text-ash-steel">
               {item.label}
               {item.count > 1 && (
-                <strong className="font-bold text-rune-paper"> ×{item.count}</strong>
+                <strong className="font-bold text-rune-paper">
+                  {" "}
+                  ×{item.count}
+                </strong>
               )}
             </span>
             {item.onClick && (
