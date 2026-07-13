@@ -171,7 +171,7 @@ export function RecipeCreatorView({
           )}
         </div>
 
-        <Button disabled={filledCount === 0} onClick={() => onSave(selection)}>
+        <Button disabled={!dishName} onClick={() => onSave(selection)}>
           Salvar combinação
         </Button>
       </div>
