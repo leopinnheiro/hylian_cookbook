@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, X } from "lucide-react";
+import { Clock, Share, X } from "lucide-react";
 import type { IngredientSlot, Recipe } from "../data/types";
 import { effects, materialsById } from "../data";
 import {
@@ -19,9 +19,14 @@ import { RecipeIcon } from "./RecipeIcon";
 interface RecipeCardProps {
   recipe: Recipe;
   onRemove?: () => void;
+  onOpenInCreator?: () => void;
 }
 
-export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
+export function RecipeCard({
+  recipe,
+  onRemove,
+  onOpenInCreator,
+}: RecipeCardProps) {
   const effect = effects.find((entry) => entry.id === recipe.effect);
   const repeats = tierCount(recipe);
   const [openSlot, setOpenSlot] = useState<IngredientSlot | null>(null);
@@ -46,6 +51,17 @@ export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
                 {recipe.name.en}
               </p>
             </div>
+            {onOpenInCreator && (
+              <button
+                type="button"
+                onClick={onOpenInCreator}
+                aria-label="Editar essa combinação no Criar Receita"
+                title="Editar no Criar Receita"
+                className="shrink-0 text-ash-steel hover:text-sheikah"
+              >
+                <Share className="h-5 w-5" />
+              </button>
+            )}
             {onRemove && (
               <button
                 type="button"
@@ -53,7 +69,7 @@ export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
                 aria-label="Remover combinação salva"
                 className="shrink-0 text-ash-steel hover:text-sheikah"
               >
-                <X className="h-4 w-4" />
+                <X className="h-5 w-5" />
               </button>
             )}
           </div>

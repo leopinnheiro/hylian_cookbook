@@ -61,6 +61,24 @@ export function pickDisplayDish(
   return completeMatches.find((dish) => !dish.isGeneric) ?? completeMatches[0];
 }
 
+/** Converte uma Recipe do catalogo numa selecao pro Creator (5 slots): slots
+ * fixos (1 unica opcao) ja vem preenchidos, slots "Any X" (varias opcoes)
+ * ficam vazios pra pessoa escolher. Usado tanto pra "enviar pro Creator" a
+ * partir da grade quanto pra clicar numa receita possivel dentro do proprio
+ * Creator e completar o resto sozinho. */
+export function recipeToSelection(
+  recipe: Recipe,
+  slotCount = 5,
+): (string | null)[] {
+  const filled = recipe.ingredients.map((slot) =>
+    slot.materialIds.length === 1 ? slot.materialIds[0] : null,
+  );
+  while (filled.length < slotCount) {
+    filled.push(null);
+  }
+  return filled.slice(0, slotCount);
+}
+
 /** Materiais que, colocados em `slotIndex`, ainda deixam pelo menos 1 receita
  * do catalogo possivel dado o resto da selecao atual. */
 export function getViableMaterials(

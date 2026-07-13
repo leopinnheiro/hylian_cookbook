@@ -1,8 +1,12 @@
 import { useMemo, useState } from "react";
-import { Clock, Plus, X } from "lucide-react";
+import { Clock, Plus, Share, X } from "lucide-react";
 import { effects, materialsById } from "../../data";
 import { computeDish } from "../../lib/cookingFormula";
-import { findMatchingDishes, pickDisplayDish } from "../../lib/matchRecipes";
+import {
+  findMatchingDishes,
+  pickDisplayDish,
+  recipeToSelection,
+} from "../../lib/matchRecipes";
 import {
   assetUrl,
   formatDuration,
@@ -21,11 +25,15 @@ const SLOT_COUNT = 5;
 
 interface RecipeCreatorViewProps {
   onSave: (materialIds: (string | null)[]) => void;
+  initialSelection?: (string | null)[];
 }
 
-export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
+export function RecipeCreatorView({
+  onSave,
+  initialSelection,
+}: RecipeCreatorViewProps) {
   const [selection, setSelection] = useState<(string | null)[]>(
-    Array(SLOT_COUNT).fill(null),
+    () => initialSelection ?? Array(SLOT_COUNT).fill(null),
   );
   const [openSlot, setOpenSlot] = useState<number | null>(null);
 
@@ -72,14 +80,11 @@ export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
                     className="absolute right-0.5 top-0.5 text-ash-steel hover:text-sheikah"
                     aria-label="Remover ingrediente"
                   >
-                    <X className="h-3.5 w-3.5" />
+                    <X className="h-4 w-4" />
                   </span>
                 </>
               ) : (
-                <Plus
-                  className="h-1/3 w-1/3 text-ash-steel"
-                  aria-hidden="true"
-                />
+                <Plus className="h-8 w-8 text-ash-steel" aria-hidden="true" />
               )}
             </button>
           );
@@ -185,7 +190,7 @@ export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
               {matchingDishes.map((dish) => (
                 <li
                   key={dish.id}
-                  className="flex flex-col gap-2 border border-ash-steel/20 bg-panel px-3 py-2"
+                  className="flex flex-col gap-2 border border-ash-steel/20 bg-deep-steel px-3 py-2"
                 >
                   <div className="flex items-center gap-3">
                     <RecipeIcon
@@ -194,7 +199,7 @@ export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
                       hearts={dish.hearts}
                       size="sm"
                     />
-                    <div className="flex min-w-0 flex-col">
+                    <div className="flex min-w-0 flex-1 flex-col">
                       <span className="font-dish text-sm text-rune-paper">
                         {dish.name["pt-br"]}
                       </span>
@@ -202,6 +207,15 @@ export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
                         {dish.name.en}
                       </span>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => setSelection(recipeToSelection(dish))}
+                      aria-label="Preencher automaticamente os ingredientes fixos dessa receita"
+                      title="Preencher automaticamente os ingredientes fixos dessa receita"
+                      className="shrink-0 text-ash-steel hover:text-sheikah"
+                    >
+                      <Share className="h-4 w-4" />
+                    </button>
                   </div>
                   <IngredientChipList
                     items={groupIngredientSlots(dish.ingredients).map(
@@ -210,7 +224,10 @@ export function RecipeCreatorView({ onSave }: RecipeCreatorViewProps) {
                         return {
                           key: `${dish.id}-slot-${index}`,
                           image: primary?.image,
-                          label: slot.label?.["pt-br"] ?? primary?.name["pt-br"] ?? "",
+                          label:
+                            slot.label?.["pt-br"] ??
+                            primary?.name["pt-br"] ??
+                            "",
                           count,
                         };
                       },

@@ -10,9 +10,14 @@ interface RecipeGroup {
 interface RecipesViewProps {
   groups: RecipeGroup[];
   showEmptySearch: boolean;
+  onOpenInCreator: (recipe: Recipe) => void;
 }
 
-export function RecipesView({ groups, showEmptySearch }: RecipesViewProps) {
+export function RecipesView({
+  groups,
+  showEmptySearch,
+  onOpenInCreator,
+}: RecipesViewProps) {
   return (
     <main className="mx-auto flex max-w-4xl flex-col gap-10 px-4 py-6">
       {showEmptySearch && (
@@ -32,7 +37,11 @@ export function RecipesView({ groups, showEmptySearch }: RecipesViewProps) {
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {items.map((recipe) => (
-              <RecipeCard key={recipe.id} recipe={recipe} />
+              <RecipeCard
+                key={recipe.id}
+                recipe={recipe}
+                onOpenInCreator={() => onOpenInCreator(recipe)}
+              />
             ))}
           </div>
         </section>

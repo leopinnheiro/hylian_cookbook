@@ -18,13 +18,16 @@ export function Button({
 }: ButtonProps) {
   const base =
     "flex items-center gap-2 border px-3 py-1.5 font-chrome text-xs uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-40";
+  const justifyClass = variant === "nav" ? "justify-start" : "justify-center";
 
   const style =
     variant === "nav"
       ? {
           color: active ? "var(--color-obsidian)" : "var(--color-rune-paper)",
           backgroundColor: active ? "var(--color-sheikah)" : "transparent",
-          borderColor: active ? "var(--color-sheikah)" : "var(--color-ash-steel)",
+          borderColor: active
+            ? "var(--color-sheikah)"
+            : "var(--color-ash-steel)",
         }
       : {
           color: "var(--color-sheikah)",
@@ -39,7 +42,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`${base} ${actionClass} ${className}`}
+      className={`${base} ${justifyClass} ${actionClass} ${className}`}
       style={style}
       {...rest}
     >

@@ -11,6 +11,7 @@ import { Sidebar } from "./components/Sidebar";
 import { RecipeCreatorView } from "./components/creator/RecipeCreatorView";
 import { SavedCombosView } from "./components/creator/SavedCombosView";
 import { useSavedCombos } from "./hooks/useSavedCombos";
+import { recipeToSelection } from "./lib/matchRecipes";
 
 function matchesRecipeSearch(recipe: Recipe, query: string): boolean {
   if (!query.trim()) return true;
@@ -45,10 +46,20 @@ function App() {
   const [materialsQuery, setMaterialsQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { combos, saveCombo, removeCombo } = useSavedCombos();
+  const [creatorSeed, setCreatorSeed] = useState<(string | null)[] | undefined>(
+    undefined,
+  );
+  const [creatorSeedKey, setCreatorSeedKey] = useState(0);
 
   const handleSaveCombo = (materialIds: (string | null)[]) => {
     saveCombo(materialIds);
     toast("Combinação salva nos favoritos", { icon: "⭐" });
+  };
+
+  const handleOpenInCreator = (recipe: Recipe) => {
+    setCreatorSeed(recipeToSelection(recipe));
+    setCreatorSeedKey((key) => key + 1);
+    setTab("creator");
   };
 
   const filteredRecipes = useMemo(() => {
@@ -130,11 +141,19 @@ function App() {
               showEmpty={showEmptyMaterials}
             />
           ) : tab === "creator" ? (
-            <RecipeCreatorView onSave={handleSaveCombo} />
+            <RecipeCreatorView
+              key={creatorSeedKey}
+              onSave={handleSaveCombo}
+              initialSelection={creatorSeed}
+            />
           ) : tab === "favorites" ? (
             <SavedCombosView combos={combos} onRemove={removeCombo} />
           ) : (
-            <RecipesView groups={groups} showEmptySearch={showEmptySearch} />
+            <RecipesView
+              groups={groups}
+              showEmptySearch={showEmptySearch}
+              onOpenInCreator={handleOpenInCreator}
+            />
           )}
 
           {tab === "all" && <AppFooter />}
