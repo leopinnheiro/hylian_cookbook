@@ -1,1 +1,1 @@
-export type Tab = "all" | "favorites" | "materials";
+export type Tab = "all" | "favorites" | "materials" | "creator";

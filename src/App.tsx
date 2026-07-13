@@ -7,7 +7,10 @@ import { AppHeader } from "./components/AppHeader";
 import { AppFooter } from "./components/AppFooter";
 import { RecipesView } from "./components/RecipesView";
 import { MaterialsView } from "./components/materials/MaterialsView";
-import { useFavorites } from "./hooks/useFavorites";
+import { Sidebar } from "./components/Sidebar";
+import { RecipeCreatorView } from "./components/creator/RecipeCreatorView";
+import { SavedCombosView } from "./components/creator/SavedCombosView";
+import { useSavedCombos } from "./hooks/useSavedCombos";
 
 function matchesRecipeSearch(recipe: Recipe, query: string): boolean {
   if (!query.trim()) return true;
@@ -36,34 +39,25 @@ function sortWithinEffect(list: Recipe[]): Recipe[] {
 
 function App() {
   const [tab, setTab] = useState<Tab>("all");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedEffect, setSelectedEffect] = useState<EffectId | null>(null);
   const [materialsQuery, setMaterialsQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const { isFavorite, toggleFavorite, favoriteIds } = useFavorites();
+  const { combos, saveCombo, removeCombo } = useSavedCombos();
 
-  const handleToggleFavorite = (recipe: Recipe) => {
-    const wasFavorite = isFavorite(recipe.id);
-    toggleFavorite(recipe.id);
-    toast(
-      wasFavorite
-        ? `Removido dos favoritos: ${recipe.name["pt-br"]}`
-        : `Adicionado aos favoritos: ${recipe.name["pt-br"]}`,
-      { icon: wasFavorite ? "💔" : "⭐" },
-    );
+  const handleSaveCombo = (materialIds: (string | null)[]) => {
+    saveCombo(materialIds);
+    toast("Combinação salva nos favoritos", { icon: "⭐" });
   };
 
   const filteredRecipes = useMemo(() => {
-    const base =
-      tab === "favorites"
-        ? recipes.filter((r) => favoriteIds.includes(r.id))
-        : recipes;
-    return base
+    return recipes
       .filter((recipe) =>
         selectedEffect ? recipe.effect === selectedEffect : true,
       )
       .filter((recipe) => matchesRecipeSearch(recipe, query));
-  }, [tab, favoriteIds, selectedEffect, query]);
+  }, [selectedEffect, query]);
 
   const groups = useMemo(() => {
     return effects
@@ -85,11 +79,10 @@ function App() {
   }, [selectedCategory, materialsQuery]);
 
   const showEmptySearch = groups.length === 0 && tab === "all";
-  const showEmptyFavorites = groups.length === 0 && tab === "favorites";
   const showEmptyMaterials = filteredMaterials.length === 0;
 
   return (
-    <div className="flex h-dvh flex-col overflow-hidden bg-obsidian">
+    <div className="flex h-dvh overflow-hidden bg-obsidian">
       <Toaster
         position="top-right"
         toastOptions={{
@@ -109,36 +102,43 @@ function App() {
         }}
       />
 
-      <AppHeader
+      <Sidebar
         tab={tab}
         onTabChange={setTab}
-        query={query}
-        onQueryChange={setQuery}
-        selectedEffect={selectedEffect}
-        onSelectedEffectChange={setSelectedEffect}
-        materialsQuery={materialsQuery}
-        onMaterialsQueryChange={setMaterialsQuery}
-        selectedCategory={selectedCategory}
-        onSelectedCategoryChange={setSelectedCategory}
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
       />
 
-      <div className="flex-1 overflow-y-auto">
-        {tab === "materials" ? (
-          <MaterialsView
-            items={filteredMaterials}
-            showEmpty={showEmptyMaterials}
-          />
-        ) : (
-          <RecipesView
-            groups={groups}
-            showEmptySearch={showEmptySearch}
-            showEmptyFavorites={showEmptyFavorites}
-            isFavorite={isFavorite}
-            onToggleFavorite={handleToggleFavorite}
-          />
-        )}
+      <div className="flex h-dvh flex-1 flex-col overflow-hidden">
+        <AppHeader
+          tab={tab}
+          onMenuClick={() => setSidebarOpen(true)}
+          query={query}
+          onQueryChange={setQuery}
+          selectedEffect={selectedEffect}
+          onSelectedEffectChange={setSelectedEffect}
+          materialsQuery={materialsQuery}
+          onMaterialsQueryChange={setMaterialsQuery}
+          selectedCategory={selectedCategory}
+          onSelectedCategoryChange={setSelectedCategory}
+        />
 
-        {tab !== "materials" && <AppFooter />}
+        <div className="flex-1 overflow-y-auto">
+          {tab === "materials" ? (
+            <MaterialsView
+              items={filteredMaterials}
+              showEmpty={showEmptyMaterials}
+            />
+          ) : tab === "creator" ? (
+            <RecipeCreatorView onSave={handleSaveCombo} />
+          ) : tab === "favorites" ? (
+            <SavedCombosView combos={combos} onRemove={removeCombo} />
+          ) : (
+            <RecipesView groups={groups} showEmptySearch={showEmptySearch} />
+          )}
+
+          {tab === "all" && <AppFooter />}
+        </div>
       </div>
     </div>
   );

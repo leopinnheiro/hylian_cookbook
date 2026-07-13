@@ -1,77 +1,34 @@
 import { useState } from "react";
-import { Clock, Info } from "lucide-react";
+import { Clock, X } from "lucide-react";
 import type { IngredientSlot, Recipe } from "../data/types";
 import { effects, materialsById } from "../data";
 import {
   assetUrl,
   formatDuration,
+  getStaminaIcons,
   groupIngredientSlots,
   tierCount,
 } from "../lib/format";
-import { FavoriteButton } from "./FavoriteButton";
+import { IngredientChipList, type IngredientChipData } from "./IngredientChipList";
 import { IngredientSlotModal } from "./IngredientSlotModal";
+import { RecipeIcon } from "./RecipeIcon";
 
 interface RecipeCardProps {
   recipe: Recipe;
-  favorite: boolean;
-  onToggleFavorite: () => void;
+  onRemove?: () => void;
 }
 
-export function RecipeCard({
-  recipe,
-  favorite,
-  onToggleFavorite,
-}: RecipeCardProps) {
+export function RecipeCard({ recipe, onRemove }: RecipeCardProps) {
   const effect = effects.find((entry) => entry.id === recipe.effect);
   const repeats = tierCount(recipe);
   const [openSlot, setOpenSlot] = useState<IngredientSlot | null>(null);
 
-  const staminaIcons: string[] = [];
-  if (recipe.staminaWheels !== undefined) {
-    const prefix =
-      recipe.effect === "extra-stamina" ? "enduring" : "energizing";
-    const fullWheels = Math.floor(recipe.staminaWheels / 5);
-    const remainder = recipe.staminaWheels % 5;
-    for (let i = 0; i < fullWheels; i++) {
-      staminaIcons.push(`icons/${prefix}-5.svg`);
-    }
-    if (remainder > 0 || fullWheels === 0) {
-      staminaIcons.push(`icons/${prefix}-${remainder}.svg`);
-    }
-  }
+  const staminaIcons = getStaminaIcons(recipe.effect, recipe.staminaWheels);
 
   return (
     <article className="flex flex-col overflow-hidden border border-ash-steel/30 bg-deep-steel">
       <header className="relative flex items-stretch gap-3 border-b border-ash-steel/20 p-3">
-        {recipe.image && (
-          <div className="relative aspect-square h-22 shrink-0">
-            <img
-              src={assetUrl(recipe.image)}
-              alt=""
-              className="h-full w-full border-ash-steel/30 object-cover"
-              loading="lazy"
-            />
-            <div className="absolute inset-x-0 top-0.5 z-10 flex items-center gap-1">
-              {effect && recipe.effect !== "heal" && (
-                <img
-                  src={assetUrl(effect.icon)}
-                  alt={effect.name["pt-br"]}
-                  title={effect.name["pt-br"]}
-                  className="h-5 w-5 object-contain drop-shadow"
-                  loading="lazy"
-                />
-              )}
-              {recipe.hearts > 0 && (
-                <img
-                  src={assetUrl("icons/heart.svg")}
-                  alt=""
-                  title="Restaura corações (quantidade exata depende dos ingredientes usados — ver gerador de receita)"
-                  className="ml-auto h-3.5 w-3.5 object-contain drop-shadow"
-                />
-              )}
-            </div>
-          </div>
-        )}
+        <RecipeIcon image={recipe.image} effect={recipe.effect} hearts={recipe.hearts} />
         <div className="flex min-w-0 flex-1 flex-col justify-between gap-1">
           <div className="flex items-start gap-1">
             <div className="flex min-w-0 flex-1 flex-col">
@@ -82,7 +39,16 @@ export function RecipeCard({
                 {recipe.name.en}
               </p>
             </div>
-            <FavoriteButton active={favorite} onToggle={onToggleFavorite} />
+            {onRemove && (
+              <button
+                type="button"
+                onClick={onRemove}
+                aria-label="Remover combinação salva"
+                className="shrink-0 text-ash-steel hover:text-sheikah"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
           </div>
 
           {effect && (
@@ -131,64 +97,22 @@ export function RecipeCard({
             )}
           </div>
 
-          <ul className="flex flex-wrap gap-2">
-            {groupIngredientSlots(recipe.ingredients).map(
-              ({ slot, count }, index) => {
+          <IngredientChipList
+            items={groupIngredientSlots(recipe.ingredients).map(
+              ({ slot, count }, index): IngredientChipData => {
                 const primary = materialsById[slot.materialIds[0]];
                 const isFillerSlot =
                   slot.materialIds.length > 1 || Boolean(slot.label);
-                const content = (
-                  <>
-                    {primary && (
-                      <img
-                        src={assetUrl(primary.image)}
-                        alt={primary.name["pt-br"]}
-                        className="h-5 w-5 object-contain"
-                        loading="lazy"
-                      />
-                    )}
-                    <span className="text-ash-steel">
-                      {slot.label?.["pt-br"] ?? primary?.name["pt-br"]}
-                      {count > 1 && (
-                        <strong className="font-bold text-rune-paper">
-                          {" "}
-                          ×{count}
-                        </strong>
-                      )}
-                    </span>
-                    {isFillerSlot && (
-                      <Info
-                        className="h-3.5 w-3.5 text-ash-steel"
-                        aria-hidden="true"
-                      />
-                    )}
-                  </>
-                );
-                if (isFillerSlot) {
-                  return (
-                    <li key={`${recipe.id}-slot-${index}`}>
-                      <button
-                        type="button"
-                        onClick={() => setOpenSlot(slot)}
-                        aria-label="Ver ingredientes compatíveis"
-                        className="flex items-center gap-1.5 border border-dashed border-ash-steel/60 bg-panel px-2 py-1 text-xs font-chrome transition-colors hover:border-sheikah hover:bg-panel/70"
-                      >
-                        {content}
-                      </button>
-                    </li>
-                  );
-                }
-                return (
-                  <li
-                    key={`${recipe.id}-slot-${index}`}
-                    className="flex items-center gap-1.5 border border-transparent bg-panel px-2 py-1 text-xs font-chrome"
-                  >
-                    {content}
-                  </li>
-                );
+                return {
+                  key: `${recipe.id}-slot-${index}`,
+                  image: primary?.image,
+                  label: slot.label?.["pt-br"] ?? primary?.name["pt-br"] ?? "",
+                  count,
+                  onClick: isFillerSlot ? () => setOpenSlot(slot) : undefined,
+                };
               },
             )}
-          </ul>
+          />
         </div>
         {recipe.notes && (
           <p className="text-xs italic text-ash-steel">{recipe.notes}</p>

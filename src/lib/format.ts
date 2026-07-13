@@ -1,5 +1,26 @@
 import type { EffectId, IngredientSlot, Recipe } from "../data/types";
 
+// Monta a lista de icones energizing-N/enduring-N.svg pra representar
+// staminaWheels (N cheios + 1 parcial no resto), ver docs/cooking-formula.md
+// secao 9.
+export function getStaminaIcons(
+  effect: EffectId,
+  staminaWheels: number | undefined,
+): string[] {
+  if (staminaWheels === undefined) return [];
+  const prefix = effect === "extra-stamina" ? "enduring" : "energizing";
+  const fullWheels = Math.floor(staminaWheels / 5);
+  const remainder = staminaWheels % 5;
+  const icons: string[] = [];
+  for (let i = 0; i < fullWheels; i++) {
+    icons.push(`icons/${prefix}-5.svg`);
+  }
+  if (remainder > 0 || fullWheels === 0) {
+    icons.push(`icons/${prefix}-${remainder}.svg`);
+  }
+  return icons;
+}
+
 export function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}assets/${path}`;
 }
@@ -24,6 +45,24 @@ export function isHotEffect(effect: EffectId): boolean {
 export function tierCount(recipe: Recipe): number {
   const match = recipe.variantLabel.en.match(/Tier (\d+)/);
   return match ? Number(match[1]) : 1;
+}
+
+// Agrupa materialIds repetidos (ex: 5x "apple") numa entrada só + contagem --
+// mesmo padrão de groupIngredientSlots, usado nos favoritos (SavedComboCard)
+// pra listar os ingredientes escolhidos sem repetir o mesmo nome N vezes.
+export function groupMaterialIds(
+  materialIds: string[],
+): { materialId: string; count: number }[] {
+  const groups: { materialId: string; count: number }[] = [];
+  for (const materialId of materialIds) {
+    const existing = groups.find((group) => group.materialId === materialId);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      groups.push({ materialId, count: 1 });
+    }
+  }
+  return groups;
 }
 
 // Agrupa slots idênticos (mesmos materiais intercambiáveis + mesmo label) num
