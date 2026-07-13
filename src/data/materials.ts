@@ -150,7 +150,7 @@ export const materials: Material[] = [
   },
   {
     id: "chillshroom",
-    name: { "pt-br": "*Cogumelo Gélido", en: "Chillshroom" },
+    name: { "pt-br": "Glacimelo", en: "Chillshroom" },
     image: "materials/chillshroom_icon.png",
     hp: 1,
     effect: "heat-resist",
@@ -599,7 +599,7 @@ export const materials: Material[] = [
     image: "materials/staminoka_bass_icon.png",
     hp: 1,
     effect: "restore-stamina",
-    points: 4,
+    points: 5,
     durationSeconds: 0,
     category: "fish",
   },

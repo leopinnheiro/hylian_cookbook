@@ -41,6 +41,7 @@ export interface Recipe {
   durationSeconds: number; // já calculado: soma das durações
   ingredients: IngredientSlot[]; // cada posição é um slot, pode ter mais de 1 material equivalente
   isGeneric?: boolean; // true = combo "coringa"/genérico, ordenado por último dentro do mesmo tier
+  staminaWheels?: number; // só existe se effect for "restore-stamina"/"extra-stamina": total de 1/5 de roda (ex: 7 = 1 roda cheia + 2/5); renderizado via icons/energizing-N.svg ou icons/enduring-N.svg (N de 0 a 5, repete o ícone cheio pra cada roda inteira)
   notes?: string;
   image?: string; // caminho relativo dentro de public/assets, ex: "recipes/meat_skewer_icon.png"
 }

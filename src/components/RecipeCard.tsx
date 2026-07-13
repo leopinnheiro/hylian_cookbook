@@ -26,16 +26,51 @@ export function RecipeCard({
   const repeats = tierCount(recipe);
   const [openSlot, setOpenSlot] = useState<IngredientSlot | null>(null);
 
+  const staminaIcons: string[] = [];
+  if (recipe.staminaWheels !== undefined) {
+    const prefix =
+      recipe.effect === "extra-stamina" ? "enduring" : "energizing";
+    const fullWheels = Math.floor(recipe.staminaWheels / 5);
+    const remainder = recipe.staminaWheels % 5;
+    for (let i = 0; i < fullWheels; i++) {
+      staminaIcons.push(`icons/${prefix}-5.svg`);
+    }
+    if (remainder > 0 || fullWheels === 0) {
+      staminaIcons.push(`icons/${prefix}-${remainder}.svg`);
+    }
+  }
+
   return (
     <article className="flex flex-col overflow-hidden border border-ash-steel/30 bg-deep-steel">
       <header className="relative flex items-stretch gap-3 border-b border-ash-steel/20 p-3">
         {recipe.image && (
-          <img
-            src={assetUrl(recipe.image)}
-            alt=""
-            className="aspect-square h-22 border-ash-steel/30 object-cover"
-            loading="lazy"
-          />
+          <div className="relative aspect-square h-22 shrink-0">
+            <img
+              src={assetUrl(recipe.image)}
+              alt=""
+              className="h-full w-full border-ash-steel/30 object-cover"
+              loading="lazy"
+            />
+            <div className="absolute inset-x-0 top-0.5 z-10 flex items-center gap-1">
+              {effect && recipe.effect !== "heal" && (
+                <img
+                  src={assetUrl(effect.icon)}
+                  alt={effect.name["pt-br"]}
+                  title={effect.name["pt-br"]}
+                  className="h-5 w-5 object-contain drop-shadow"
+                  loading="lazy"
+                />
+              )}
+              {recipe.hearts > 0 && (
+                <img
+                  src={assetUrl("icons/heart.svg")}
+                  alt=""
+                  title="Restaura corações (quantidade exata depende dos ingredientes usados — ver gerador de receita)"
+                  className="ml-auto h-3.5 w-3.5 object-contain drop-shadow"
+                />
+              )}
+            </div>
+          </div>
         )}
         <div className="flex min-w-0 flex-1 flex-col justify-between gap-1">
           <div className="flex items-start gap-1">
@@ -52,17 +87,28 @@ export function RecipeCard({
 
           {effect && (
             <div className="flex w-full items-center justify-between">
-              <span className="flex items-center" title={effect.name["pt-br"]}>
-                {Array.from({ length: repeats }).map((_, index) => (
-                  <img
-                    key={`${recipe.id}-effect-${index}`}
-                    src={assetUrl(effect.icon)}
-                    alt=""
-                    className="h-5 w-5 object-contain"
-                    loading="lazy"
-                  />
-                ))}
-              </span>
+              {staminaIcons.length > 0 ? (
+                <span
+                  className="flex items-center gap-0.5"
+                  title="Vigor restaurado"
+                >
+                  {staminaIcons.map((icon, index) => (
+                    <img
+                      key={`${recipe.id}-stamina-${index}`}
+                      src={assetUrl(icon)}
+                      alt=""
+                      className="h-5 w-5 object-contain"
+                      loading="lazy"
+                    />
+                  ))}
+                </span>
+              ) : repeats > 1 ? (
+                <span className="font-mono text-[11px] text-ash-steel">
+                  NV. {repeats}
+                </span>
+              ) : (
+                <span />
+              )}
               <span className="font-chrome text-[11px] uppercase tracking-[0.15em] text-sheikah">
                 {effect?.name["pt-br"]}
               </span>
@@ -74,17 +120,6 @@ export function RecipeCard({
       <div className="flex flex-col gap-3 p-4 justify-between flex-1">
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-rune-paper">
-            <span
-              className="flex items-center gap-1"
-              title="Corações restaurados"
-            >
-              <img
-                src={assetUrl("icons/heart.svg")}
-                alt=""
-                className="h-5 w-5 object-contain"
-              />
-              {recipe.hearts}
-            </span>
             {recipe.durationSeconds > 0 && (
               <span
                 className="flex items-center gap-1"

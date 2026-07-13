@@ -29,6 +29,36 @@ duration = soma(duração_base_do_efeito por ingrediente que dá efeito)
          + bônus de "time boost" (ingredientes neutros, ver seção 4)
 ```
 
+## 1.1. Nome do prato: base + sufixo de efeito (RESOLVIDO — testado manualmente, jogo em pt-br no Switch)
+
+O nome exibido no jogo é **nome-base do prato (categoria de ingrediente) + adjetivo do efeito real**, não um nome fixo por prato. Ex: "Vegetais Salteados" (base, ingrediente vegetal sozinho) vira "Vegetais Salteados Protetores" se o vegetal usado for Tough, "... Ligeiros" se for Hasty, etc. Isso é usado pro gerador de receita (item 2) reconstituir o nome certo conforme a escolha real do usuário, em vez de usar sempre o nome genérico da wiki.
+
+Adjetivos confirmados por teste direto no jogo (Switch, pt-br):
+
+| Efeito (`EffectId`)   | Nome do jogo (en) | Adjetivo pt-br confirmado |
+| --------------------- | ----------------- | ------------------------- |
+| `attack`              | Mighty             | Robusto (1 exemplo só, testar mais se possível) |
+| `defense`             | Tough              | Protetor                  |
+| `speed`               | Hasty              | Ligeiro                    |
+| `stealth`             | Sneaky             | Furtivo                    |
+| `restore-stamina`     | Energizing         | Revigorante                |
+| `extra-hearts`        | Hearty             | Vivaz                      |
+| `cold-resist`         | Spicy              | Picante                    |
+| `heat-resist`         | Chilly             | Gelado                     |
+| `electric-resist`     | Electro            | Isolante                   |
+| `extra-stamina`       | Enduring           | Revitalizante               |
+| `fireproof`           | Fireproof          | só existe via elixir, não se aplica a prato de panela |
+
+**Achado importante sobre nomenclatura em pt-br, e sobre o que "1 ingrediente" realmente produz:** testes confirmaram que **1 ingrediente sozinho cozido na panela sempre cai numa receita genérica da tabela Meals** (ex: Cogumelo Hyliano sozinho → "Espeto de Cogumelo", igual ao "Mushroom Skewer" genérico; Flamelo/Glacimelo/Aterramelo/Cogumelo Tenaz sozinhos → "Espeto de Cogumelo" + sufixo do efeito). Ou seja, a tabela "Roasted Foods" da wiki (com nomes únicos tipo `Toasty Chillshroom`, `Toasty Zapshroom`) representa uma **ação diferente do jogo** (assar segurando perto da fogueira, sem usar a panela) — não é o que acontece ao cozinhar 1 ingrediente na panela. Por causa disso, o arquivo `simple-dishes.ts` (que tinha sido gerado a partir de "Roasted Foods") foi removido: o caso "1 ingrediente na panela" já está coberto pelas entradas genéricas de `recipes.ts` (Mushroom Skewer, Simmered Fruit, etc.), com o nome variando conforme o sufixo do efeito real do ingrediente escolhido (ver tabela acima).
+
+## 2.1. Mistura de categorias de efeito diferentes (RESOLVIDO — testado manualmente)
+
+Se um prato tiver ingredientes de **duas ou mais categorias de efeito diferentes** (ex: um ingrediente Mighty/`attack` + um ingrediente Energizing/`restore-stamina`), o resultado **não recebe efeito nenhum** — vira um prato de cura simples, só com os corações da soma de hp. Não é "pega o efeito dominante/mais forte"; é anulação total do efeito.
+
+Testado: `Mighty Bananas` (attack) + `Stamella Shroom` (restore-stamina) → "Fruit and Mushroom Mix", sem efeito, só cura.
+
+**Implicação pro gerador de receitas:** ao montar combinações representativas de um slot "Any X" que pode carregar efeito, só é válido gerar uma variante com efeito X se **todos os outros slots do mesmo prato** ficarem com ingredientes neutros (sem efeito) nessa combinação. Se dois slots diferentes só têm opções de efeitos diferentes disponíveis (nenhuma neutra), o prato nunca produz efeito — sempre cai em heal.
+
 ## 3. Potência / Tier do efeito (CORRIGIDO — fonte: Zelda Dungeon Wiki, com exemplos resolvidos oficiais)
 
 **Atualização importante:** a versão anterior deste documento usava um threshold "global" (30/45) vindo de um post do Reddit, cruzado com a aba `Ingredients` da planilha (escala 7/14/21). Isso está **errado como modelo oficial** — era uma re-normalização inventada pelo autor daquela planilha, só pra usar um único par de threshold pra todos os efeitos. A escala real e pequena (1/2/3 pontos por ingrediente) da aba `Ingredients True Potency` é a correta, confirmada agora com exemplos oficiais da wiki:
@@ -75,7 +105,7 @@ resultado = comparar contra a linha do efeito na tabela acima
 
 **Chilly (Heat Resistance):** Cool Safflina=1, Hydromelon=1 · Chillshroom=2, Chillfin Trout=2 (não tem tier 3)
 
-**Energizing (vigor atual):** Stamella Shroom=1 · Courser Bee Honey=2, Bright-Eyed Crab=2 · Staminoka Bass=4
+**Energizing (vigor atual):** Stamella Shroom=1 · Courser Bee Honey=2, Bright-Eyed Crab=2 · Staminoka Bass=5 (corrigido por teste manual, ver seção 9)
 
 **Enduring (vigor máximo temporário):** Endura Shroom=0.5 · Endura Carrot=2
 
@@ -126,7 +156,7 @@ Randomiza corações (1/4 do valor base / sem mudança / +3 corações), potênc
 
 - **Hearty (`extra-hearts`):** linear, sem tier — soma direta dos pontos de cada ingrediente Hearty = quantidade de corações amarelos extras. Há um **teto de 30 corações totais** (base + amarelos) por prato, segundo os testes da comunidade.
 
-- **Enduring/`extra-stamina` (RESOLVIDO):** cada ponto = **1/5 de uma roda de vigor**, arredondado pra baixo, ciclando a cada 5 pontos (1 roda cheia). Confirmado pela nota oficial da wiki: _"5 Endura Shrooms (2,5 pontos) só dá 2/5 de roda"_ — e exceção: se Endura Shroom for o único ingrediente Enduring do prato, o mínimo garantido é 1/5, mesmo dando menos que isso na conta.
+- **Enduring/`extra-stamina` (RESOLVIDO):** cada ponto = **1/5 de uma roda de vigor**, arredondado pra baixo, ciclando a cada 5 pontos (1 roda cheia). Confirmado pela nota oficial da wiki: _"5 Endura Shrooms (2,5 pontos) só dá 2/5 de roda"_ — e exceção: se Endura Shroom for o único ingrediente Enduring do prato, o mínimo garantido é 1/5, mesmo dando menos que isso na conta. **Sem o bônus de +1 por mistura de tipos que o Energizing tem** — testado manualmente: Endura Carrot(2pt) + 2x Endura Shroom(0,5pt cada = 1pt) = soma 3 → deu exatamente 3/5, sem bônus.
 
   ```
   rodas_de_vigor_extra = floor(soma_de_pontos_enduring) / 5
@@ -134,7 +164,18 @@ Randomiza corações (1/4 do valor base / sem mudança / +3 corações), potênc
   // 5 → 1 roda cheia · 6,7,8,9 → 1 roda + 1/5,2/5,3/5,4/5 · 10 → 2 rodas cheias
   ```
 
-- **Energizing/`restore-stamina` (AINDA EM ABERTO):** a wiki tem uma tabela de pontos 1 a 11 mapeando pra ícones visuais de quantidade de vigor restaurado, mas os nomes dos arquivos de ícone (Energizing1 a Energizing5, combinados de forma não-linear) não deixam claro o valor numérico exato de cada ponto — ao contrário do Enduring, não segue o padrão simples "1 ponto = 1/5". Pra fechar esse gap com certeza, precisaríamos ver as imagens dos ícones (quantos "gomos" da roda cada uma preenche) ou achar uma fonte que já traduza isso em número. Fica como pendência.
+- **Energizing/`restore-stamina` (RESOLVIDO — testado manualmente em emulador, 9 combinações confirmadas):**
+
+  ```
+  gomos = soma(points de cada ingrediente Energizing)
+        + 1 bônus FIXO, SE o prato tiver 2 OU MAIS tipos diferentes de ingrediente
+          Energizing (o bônus não escala com o número de tipos, é sempre +1)
+  rodas_de_vigor = floor(gomos / 5) rodas cheias + (gomos mod 5)/5 de resto
+  ```
+
+  O bônus de +1 só aparece ao misturar tipos diferentes — empilhar o mesmo tipo (ex: 2x Energimelo) soma linear, sem bônus, e usar 3 tipos diferentes não dá mais bônus que usar 2. Testes confirmados: Energimelo(1pt)=1/5 · Mel de Abelha(2pt)=2/5 · Robalo Enérgico(5pt)=5/5 exato · 2x Energimelo(1+1pt, mesmo tipo)=2/5 · Energimelo+Mel(1+2pt, 2 tipos)=3+1=4/5 · Robalo+Energimelo(5+1pt)=6+1=7 → 1 roda+2/5 · Robalo+Mel(5+2pt)=7+1=8 → 1 roda+3/5 · 2x Energimelo+Mel(1+1+2pt, 2 tipos)=4+1=5/5 · Energimelo+Mel+Robalo(1+2+5pt, 3 tipos)=8+1=9 → 1 roda+4/5 (confirma que o bônus não escala com 3 tipos).
+
+  **Correção:** `Staminoka Bass` tinha `points: 4` documentado aqui e em `materials.ts` — o valor real confirmado por teste é **5** (bate exato sozinho, sem sobra, e em toda combinação testada).
 
 - Ingredientes Hearty e Endura sempre restauram vida/vigor **por completo**, independente de outros ingredientes de cura no prato.
 
