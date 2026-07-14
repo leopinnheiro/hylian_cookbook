@@ -5,15 +5,24 @@ import { SavedComboCard } from "./SavedComboCard";
 interface SavedCombosViewProps {
   combos: SavedCombo[];
   onRemove: (id: string) => void;
+  hasCombos: boolean;
 }
 
-export function SavedCombosView({ combos, onRemove }: SavedCombosViewProps) {
+export function SavedCombosView({
+  combos,
+  onRemove,
+  hasCombos,
+}: SavedCombosViewProps) {
   return (
     <main className="mx-auto flex max-w-4xl flex-col gap-4 px-4 py-6">
       {combos.length === 0 ? (
         <EmptyState
-          title="Nenhuma combinação salva ainda"
-          description="Monte uma combinação no Criar Receita e salve pra guardar aqui — seus favoritos ficam salvos neste dispositivo."
+          title={hasCombos ? "Nenhum resultado" : "Nenhuma combinação salva ainda"}
+          description={
+            hasCombos
+              ? "Nenhum favorito corresponde ao filtro de efeito atual. Limpe o filtro pra ver todos."
+              : "Monte uma combinação no Criar Receita e salve pra guardar aqui — seus favoritos ficam salvos neste dispositivo."
+          }
         />
       ) : (
         combos.map((combo) => (

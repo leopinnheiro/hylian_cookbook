@@ -1851,6 +1851,39 @@ export const recipes: Recipe[] = [
     image: "recipes/fish_skewer_icon.png",
   },
   {
+    id: "fish-skewer-attack-tier-2",
+    effect: "attack",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: { "pt-br": "Espeto de peixe Robusto", en: "Fish Skewer (Mighty)" },
+    hearts: 4,
+    durationSeconds: 410,
+    ingredients: [
+      { materialIds: ["mighty-porgy"] },
+      { materialIds: ["mighty-porgy"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 2x Porgy Poderoso pra atingir potência Nível 2 (Mid) de Robusto, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
+    id: "fish-skewer-attack-tier-3",
+    effect: "attack",
+    variantLabel: { "pt-br": "Nível 3", en: "Tier 3" },
+    name: { "pt-br": "Espeto de peixe Robusto", en: "Fish Skewer (Mighty)" },
+    hearts: 6,
+    durationSeconds: 440,
+    ingredients: [
+      { materialIds: ["mighty-porgy"] },
+      { materialIds: ["mighty-porgy"] },
+      { materialIds: ["mighty-porgy"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Porgy Poderoso pra atingir potência Nível 3 (High) de Robusto, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
     id: "fish-skewer-cold-resist",
     effect: "cold-resist",
     variantLabel: { "pt-br": "Picante", en: "Spicy" },
@@ -1862,6 +1895,23 @@ export const recipes: Recipe[] = [
         materialIds: ["sizzlefin-trout"],
       },
     ],
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
+    id: "fish-skewer-cold-resist-tier-2",
+    effect: "cold-resist",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: { "pt-br": "Espeto de peixe Picante", en: "Fish Skewer (Spicy)" },
+    hearts: 6,
+    durationSeconds: 540,
+    ingredients: [
+      { materialIds: ["sizzlefin-trout"] },
+      { materialIds: ["sizzlefin-trout"] },
+      { materialIds: ["sizzlefin-trout"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Truta Crepitante pra atingir potência Nível 2 (Mid) de Picante (Spicy só tem 2 níveis), mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
     image: "recipes/fish_skewer_icon.png",
   },
   {
@@ -1879,6 +1929,39 @@ export const recipes: Recipe[] = [
     ],
     notes:
       "Usando Armored Porgy em vez de Armored Carp no lugar desse ingrediente, os corações mudam (mesmo efeito).",
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
+    id: "fish-skewer-defense-tier-2",
+    effect: "defense",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: { "pt-br": "Espeto de peixe Protetor", en: "Fish Skewer (Tough)" },
+    hearts: 4,
+    durationSeconds: 410,
+    ingredients: [
+      { materialIds: ["armored-porgy"] },
+      { materialIds: ["armored-porgy"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 2x Porgy Blindado pra atingir potência Nível 2 (Mid) de Protetor, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
+    id: "fish-skewer-defense-tier-3",
+    effect: "defense",
+    variantLabel: { "pt-br": "Nível 3", en: "Tier 3" },
+    name: { "pt-br": "Espeto de peixe Protetor", en: "Fish Skewer (Tough)" },
+    hearts: 6,
+    durationSeconds: 440,
+    ingredients: [
+      { materialIds: ["armored-porgy"] },
+      { materialIds: ["armored-porgy"] },
+      { materialIds: ["armored-porgy"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Porgy Blindado pra atingir potência Nível 3 (High) de Protetor, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
     image: "recipes/fish_skewer_icon.png",
   },
   {
@@ -1942,6 +2025,23 @@ export const recipes: Recipe[] = [
         materialIds: ["chillfin-trout"],
       },
     ],
+    image: "recipes/fish_skewer_icon.png",
+  },
+  {
+    id: "fish-skewer-heat-resist-tier-2",
+    effect: "heat-resist",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: { "pt-br": "Espeto de peixe Gelado", en: "Fish Skewer (Chilly)" },
+    hearts: 6,
+    durationSeconds: 540,
+    ingredients: [
+      { materialIds: ["chillfin-trout"] },
+      { materialIds: ["chillfin-trout"] },
+      { materialIds: ["chillfin-trout"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Truta Gélida pra atingir potência Nível 2 (Mid) de Gelado (Chilly só tem 2 níveis), mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
     image: "recipes/fish_skewer_icon.png",
   },
   {
@@ -2654,6 +2754,47 @@ export const recipes: Recipe[] = [
     image: "recipes/fried_wild_greens_icon.png",
   },
   {
+    id: "fried-wild-greens-speed-tier-2",
+    effect: "speed",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: {
+      "pt-br": "Vegetais silvestres salteados Ligeiro",
+      en: "Fried Wild Greens (Hasty)",
+    },
+    hearts: 6,
+    durationSeconds: 450,
+    ingredients: [
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Violeta Veloz pra atingir potência Nível 2 (Mid) de Ligeiro, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fried_wild_greens_icon.png",
+  },
+  {
+    id: "fried-wild-greens-speed-tier-3",
+    effect: "speed",
+    variantLabel: { "pt-br": "Nível 3", en: "Tier 3" },
+    name: {
+      "pt-br": "Vegetais silvestres salteados Ligeiro",
+      en: "Fried Wild Greens (Hasty)",
+    },
+    hearts: 8,
+    durationSeconds: 480,
+    ingredients: [
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["swift-violet"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 4x Violeta Veloz pra atingir potência Nível 3 (High) de Ligeiro, mais Especiaria Goron pra maximizar a duração (5 ingredientes = limite máximo do jogo) — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fried_wild_greens_icon.png",
+  },
+  {
     id: "fried-wild-greens-stealth",
     effect: "stealth",
     variantLabel: { "pt-br": "Furtivo", en: "Sneaky" },
@@ -2674,6 +2815,45 @@ export const recipes: Recipe[] = [
     ],
     notes:
       "Usando Silent Princess em vez de Blue Nightshade no lugar desse ingrediente, os corações mudam (mesmo efeito).",
+    image: "recipes/fried_wild_greens_icon.png",
+  },
+  {
+    id: "fried-wild-greens-stealth-tier-2",
+    effect: "stealth",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: {
+      "pt-br": "Vegetais silvestres salteados Furtivo",
+      en: "Fried Wild Greens (Sneaky)",
+    },
+    hearts: 4,
+    durationSeconds: 480,
+    ingredients: [
+      { materialIds: ["silent-princess"] },
+      { materialIds: ["silent-princess"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 2x Princesa Plácida pra atingir potência Nível 2 (Mid) de Furtivo, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/fried_wild_greens_icon.png",
+  },
+  {
+    id: "fried-wild-greens-stealth-tier-3",
+    effect: "stealth",
+    variantLabel: { "pt-br": "Nível 3", en: "Tier 3" },
+    name: {
+      "pt-br": "Vegetais silvestres salteados Furtivo",
+      en: "Fried Wild Greens (Sneaky)",
+    },
+    hearts: 6,
+    durationSeconds: 510,
+    ingredients: [
+      { materialIds: ["silent-princess"] },
+      { materialIds: ["silent-princess"] },
+      { materialIds: ["silent-princess"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Princesa Plácida pra atingir potência Nível 3 (High) de Furtivo, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
     image: "recipes/fried_wild_greens_icon.png",
   },
   {
@@ -6261,6 +6441,45 @@ export const recipes: Recipe[] = [
         materialIds: ["zapshroom"],
       },
     ],
+    image: "recipes/mushroom_skewer_icon.png",
+  },
+  {
+    id: "mushroom-skewer-electric-resist-tier-2",
+    effect: "electric-resist",
+    variantLabel: { "pt-br": "Nível 2", en: "Tier 2" },
+    name: {
+      "pt-br": "Espeto de cogumelo Isolante",
+      en: "Mushroom Skewer (Electro)",
+    },
+    hearts: 4,
+    durationSeconds: 510,
+    ingredients: [
+      { materialIds: ["zapshroom"] },
+      { materialIds: ["zapshroom"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 2x Aterramelo pra atingir potência Nível 2 (Mid) de Isolante, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
+    image: "recipes/mushroom_skewer_icon.png",
+  },
+  {
+    id: "mushroom-skewer-electric-resist-tier-3",
+    effect: "electric-resist",
+    variantLabel: { "pt-br": "Nível 3", en: "Tier 3" },
+    name: {
+      "pt-br": "Espeto de cogumelo Isolante",
+      en: "Mushroom Skewer (Electro)",
+    },
+    hearts: 6,
+    durationSeconds: 540,
+    ingredients: [
+      { materialIds: ["zapshroom"] },
+      { materialIds: ["zapshroom"] },
+      { materialIds: ["zapshroom"] },
+      { materialIds: ["goron-spice"] },
+    ],
+    notes:
+      "Usa 3x Aterramelo pra atingir potência Nível 3 (High) de Isolante, mais Especiaria Goron pra maximizar a duração — ver docs/cooking-formula.md seções 3 e 4.",
     image: "recipes/mushroom_skewer_icon.png",
   },
   {

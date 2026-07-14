@@ -1,9 +1,9 @@
-import { useState } from "react";
-import { ChevronDown, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 import type { EffectId } from "../data/types";
 import { SearchBar } from "./SearchBar";
-import { EffectFilter } from "./EffectFilter";
+import { EffectIconFilter } from "./EffectIconFilter";
 import { CategoryFilter } from "./materials/CategoryFilter";
+import { Toggle } from "./Toggle";
 import type { Tab } from "../lib/tabs";
 
 const TAB_LABELS: Record<Tab, string> = {
@@ -11,6 +11,7 @@ const TAB_LABELS: Record<Tab, string> = {
   favorites: "Favoritos",
   materials: "Materiais",
   creator: "Criar Receita WIP",
+  calculator: "Calculadora",
 };
 
 interface AppHeaderProps {
@@ -18,12 +19,16 @@ interface AppHeaderProps {
   onMenuClick: () => void;
   query: string;
   onQueryChange: (query: string) => void;
-  selectedEffect: EffectId | null;
-  onSelectedEffectChange: (effect: EffectId | null) => void;
+  selectedEffects: EffectId[];
+  onSelectedEffectsChange: (effects: EffectId[]) => void;
   materialsQuery: string;
   onMaterialsQueryChange: (query: string) => void;
   selectedCategory: string | null;
   onSelectedCategoryChange: (category: string | null) => void;
+  sortByTier: boolean;
+  onSortByTierChange: (value: boolean) => void;
+  sortByDuration: boolean;
+  onSortByDurationChange: (value: boolean) => void;
 }
 
 export function AppHeader({
@@ -31,16 +36,22 @@ export function AppHeader({
   onMenuClick,
   query,
   onQueryChange,
-  selectedEffect,
-  onSelectedEffectChange,
+  selectedEffects,
+  onSelectedEffectsChange,
   materialsQuery,
   onMaterialsQueryChange,
   selectedCategory,
   onSelectedCategoryChange,
+  sortByTier,
+  onSortByTierChange,
+  sortByDuration,
+  onSortByDurationChange,
 }: AppHeaderProps) {
-  const [filtersOpen, setFiltersOpen] = useState(false);
   const isMaterials = tab === "materials";
-  const hasSearchAndFilter = tab === "all" || tab === "materials";
+  const isAllRecipes = tab === "all";
+  const hasFilters =
+    tab === "all" || tab === "materials" || tab === "favorites";
+  const hasSearchBar = tab === "all" || tab === "materials";
 
   return (
     <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 py-4 backdrop-blur border">
@@ -70,53 +81,46 @@ export function AppHeader({
           />
         </div>
 
-        {hasSearchAndFilter && (
+        {hasFilters && (
           <>
+            {hasSearchBar &&
+              (isMaterials ? (
+                <SearchBar
+                  value={materialsQuery}
+                  onChange={onMaterialsQueryChange}
+                  placeholder="Buscar material (pt-br ou en)…"
+                  label="Buscar material por nome"
+                />
+              ) : (
+                <SearchBar value={query} onChange={onQueryChange} />
+              ))}
+
             {isMaterials ? (
-              <SearchBar
-                value={materialsQuery}
-                onChange={onMaterialsQueryChange}
-                placeholder="Buscar material (pt-br ou en)…"
-                label="Buscar material por nome"
+              <CategoryFilter
+                selected={selectedCategory}
+                onSelect={onSelectedCategoryChange}
               />
             ) : (
-              <SearchBar value={query} onChange={onQueryChange} />
+              <EffectIconFilter
+                selected={selectedEffects}
+                onChange={onSelectedEffectsChange}
+              />
             )}
 
-            <div className={`flex flex-col ${filtersOpen ? "gap-2" : "gap-0"}`}>
-              <button
-                type="button"
-                onClick={() => setFiltersOpen((open) => !open)}
-                aria-expanded={filtersOpen}
-                className="flex items-center gap-1 self-start font-chrome text-xs uppercase tracking-wide text-ash-steel transition-colors hover:text-sheikah pr-3.5 pt-2"
-              >
-                <ChevronDown
-                  className={`h-4 w-4 transition-transform ${filtersOpen ? "rotate-180" : ""}`}
+            {isAllRecipes && (
+              <div className="flex flex-wrap items-center gap-4 pt-1 justify-between">
+                <Toggle
+                  checked={sortByTier}
+                  onChange={onSortByTierChange}
+                  label="Ordenar por nível"
                 />
-                {isMaterials ? "Filtrar por categoria" : "Filtrar por efeito"}
-              </button>
-              <div
-                className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-out ${
-                  filtersOpen
-                    ? "grid-rows-[1fr] opacity-100"
-                    : "grid-rows-[0fr] opacity-0"
-                }`}
-              >
-                <div className="min-h-0">
-                  {isMaterials ? (
-                    <CategoryFilter
-                      selected={selectedCategory}
-                      onSelect={onSelectedCategoryChange}
-                    />
-                  ) : (
-                    <EffectFilter
-                      selected={selectedEffect}
-                      onSelect={onSelectedEffectChange}
-                    />
-                  )}
-                </div>
+                <Toggle
+                  checked={sortByDuration}
+                  onChange={onSortByDurationChange}
+                  label="Ordenar por duração"
+                />
               </div>
-            </div>
+            )}
           </>
         )}
       </div>

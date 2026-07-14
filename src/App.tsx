@@ -10,8 +10,11 @@ import { MaterialsView } from "./components/materials/MaterialsView";
 import { Sidebar } from "./components/Sidebar";
 import { RecipeCreatorView } from "./components/creator/RecipeCreatorView";
 import { SavedCombosView } from "./components/creator/SavedCombosView";
+import { AdvantageCalculatorView } from "./components/calculator/AdvantageCalculatorView";
 import { useSavedCombos } from "./hooks/useSavedCombos";
 import { recipeToSelection } from "./lib/matchRecipes";
+import { computeDish } from "./lib/cookingFormula";
+import { tierCount } from "./lib/format";
 
 function matchesRecipeSearch(recipe: Recipe, query: string): boolean {
   if (!query.trim()) return true;
@@ -32,17 +35,32 @@ function matchesMaterialSearch(material: Material, query: string): boolean {
   );
 }
 
-function sortWithinEffect(list: Recipe[]): Recipe[] {
-  return [...list].sort(
-    (a, b) => Number(Boolean(a.isGeneric)) - Number(Boolean(b.isGeneric)),
-  );
+function sortWithinEffect(
+  list: Recipe[],
+  sortByTier: boolean,
+  sortByDuration: boolean,
+): Recipe[] {
+  return [...list].sort((a, b) => {
+    const genericDiff = Number(Boolean(a.isGeneric)) - Number(Boolean(b.isGeneric));
+    if (genericDiff !== 0) return genericDiff;
+    if (sortByTier) {
+      const tierDiff = tierCount(b) - tierCount(a);
+      if (tierDiff !== 0) return tierDiff;
+    }
+    if (sortByDuration) {
+      return b.durationSeconds - a.durationSeconds;
+    }
+    return 0;
+  });
 }
 
 function App() {
   const [tab, setTab] = useState<Tab>("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
-  const [selectedEffect, setSelectedEffect] = useState<EffectId | null>(null);
+  const [selectedEffects, setSelectedEffects] = useState<EffectId[]>([]);
+  const [sortByTier, setSortByTier] = useState(true);
+  const [sortByDuration, setSortByDuration] = useState(true);
   const [materialsQuery, setMaterialsQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { combos, saveCombo, removeCombo } = useSavedCombos();
@@ -65,10 +83,12 @@ function App() {
   const filteredRecipes = useMemo(() => {
     return recipes
       .filter((recipe) =>
-        selectedEffect ? recipe.effect === selectedEffect : true,
+        selectedEffects.length > 0
+          ? selectedEffects.includes(recipe.effect)
+          : true,
       )
       .filter((recipe) => matchesRecipeSearch(recipe, query));
-  }, [selectedEffect, query]);
+  }, [selectedEffects, query]);
 
   const groups = useMemo(() => {
     return effects
@@ -76,10 +96,19 @@ function App() {
         effect,
         items: sortWithinEffect(
           filteredRecipes.filter((recipe) => recipe.effect === effect.id),
+          sortByTier,
+          sortByDuration,
         ),
       }))
       .filter((group) => group.items.length > 0);
-  }, [filteredRecipes]);
+  }, [filteredRecipes, sortByTier, sortByDuration]);
+
+  const filteredCombos = useMemo(() => {
+    if (selectedEffects.length === 0) return combos;
+    return combos.filter((combo) =>
+      selectedEffects.includes(computeDish(combo.materialIds).effect),
+    );
+  }, [combos, selectedEffects]);
 
   const filteredMaterials = useMemo(() => {
     return materials
@@ -126,8 +155,12 @@ function App() {
           onMenuClick={() => setSidebarOpen(true)}
           query={query}
           onQueryChange={setQuery}
-          selectedEffect={selectedEffect}
-          onSelectedEffectChange={setSelectedEffect}
+          selectedEffects={selectedEffects}
+          onSelectedEffectsChange={setSelectedEffects}
+          sortByTier={sortByTier}
+          onSortByTierChange={setSortByTier}
+          sortByDuration={sortByDuration}
+          onSortByDurationChange={setSortByDuration}
           materialsQuery={materialsQuery}
           onMaterialsQueryChange={setMaterialsQuery}
           selectedCategory={selectedCategory}
@@ -147,7 +180,16 @@ function App() {
               initialSelection={creatorSeed}
             />
           ) : tab === "favorites" ? (
-            <SavedCombosView combos={combos} onRemove={removeCombo} />
+            <SavedCombosView
+              combos={filteredCombos}
+              onRemove={removeCombo}
+              hasCombos={combos.length > 0}
+            />
+          ) : tab === "calculator" ? (
+            <AdvantageCalculatorView
+              recipes={recipes}
+              onOpenInCreator={handleOpenInCreator}
+            />
           ) : (
             <RecipesView
               groups={groups}

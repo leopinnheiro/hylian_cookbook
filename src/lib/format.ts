@@ -1,16 +1,11 @@
 import type { EffectId, IngredientSlot, Recipe } from "../data/types";
 
-// Monta a lista de icones energizing-N/enduring-N.svg pra representar
-// staminaWheels (N cheios + 1 parcial no resto), ver docs/cooking-formula.md
-// secao 9.
-export function getStaminaIcons(
-  effect: EffectId,
-  staminaWheels: number | undefined,
-): string[] {
-  if (staminaWheels === undefined) return [];
-  const prefix = effect === "extra-stamina" ? "enduring" : "energizing";
-  const fullWheels = Math.floor(staminaWheels / 5);
-  const remainder = staminaWheels % 5;
+// Monta a lista de icones <prefix>-N.svg pra representar uma quantidade de
+// vigor em quintos de roda (N cheios + 1 parcial no resto), ver
+// docs/cooking-formula.md secao 9.
+export function getWheelIcons(prefix: string, fifths: number): string[] {
+  const fullWheels = Math.floor(fifths / 5);
+  const remainder = fifths % 5;
   const icons: string[] = [];
   for (let i = 0; i < fullWheels; i++) {
     icons.push(`icons/${prefix}-5.svg`);
@@ -19,6 +14,15 @@ export function getStaminaIcons(
     icons.push(`icons/${prefix}-${remainder}.svg`);
   }
   return icons;
+}
+
+export function getStaminaIcons(
+  effect: EffectId,
+  staminaWheels: number | undefined,
+): string[] {
+  if (staminaWheels === undefined) return [];
+  const prefix = effect === "extra-stamina" ? "enduring" : "energizing";
+  return getWheelIcons(prefix, staminaWheels);
 }
 
 export function assetUrl(path: string): string {

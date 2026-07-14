@@ -92,7 +92,7 @@ export function RecipeCard({
                   ))}
                 </span>
               ) : repeats > 1 ? (
-                <span className="font-mono text-[11px] text-ash-steel">
+                <span className="font-chrome text-[11px] font-bold uppercase tracking-[0.15em] text-sheikah">
                   NV. {repeats}
                 </span>
               ) : (

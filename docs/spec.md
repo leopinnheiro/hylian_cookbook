@@ -47,6 +47,7 @@ Cor por **categoria de efeito**, não decorativa: tudo que é "quente/ofensivo" 
 - Badge de efeito como selo hexagonal no canto do card, cor por categoria
 - Favoritar = mesmo selo hexagonal, com glow sutil de âmbar quando ativo (único uso de glow no app — reservado pra esse momento, não decorar tudo)
 - Ingrediente "coringa"/filler (Vísceras etc.) com borda tracejada, visualmente diferenciado do ingrediente específico
+- **Exceção pontual à regra de "nunca `border-radius`":** o componente `Toggle` (`src/components/Toggle.tsx`, switch on/off usado em toggles de ordenação/filtro) é arredondado (pill + bolinha), decisão deliberada porque um switch anguloso não lê bem como "ligado/desligado" — é a única exceção conhecida, não abre precedente pra arredondar outros elementos de chrome.
 
 ### Regra de contenção
 
@@ -60,7 +61,7 @@ Dados como **arquivos `.ts` tipados**, não `.json` — já que ninguém edita i
 
 **Fórmula de referência:** ver documento separado `cooking-formula.md`, com a fórmula completa (corações, duração, potência/tier por efeito, regras especiais de partes de dragão, elixires, e o gap ainda aberto do vigor "Energizing").
 
-**Pendente de decisão:** os combos "ótimos" de menor duração usam partes de monstro (ex: Vísceras de Bocoblin) como ingrediente de preenchimento em receitas normais (não só em elixir dedicado) — isso pode empurrar "modo elixir" de volta pro escopo do v1, ao invés de ficar só no backlog (ver seção de Fases). Decidir antes de popular `recipes.ts` com esses combos.
+**Decisão (fechada):** elixir é uma receita como outra qualquer — partes de monstro (ex: Vísceras de Bocoblin) podem aparecer como filler em combos "ótimos", e elixires dedicados (ex: proteção contra fogo) entram no v1 na mesma listagem por efeito, sem "modo elixir" separado.
 
 **Por que voltar a enriquecer o material:** pra pré-calcular os combos com o menor número de ingredientes possível, o material precisa carregar `hp`, `effect` (se tiver) e `points` (potência daquele efeito) — não dá pra derivar isso só do nome.
 
@@ -273,7 +274,7 @@ Extração manual feita pelo usuário a partir dos arquivos do próprio jogo (me
 
 - Mapa do Hyrule com waypoints indicando onde encontrar cada ingrediente
 - Compartilhar lista de favoritos
-- ~~Modo elixir separado~~ — reavaliar: partes de monstro aparecem como filler em combos "ótimos" de receitas normais (ver Modelo de dados), então elixir pode precisar entrar no v1 em vez de ficar aqui
+- ~~Modo elixir separado~~ — descartado: elixir entra no v1 como receita normal (ver Modelo de dados)
 
 ## Fora de escopo na v1
 

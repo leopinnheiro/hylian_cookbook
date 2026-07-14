@@ -25,6 +25,7 @@ export interface Material {
   overridesDurationSeconds?: number; // se presente, IGNORA a soma normal e fixa a duração total nesse valor (Chifre de Dragão)
   category?: string; // filtro futuro tipo "fruit", "mushroom", "monster-part"
   notes?: string; // observação livre, ex: valor aproximado/não confirmado
+  vendors?: { location: string; price: number }[]; // pousadas/lojas onde dá pra comprar, com preço em rupees — não guarda estoque (reseta com o tempo, não é dado estável)
 }
 
 export interface IngredientSlot {

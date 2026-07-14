@@ -1,7 +1,9 @@
-import { Clock } from "lucide-react";
+import { useState } from "react";
+import { Clock, Store } from "lucide-react";
 import type { Material } from "../../data/types";
 import { effects } from "../../data";
 import { assetUrl, formatDuration } from "../../lib/format";
+import { VendorModal } from "./VendorModal";
 
 interface MaterialCardProps {
   material: Material;
@@ -10,6 +12,10 @@ interface MaterialCardProps {
 export function MaterialCard({ material }: MaterialCardProps) {
   const effect = material.effect
     ? effects.find((entry) => entry.id === material.effect)
+    : undefined;
+  const [showVendors, setShowVendors] = useState(false);
+  const cheapestPrice = material.vendors?.length
+    ? Math.min(...material.vendors.map((vendor) => vendor.price))
     : undefined;
 
   return (
@@ -45,6 +51,27 @@ export function MaterialCard({ material }: MaterialCardProps) {
               {formatDuration(material.durationSeconds)}
             </span>
           )}
+          {cheapestPrice !== undefined && (
+            <span className="flex items-center gap-1" title="Preço mínimo à venda">
+              <img
+                src={assetUrl("icons/rupee.svg")}
+                alt=""
+                className="h-4 w-4 object-contain"
+              />
+              {cheapestPrice}
+            </span>
+          )}
+          {material.vendors && material.vendors.length > 0 && (
+            <button
+              type="button"
+              onClick={() => setShowVendors(true)}
+              aria-label="Ver lojas onde comprar"
+              title="Ver lojas onde comprar"
+              className="text-ash-steel hover:text-sheikah"
+            >
+              <Store className="h-3.5 w-3.5" />
+            </button>
+          )}
         </div>
       </div>
       {effect && (
@@ -62,6 +89,14 @@ export function MaterialCard({ material }: MaterialCardProps) {
             </span>
           )}
         </div>
+      )}
+
+      {showVendors && material.vendors && (
+        <VendorModal
+          materialName={material.name["pt-br"]}
+          vendors={material.vendors}
+          onClose={() => setShowVendors(false)}
+        />
       )}
     </article>
   );

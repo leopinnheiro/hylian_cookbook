@@ -225,6 +225,7 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 0,
     category: "vegetable",
+    vendors: [{ location: "East Akkala Stable", price: 16 }],
   },
   {
     id: "endura-carrot",
@@ -255,6 +256,7 @@ export const materials: Material[] = [
     points: 3,
     durationSeconds: 0,
     category: "vegetable",
+    vendors: [{ location: "East Akkala Stable", price: 32 }],
   },
   {
     id: "big-hearty-radish",
@@ -298,7 +300,7 @@ export const materials: Material[] = [
   },
   {
     id: "mighty-thistle",
-    name: { "pt-br": "*Cardo Poderoso", en: "Mighty Thistle" },
+    name: { "pt-br": "Cardo valente", en: "Mighty Thistle" },
     image: "materials/mighty_thistle_icon.png",
     hp: 1,
     effect: "attack",
@@ -672,6 +674,10 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [
+      { location: "Dueling Peaks Stable", price: 10 },
+      { location: "Outskirt Stable", price: 10 },
+    ],
   },
   {
     id: "winterwing-butterfly",
@@ -685,6 +691,10 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "Gerudo Canyon Stable", price: 10 },
+      { location: "Tabantha Bridge Stable", price: 10 },
+    ],
   },
   {
     id: "summerwing-butterfly",
@@ -695,6 +705,11 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "Tabantha Bridge Stable", price: 10 },
+      { location: "Snowfield Stable", price: 10 },
+      { location: "Kara Kara Bazaar", price: 10 },
+    ],
   },
   {
     id: "thunderwing-butterfly",
@@ -708,6 +723,11 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "Tabantha Bridge Stable", price: 10 },
+      { location: "Riverside Stable", price: 10 },
+      { location: "Lakeside Stable", price: 10 },
+    ],
   },
   {
     id: "smotherwing-butterfly",
@@ -721,6 +741,10 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "East Akkala Stable", price: 10 },
+      { location: "Wetland Stable", price: 10 },
+    ],
   },
   {
     id: "sunset-firefly",
@@ -731,6 +755,12 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "Serenne Stable", price: 10 },
+      { location: "Rito Stable", price: 10 },
+      { location: "Woodland Stable", price: 10 },
+      { location: "Highland Stable", price: 10 },
+    ],
   },
   {
     id: "cold-darner",
@@ -741,6 +771,10 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [
+      { location: "Woodland Stable", price: 10 },
+      { location: "Kara Kara Bazaar", price: 10 },
+    ],
   },
   {
     id: "warm-darner",
@@ -751,6 +785,12 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [
+      { location: "Gerudo Canyon Stable", price: 10 },
+      { location: "Serenne Stable", price: 10 },
+      { location: "Rito Stable", price: 10 },
+      { location: "Snowfield Stable", price: 10 },
+    ],
   },
   {
     id: "electric-darner",
@@ -761,6 +801,7 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [{ location: "Riverside Stable", price: 10 }],
   },
   {
     id: "rugged-rhino-beetle",
@@ -810,6 +851,10 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [
+      { location: "South Akkala Stable", price: 10 },
+      { location: "Lakeside Stable", price: 10 },
+    ],
   },
   {
     id: "hearty-lizard",
@@ -820,6 +865,14 @@ export const materials: Material[] = [
     points: 2,
     durationSeconds: 0,
     category: "insect",
+    vendors: [
+      { location: "Foothill Stable", price: 100 },
+      { location: "Gerudo Canyon Stable", price: 100 },
+      { location: "South Akkala Stable", price: 100 },
+      { location: "Outskirt Stable", price: 100 },
+      { location: "Woodland Stable", price: 100 },
+      { location: "Highland Stable", price: 100 },
+    ],
   },
   {
     id: "fireproof-lizard",
@@ -830,6 +883,7 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [{ location: "South Akkala Stable", price: 25 }],
   },
   {
     id: "hot-footed-frog",
@@ -840,6 +894,11 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 40,
     category: "insect",
+    vendors: [
+      { location: "Dueling Peaks Stable", price: 10 },
+      { location: "Outskirt Stable", price: 10 },
+      { location: "Wetland Stable", price: 10 },
+    ],
   },
   {
     id: "tireless-frog",
@@ -850,6 +909,16 @@ export const materials: Material[] = [
     points: 1,
     durationSeconds: 80,
     category: "insect",
+    vendors: [
+      { location: "Foothill Stable", price: 100 },
+      { location: "Serenne Stable", price: 100 },
+      { location: "Rito Stable", price: 100 },
+      { location: "Riverside Stable", price: 100 },
+      { location: "Lakeside Stable", price: 100 },
+      { location: "Wetland Stable", price: 100 },
+      { location: "Snowfield Stable", price: 100 },
+      { location: "Kara Kara Bazaar", price: 100 },
+    ],
   },
   {
     id: "bokoblin-horn",
@@ -1128,6 +1197,10 @@ export const materials: Material[] = [
     hp: 0,
     durationSeconds: 160,
     category: "monster-part",
+    vendors: [
+      { location: "Dueling Peaks Stable", price: 20 },
+      { location: "Highland Stable", price: 20 },
+    ],
   },
   {
     id: "dinraals-scale",
