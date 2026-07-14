@@ -1,5 +1,6 @@
 import { Clock, Gauge } from "lucide-react";
 import type { Material } from "../../data/types";
+import { effects } from "../../data";
 import type { IngredientContribution } from "../../lib/cookingFormula";
 import { assetUrl, formatDuration } from "../../lib/format";
 
@@ -14,6 +15,10 @@ export function MaterialOptionRow({
   preview,
   onSelect,
 }: MaterialOptionRowProps) {
+  const effect = material.effect
+    ? effects.find((entry) => entry.id === material.effect)
+    : undefined;
+
   return (
     <button
       type="button"
@@ -35,8 +40,19 @@ export function MaterialOptionRow({
             {material.name.en}
           </span>
         </div>
-        {(preview.potency !== null || preview.durationSeconds !== null) && (
+        {(effect ||
+          preview.potency !== null ||
+          preview.durationSeconds !== null) && (
           <span className="flex items-center justify-end gap-3 font-mono text-[11px] text-sheikah">
+            {effect && (
+              <img
+                src={assetUrl(effect.icon)}
+                alt={effect.name["pt-br"]}
+                title={effect.name["pt-br"]}
+                className="h-3.5 w-3.5 shrink-0 object-contain mr-auto"
+                loading="lazy"
+              />
+            )}
             {preview.potency !== null && (
               <span
                 className="flex items-center gap-1"

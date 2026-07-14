@@ -42,6 +42,8 @@ Contraste frio/quente: chrome do app (nav, filtro, badge, borda de card) no regi
 
 Paleta completa, tabela de tokens e o mockup de referência (`mockup-visual-sheikah-slate.html`) estão no `docs/spec.md` — seguir à risca, não inventar variação em cima.
 
+**Exceção deliberada — filtro de categoria de Materiais:** `CategoryFilter` (`src/components/materials/CategoryFilter.tsx`) usa uma cor distinta por categoria (`CATEGORY_COLORS` em `src/components/materials/categoryLabels.ts`), fora da paleta âmbar/ciano — decisão consciente pra diferenciar categorias numa lista grande de relance. Não estender esse padrão de "cor por item" pra outros filtros (efeito, etc.) sem discutir antes; é uma exceção pontual, não um novo princípio geral de identidade.
+
 ## Modelo de dados (resumo — schema completo em `docs/spec.md`)
 
 - `Material`: `id`, `name`, `image`, `hp`, `effect?`, `points?`, `durationSeconds`, `overridesDurationSeconds?`, `category?`

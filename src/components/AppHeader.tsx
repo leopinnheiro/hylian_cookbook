@@ -1,4 +1,5 @@
-import { Menu } from "lucide-react";
+import { useState } from "react";
+import { ChevronDown, Menu } from "lucide-react";
 import type { EffectId } from "../data/types";
 import { SearchBar } from "./SearchBar";
 import { EffectIconFilter } from "./EffectIconFilter";
@@ -46,10 +47,12 @@ export function AppHeader({
   const isFavorites = tab === "favorites";
   const hasFilters =
     tab === "all" || tab === "materials" || tab === "favorites";
-  const hasSearchBar = tab === "all" || tab === "materials" || tab === "favorites";
+  const hasSearchBar =
+    tab === "all" || tab === "materials" || tab === "favorites";
+  const [filtersCollapsed, setFiltersCollapsed] = useState(false);
 
   return (
-    <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 py-4 backdrop-blur border">
+    <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 pt-4 pb-3 backdrop-blur border">
       <div className="mx-auto flex max-w-4xl flex-col gap-2">
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
@@ -98,10 +101,38 @@ export function AppHeader({
               ))}
 
             {isMaterials ? (
-              <CategoryFilter
-                selected={selectedCategory}
-                onSelect={onSelectedCategoryChange}
-              />
+              <>
+                <div
+                  className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out ${
+                    filtersCollapsed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
+                  }`}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <CategoryFilter
+                      selected={selectedCategory}
+                      onSelect={onSelectedCategoryChange}
+                    />
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setFiltersCollapsed((current) => !current)}
+                  aria-expanded={!filtersCollapsed}
+                  aria-label={
+                    filtersCollapsed ? "Mostrar filtros" : "Esconder filtros"
+                  }
+                  title={
+                    filtersCollapsed ? "Mostrar filtros" : "Esconder filtros"
+                  }
+                  className="flex w-full items-center justify-center text-ash-steel hover:text-sheikah"
+                >
+                  <ChevronDown
+                    className={`h-4 w-4 transition-transform duration-300 ease-out ${
+                      filtersCollapsed ? "rotate-0" : "rotate-180"
+                    }`}
+                  />
+                </button>
+              </>
             ) : (
               <EffectIconFilter
                 selected={selectedEffects}

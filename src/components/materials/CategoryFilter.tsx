@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { materials } from "../../data";
 import { FilterBar } from "../FilterBar";
-import { CATEGORY_LABELS } from "./categoryLabels";
+import { CATEGORY_COLORS, CATEGORY_LABELS } from "./categoryLabels";
 
 interface CategoryFilterProps {
   selected: string | null;
@@ -18,6 +18,7 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
   const items = categories.map((category) => ({
     id: category,
     label: CATEGORY_LABELS[category] ?? category,
+    accent: CATEGORY_COLORS[category],
   }));
 
   return (

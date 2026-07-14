@@ -39,9 +39,15 @@ export function FilterBar({
     );
   };
 
+  // O botão "Todos" acompanha a altura do resto do grupo: quadrado como os
+  // ícones quando o grupo é de ícone (EffectIconFilter), ou o mesmo padding
+  // de texto quando é um grupo só-texto (CategoryFilter) — nunca os dois
+  // tamanhos misturados na mesma barra.
+  const hasIcons = items.some((item) => item.icon);
+
   return (
     <div
-      className="flex flex-wrap items-center gap-2"
+      className="flex flex-wrap items-center gap-1.5"
       role="group"
       aria-label={ariaLabel}
     >
@@ -49,10 +55,14 @@ export function FilterBar({
         type="button"
         onClick={() => onChange([])}
         aria-pressed={selected.length === 0}
-        className={`font-chrome text-xs uppercase tracking-wide px-2 py-1.5 border ${
+        className={`shrink-0 font-chrome text-xs uppercase tracking-wide border transition-opacity ${
+          hasIcons
+            ? "flex h-9 items-center justify-center px-2"
+            : "px-1.5 py-1.5"
+        } ${
           selected.length === 0
-            ? "border-sheikah text-sheikah"
-            : "border-ash-steel/30 text-ash-steel hover:border-sheikah hover:text-sheikah"
+            ? "border-sheikah text-sheikah opacity-100"
+            : "border-ash-steel/30 text-ash-steel opacity-75 hover:opacity-100"
         }`}
       >
         Todos
@@ -70,11 +80,9 @@ export function FilterBar({
               aria-pressed={active}
               aria-label={item.label}
               title={item.label}
-              style={active ? { borderColor: accent } : undefined}
-              className={`flex h-9 w-9 shrink-0 items-center justify-center border transition-colors ${
-                active
-                  ? "bg-panel"
-                  : "border-ash-steel/30 opacity-50 hover:border-ash-steel/60 hover:opacity-100"
+              style={{ borderColor: accent }}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center border transition-opacity ${
+                active ? "bg-panel opacity-100" : "opacity-70 hover:opacity-100"
               }`}
             >
               <img
@@ -92,10 +100,9 @@ export function FilterBar({
             type="button"
             onClick={() => toggle(item.id)}
             aria-pressed={active}
-            className={`font-chrome text-xs uppercase tracking-wide px-2 py-1.5 border transition-colors ${
-              active
-                ? "border-sheikah text-sheikah"
-                : "border-ash-steel/30 text-ash-steel hover:border-sheikah hover:text-sheikah"
+            style={{ borderColor: accent, color: accent }}
+            className={`font-chrome text-xs uppercase tracking-wide px-1.5 py-1.5 border transition-opacity ${
+              active ? "bg-panel opacity-100" : "opacity-75 hover:opacity-100"
             }`}
           >
             {item.label}

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Clock, Store } from "lucide-react";
+import { Clock, Gauge, Store } from "lucide-react";
 import type { Material } from "../../data/types";
 import { effects } from "../../data";
 import { assetUrl, formatDuration } from "../../lib/format";
@@ -87,8 +87,12 @@ export function MaterialCard({ material }: MaterialCardProps) {
             loading="lazy"
           />
           {basePotency !== undefined && (
-            <span className="font-mono text-xs text-ash-steel">
-              +{basePotency}
+            <span
+              className="flex items-center gap-1 font-mono text-xs text-ash-steel"
+              title="Potência do ingrediente"
+            >
+              <Gauge className="h-3.5 w-3.5" />
+              {basePotency}
             </span>
           )}
         </div>
