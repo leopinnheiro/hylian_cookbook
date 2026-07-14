@@ -85,7 +85,11 @@ export function AdvantageCalculatorView({
   const effectFilteredRecipes = useMemo(
     () =>
       selectedEffects.length > 0
-        ? recipes.filter((recipe) => selectedEffects.includes(recipe.effect))
+        ? recipes.filter(
+            (recipe) =>
+              recipe.effect !== undefined &&
+              selectedEffects.includes(recipe.effect),
+          )
         : recipes,
     [recipes, selectedEffects],
   );

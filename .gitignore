@@ -28,3 +28,6 @@ dist-ssr
 # Source icon font used to hand-extract public/assets/icons/*.svg
 botw-icons-dual-color-*.svg
 __pycache__/
+
+# Scripts de investigacao/tooling ad-hoc, nao fazem parte do app
+scripts/

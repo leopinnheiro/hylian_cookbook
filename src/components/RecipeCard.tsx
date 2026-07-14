@@ -29,6 +29,7 @@ export function RecipeCard({
 }: RecipeCardProps) {
   const effect = effects.find((entry) => entry.id === recipe.effect);
   const repeats = tierCount(recipe);
+  const isFullHeal = recipe.hearts === 120;
   const [openSlot, setOpenSlot] = useState<IngredientSlot | null>(null);
 
   const staminaIcons = getStaminaIcons(recipe.effect, recipe.staminaWheels);
@@ -74,9 +75,34 @@ export function RecipeCard({
             )}
           </div>
 
+          {recipe.hearts > 0 && (
+            <span
+              className="flex items-center gap-1 font-mono text-sm text-rune-paper"
+              title={
+                isFullHeal
+                  ? "Restaura a vida por completo, não é um valor fixo"
+                  : "Corações restaurados"
+              }
+            >
+              <img
+                src={assetUrl("icons/heart.svg")}
+                alt=""
+                className="h-4 w-4 object-contain"
+              />
+              {isFullHeal ? "Total" : recipe.hearts}
+            </span>
+          )}
+
           {effect && (
             <div className="flex w-full items-center justify-between">
-              {staminaIcons.length > 0 ? (
+              {isFullHeal ? (
+                <span
+                  className="font-chrome text-[11px] font-bold uppercase tracking-[0.15em] text-ember"
+                  title="Restaura a vida por completo, não é um valor fixo de corações"
+                >
+                  Cura total
+                </span>
+              ) : staminaIcons.length > 0 ? (
                 <span
                   className="flex items-center gap-0.5"
                   title="Vigor restaurado"
@@ -108,7 +134,7 @@ export function RecipeCard({
 
       <div className="flex flex-col gap-3 p-4 justify-between flex-1">
         <div className="flex flex-col gap-3">
-          {recipe.durationSeconds > 0 && (
+          {(recipe.durationSeconds ?? 0) > 0 && (
             <div className="flex flex-wrap items-center gap-4 font-mono text-sm text-rune-paper">
               <span
                 className="flex items-center gap-1"

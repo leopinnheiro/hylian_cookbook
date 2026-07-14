@@ -1,25 +1,21 @@
 import { useMemo, useState } from "react";
-import { Clock, Plus, Share, X } from "lucide-react";
+import { Clock, Plus, X } from "lucide-react";
 import { effects, materialsById } from "../../data";
 import { computeDish } from "../../lib/cookingFormula";
 import {
   findMatchingDishes,
+  isJunkTemplate,
+  mergeSelectionIntoTemplate,
   pickDisplayDish,
-  recipeToSelection,
+  sortJunkLast,
+  templateEffects,
+  visibleMatchingDishes,
 } from "../../lib/matchRecipes";
-import {
-  assetUrl,
-  formatDuration,
-  getStaminaIcons,
-  groupIngredientSlots,
-} from "../../lib/format";
+import { assetUrl, formatDuration, getStaminaIcons } from "../../lib/format";
 import { MaterialPickerModal } from "./MaterialPickerModal";
 import { RecipeIcon } from "../RecipeIcon";
+import { RecipeTemplateCard } from "../RecipeTemplateCard";
 import { Button } from "../Button";
-import {
-  IngredientChipList,
-  type IngredientChipData,
-} from "../IngredientChipList";
 
 const SLOT_COUNT = 5;
 
@@ -40,13 +36,22 @@ export function RecipeCreatorView({
   const filledCount = selection.filter(Boolean).length;
   const result = useMemo(() => computeDish(selection), [selection]);
   const matchingDishes = useMemo(
-    () => findMatchingDishes(selection),
+    () => sortJunkLast(findMatchingDishes(selection)),
     [selection],
   );
-  const effect = effects.find((entry) => entry.id === result.effect);
-  const staminaIcons = getStaminaIcons(result.effect, result.staminaWheels);
-
+  const displayableDishes = useMemo(
+    () => visibleMatchingDishes(selection, matchingDishes),
+    [selection, matchingDishes],
+  );
   const dishName = pickDisplayDish(selection, matchingDishes);
+  // Comida Duvidosa/Empedrada não têm efeito nem duração de verdade no jogo,
+  // mesmo que a fórmula genérica calcule algo a partir dos materiais
+  // escolhidos (ex: um bicho-com-efeito usado "errado" nesse combo).
+  const isJunk = isJunkTemplate(dishName?.id);
+  const displayEffect = isJunk ? undefined : result.effect;
+  const displayDuration = isJunk ? null : result.durationSeconds;
+  const effect = effects.find((entry) => entry.id === displayEffect);
+  const staminaIcons = getStaminaIcons(displayEffect, result.staminaWheels);
 
   return (
     <main className="mx-auto flex max-w-4xl flex-col gap-3 px-4 py-6">
@@ -98,7 +103,7 @@ export function RecipeCreatorView({
               <>
                 <RecipeIcon
                   image={dishName.image}
-                  effect={dishName.effect}
+                  effect={displayEffect}
                   hearts={result.hearts}
                   size="sm"
                 />
@@ -140,13 +145,13 @@ export function RecipeCreatorView({
                         ))}
                       </span>
                     )}
-                    {result.durationSeconds > 0 && (
+                    {(displayDuration ?? 0) > 0 && (
                       <span
                         className="flex items-center gap-1"
                         title="Duração do efeito"
                       >
                         <Clock className="h-4 w-4 text-ash-steel" />
-                        {formatDuration(result.durationSeconds)}
+                        {formatDuration(displayDuration)}
                       </span>
                     )}
                   </div>
@@ -156,7 +161,7 @@ export function RecipeCreatorView({
               <span className="font-chrome text-xs uppercase tracking-[0.15em] text-sheikah">
                 {filledCount === 0
                   ? "Escolha os ingredientes"
-                  : matchingDishes.length > 0
+                  : displayableDishes.length > 0
                     ? "Prato incompleto — veja as receitas possíveis abaixo"
                     : "Nenhuma receita catalogada bate com isso"}
               </span>
@@ -181,57 +186,28 @@ export function RecipeCreatorView({
           <h3 className="font-chrome text-xs uppercase tracking-[0.15em] text-ash-steel">
             Receitas possíveis com essa combinação
           </h3>
-          {matchingDishes.length === 0 ? (
+          {displayableDishes.length === 0 ? (
             <p className="text-xs text-ash-steel">
               Nenhuma receita catalogada bate com essa combinação ainda.
             </p>
           ) : (
             <ul className="flex flex-col gap-2">
-              {matchingDishes.map((dish) => (
-                <li
-                  key={dish.id}
-                  className="flex flex-col gap-2 border border-ash-steel/20 bg-deep-steel px-3 py-2"
-                >
-                  <div className="flex items-center gap-3">
-                    <RecipeIcon
-                      image={dish.image}
-                      effect={dish.effect}
-                      hearts={dish.hearts}
-                      size="sm"
-                    />
-                    <div className="flex min-w-0 flex-1 flex-col">
-                      <span className="font-dish text-sm text-rune-paper">
-                        {dish.name["pt-br"]}
-                      </span>
-                      <span className="font-chrome text-[10px] text-ash-steel">
-                        {dish.name.en}
-                      </span>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setSelection(recipeToSelection(dish))}
-                      aria-label="Preencher automaticamente os ingredientes fixos dessa receita"
-                      title="Preencher automaticamente os ingredientes fixos dessa receita"
-                      className="shrink-0 text-ash-steel hover:text-sheikah"
-                    >
-                      <Share className="h-4 w-4" />
-                    </button>
-                  </div>
-                  <IngredientChipList
-                    items={groupIngredientSlots(dish.ingredients).map(
-                      ({ slot, count }, index): IngredientChipData => {
-                        const primary = materialsById[slot.materialIds[0]];
-                        return {
-                          key: `${dish.id}-slot-${index}`,
-                          image: primary?.image,
-                          label:
-                            slot.label?.["pt-br"] ??
-                            primary?.name["pt-br"] ??
-                            "",
-                          count,
-                        };
-                      },
-                    )}
+              {displayableDishes.map((dish) => (
+                <li key={dish.id}>
+                  <RecipeTemplateCard
+                    template={dish}
+                    possibleEffectIds={templateEffects(dish)}
+                    onOpenInCreator={
+                      isJunkTemplate(dish.id)
+                        ? undefined
+                        : () =>
+                            setSelection((current) =>
+                              mergeSelectionIntoTemplate(
+                                current,
+                                dish.ingredients,
+                              ),
+                            )
+                    }
                   />
                 </li>
               ))}
@@ -248,13 +224,6 @@ export function RecipeCreatorView({
             setSelection((current) => {
               const next = [...current];
               next[openSlot] = materialId;
-              return next;
-            })
-          }
-          onClear={() =>
-            setSelection((current) => {
-              const next = [...current];
-              next[openSlot] = null;
               return next;
             })
           }

@@ -17,7 +17,7 @@ export function getWheelIcons(prefix: string, fifths: number): string[] {
 }
 
 export function getStaminaIcons(
-  effect: EffectId,
+  effect: EffectId | undefined,
   staminaWheels: number | undefined,
 ): string[] {
   if (staminaWheels === undefined) return [];
@@ -25,23 +25,31 @@ export function getStaminaIcons(
   return getWheelIcons(prefix, staminaWheels);
 }
 
+// Normaliza texto pra busca "accent-insensitive" (ex: "libelula" bate com
+// "Libélula"): lowercase + remove diacríticos via decomposição unicode.
+const DIACRITICS_PATTERN = new RegExp("[\\u0300-\\u036f]", "g");
+
+export function normalizeSearch(text: string): string {
+  return text.normalize("NFD").replace(DIACRITICS_PATTERN, "").toLowerCase();
+}
+
 export function assetUrl(path: string): string {
   return `${import.meta.env.BASE_URL}assets/${path}`;
 }
 
-export function formatDuration(totalSeconds: number): string {
-  if (totalSeconds <= 0) return "—";
+export function formatDuration(totalSeconds: number | null | undefined): string {
+  if (!totalSeconds || totalSeconds <= 0) return "—";
   const minutes = Math.floor(totalSeconds / 60);
   const seconds = totalSeconds % 60;
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  return `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
 }
 
 // Categoria de cor por efeito (identidade visual, ver docs/spec.md):
 // âmbar = quente/ofensivo/vital, ciano = frio/defensivo/técnico.
-const HOT_EFFECTS: EffectId[] = ["heal", "extra-hearts", "attack"];
+const HOT_EFFECTS: EffectId[] = ["extra-hearts", "attack"];
 
-export function isHotEffect(effect: EffectId): boolean {
-  return HOT_EFFECTS.includes(effect);
+export function isHotEffect(effect: EffectId | undefined): boolean {
+  return effect !== undefined && HOT_EFFECTS.includes(effect);
 }
 
 // Nível/tier do combo, extraído de variantLabel.en (ex: "Tier 3" -> 3), usado

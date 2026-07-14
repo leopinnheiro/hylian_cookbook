@@ -2,11 +2,6 @@ import type { Effect } from "./types";
 
 export const effects: Effect[] = [
   {
-    id: "heal",
-    name: { "pt-br": "Cura", en: "Restore Hearts" },
-    icon: "icons/heart.svg",
-  },
-  {
     id: "extra-hearts",
     name: { "pt-br": "Corações Extras", en: "Hearty" },
     icon: "icons/hearty.svg",

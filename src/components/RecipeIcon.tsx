@@ -4,7 +4,7 @@ import { assetUrl } from "../lib/format";
 
 interface RecipeIconProps {
   image: string | undefined;
-  effect: EffectId;
+  effect: EffectId | undefined;
   hearts: number;
   size?: "sm" | "md";
 }
@@ -33,7 +33,7 @@ export function RecipeIcon({
         loading="lazy"
       />
       <div className="absolute inset-x-0 top-0.5 z-10 flex items-center gap-1">
-        {effect && effectId !== "heal" && (
+        {effect && (
           <img
             src={assetUrl(effect.icon)}
             alt={effect.name["pt-br"]}

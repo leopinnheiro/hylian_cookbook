@@ -71,5 +71,7 @@ Não pular pra fase 3 antes das anteriores estarem funcionais.
 ## Pendências conhecidas (não travar implementação por causa disso, só não inventar valor)
 
 - Elixires (partes de monstro como filler ou ingrediente principal) entram no v1 como receita normal — mesma listagem, sem "modo elixir" separado. Ver `docs/spec.md`.
-- Cura total independente da vida atual (Fada como ingrediente, Hearty/Endura crus) — ainda não modelado, ver `docs/cooking-formula.md` seção 9.1.
+- Cura total independente da vida atual: Fada como ingrediente já resolvido (`Recipe.fullHeal`, receitas `fairy-tonic-*`); Hearty/Endura crus (comidos sem cozinhar) ainda não modelado — ver `docs/cooking-formula.md` seção 9.1.
 - Mapa/rota de farming de ingredientes — fora de escopo do v1, ver `docs/spec.md` seção "Backlog / v2".
+- **`hp` dos itens "Hearty"** (Durião, Trufa, Rabanete, Bass, Salmão, Caracol-Concha-Azul, Lagarto — 9 materiais) não foi possível confirmar contra o site de referência (o script de auditoria não lê o valor quando o prato dá "cura total"/muito alta — precisa de outro método). Não foram alterados, ficam como estavam.
+- **Duração com múltiplas unidades do mesmo ingrediente potente** (ex: 3x Truta Gélida) não segue a fórmula simples `base + 30×ingrediente + bônus_tempero` — parece escalar de forma não-linear conforme o nível de potência atingido, ainda não mapeado. Afeta as 12 receitas de Tier 2/3 adicionadas nesta sessão (`fish-skewer-*-tier-*`, etc.) — durações dessas ficam sob suspeita até isso ser resolvido.

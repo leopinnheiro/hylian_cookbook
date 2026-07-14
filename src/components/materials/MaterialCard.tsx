@@ -17,6 +17,9 @@ export function MaterialCard({ material }: MaterialCardProps) {
   const cheapestPrice = material.vendors?.length
     ? Math.min(...material.vendors.map((vendor) => vendor.price))
     : undefined;
+  const basePotency = Array.isArray(material.potency)
+    ? material.potency[0]
+    : material.potency;
 
   return (
     <article className="flex items-center gap-3 border border-ash-steel/30 bg-deep-steel p-3">
@@ -42,7 +45,7 @@ export function MaterialCard({ material }: MaterialCardProps) {
             />
             {material.hp}
           </span>
-          {material.durationSeconds > 0 && (
+          {(material.durationSeconds ?? 0) > 0 && (
             <span
               className="flex items-center gap-1"
               title="Duração adicionada"
@@ -83,9 +86,9 @@ export function MaterialCard({ material }: MaterialCardProps) {
             className="h-6 w-6 object-contain"
             loading="lazy"
           />
-          {material.points !== undefined && (
+          {basePotency !== undefined && (
             <span className="font-mono text-xs text-ash-steel">
-              +{material.points}
+              +{basePotency}
             </span>
           )}
         </div>

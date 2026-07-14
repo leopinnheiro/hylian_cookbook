@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
-import { Search, X } from "lucide-react";
+import { X } from "lucide-react";
 import type { IngredientSlot, Material } from "../data/types";
-import { assetUrl } from "../lib/format";
+import { assetUrl, normalizeSearch } from "../lib/format";
+import { SearchBar } from "./SearchBar";
 
 interface IngredientSlotModalProps {
   slot: IngredientSlot;
@@ -20,13 +21,13 @@ export function IngredientSlotModal({
   const [query, setQuery] = useState("");
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
-  const needle = query.trim().toLowerCase();
+  const needle = normalizeSearch(query.trim());
   const filtered = needle
     ? materials.filter(
-      (material) =>
-        material.name["pt-br"].toLowerCase().includes(needle) ||
-          material.name.en.toLowerCase().includes(needle),
-    )
+        (material) =>
+          normalizeSearch(material.name["pt-br"]).includes(needle) ||
+          normalizeSearch(material.name.en).includes(needle),
+      )
     : materials;
 
   useEffect(() => {
@@ -67,20 +68,12 @@ export function IngredientSlotModal({
               <X className="h-5 w-5" />
             </button>
           </div>
-          <div className="flex items-center gap-2 border border-ash-steel/40 bg-panel px-3 py-1.5">
-            <Search
-              className="h-4 w-4 shrink-0 text-sheikah"
-              aria-hidden="true"
-            />
-            <input
-              type="search"
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              placeholder="Buscar ingrediente…"
-              aria-label="Buscar ingrediente compatível"
-              className="w-full bg-transparent font-chrome text-sm text-rune-paper placeholder:text-ash-steel focus:outline-none"
-            />
-          </div>
+          <SearchBar
+            value={query}
+            onChange={setQuery}
+            placeholder="Buscar ingrediente…"
+            label="Buscar ingrediente compatível"
+          />
         </div>
 
         <ul className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-4">

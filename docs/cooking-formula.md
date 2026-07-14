@@ -1,195 +1,196 @@
-# Fórmula de Culinária do BOTW — Documento de Referência
-
-> Consolidado a partir de: planilha "BOTW Cooking" (abas `Ingredients` / `Ingredients True Potency`), post do Reddit "Cooking Math (Complete)", e post "Perfect Recipes". Serve de fonte única pra preencher `recipes.ts` com valores calculados corretamente — não é pra virar lógica de runtime no app (decisão já fechada: dados pré-calculados, sem calculadora ao vivo).
-
-## 1. Corações (Hearts)
-
-```
-hearts = soma(hp de cada ingrediente) × 2
-```
-
-## 2. Duração
-
-Cada **efeito** (não o ingrediente) tem uma duração-base fixa, somada uma vez por ingrediente que contribui esse efeito:
-
-| Efeito           | Duração base |
-| ---------------- | ------------ |
-| Attack Up        | 0:20         |
-| Defense Up       | 0:20         |
-| Speed Up         | 0:30         |
-| Cold Resistance  | 2:00         |
-| Heat Resistance  | 2:00         |
-| Shock Resistance | 2:00         |
-| Fireproof        | 2:00         |
-| Stealth Up       | 1:30         |
-
-```
-duration = soma(duração_base_do_efeito por ingrediente que dá efeito)
-         + 30s × (quantidade total de ingredientes no prato)
-         + bônus de "time boost" (ingredientes neutros, ver seção 4)
-```
-
-## 1.1. Nome do prato: base + sufixo de efeito (RESOLVIDO — testado manualmente, jogo em pt-br no Switch)
-
-O nome exibido no jogo é **nome-base do prato (categoria de ingrediente) + adjetivo do efeito real**, não um nome fixo por prato. Ex: "Vegetais Salteados" (base, ingrediente vegetal sozinho) vira "Vegetais Salteados Protetores" se o vegetal usado for Tough, "... Ligeiros" se for Hasty, etc. Isso é usado pro gerador de receita (item 2) reconstituir o nome certo conforme a escolha real do usuário, em vez de usar sempre o nome genérico da wiki.
-
-Adjetivos confirmados por teste direto no jogo (Switch, pt-br):
-
-| Efeito (`EffectId`)   | Nome do jogo (en) | Adjetivo pt-br confirmado |
-| --------------------- | ----------------- | ------------------------- |
-| `attack`              | Mighty             | Robusto (1 exemplo só, testar mais se possível) |
-| `defense`             | Tough              | Protetor                  |
-| `speed`               | Hasty              | Ligeiro                    |
-| `stealth`             | Sneaky             | Furtivo                    |
-| `restore-stamina`     | Energizing         | Revigorante                |
-| `extra-hearts`        | Hearty             | Vivaz                      |
-| `cold-resist`         | Spicy              | Picante                    |
-| `heat-resist`         | Chilly             | Gelado                     |
-| `electric-resist`     | Electro            | Isolante                   |
-| `extra-stamina`       | Enduring           | Revitalizante               |
-| `fireproof`           | Fireproof          | só existe via elixir, não se aplica a prato de panela |
-
-**Achado importante sobre nomenclatura em pt-br, e sobre o que "1 ingrediente" realmente produz:** testes confirmaram que **1 ingrediente sozinho cozido na panela sempre cai numa receita genérica da tabela Meals** (ex: Cogumelo Hyliano sozinho → "Espeto de Cogumelo", igual ao "Mushroom Skewer" genérico; Flamelo/Glacimelo/Aterramelo/Cogumelo Tenaz sozinhos → "Espeto de Cogumelo" + sufixo do efeito). Ou seja, a tabela "Roasted Foods" da wiki (com nomes únicos tipo `Toasty Chillshroom`, `Toasty Zapshroom`) representa uma **ação diferente do jogo** (assar segurando perto da fogueira, sem usar a panela) — não é o que acontece ao cozinhar 1 ingrediente na panela. Por causa disso, o arquivo `simple-dishes.ts` (que tinha sido gerado a partir de "Roasted Foods") foi removido: o caso "1 ingrediente na panela" já está coberto pelas entradas genéricas de `recipes.ts` (Mushroom Skewer, Simmered Fruit, etc.), com o nome variando conforme o sufixo do efeito real do ingrediente escolhido (ver tabela acima).
-
-## 2.1. Mistura de categorias de efeito diferentes (RESOLVIDO — testado manualmente)
-
-Se um prato tiver ingredientes de **duas ou mais categorias de efeito diferentes** (ex: um ingrediente Mighty/`attack` + um ingrediente Energizing/`restore-stamina`), o resultado **não recebe efeito nenhum** — vira um prato de cura simples, só com os corações da soma de hp. Não é "pega o efeito dominante/mais forte"; é anulação total do efeito.
-
-Testado: `Mighty Bananas` (attack) + `Stamella Shroom` (restore-stamina) → "Fruit and Mushroom Mix", sem efeito, só cura.
-
-**Implicação pro gerador de receitas:** ao montar combinações representativas de um slot "Any X" que pode carregar efeito, só é válido gerar uma variante com efeito X se **todos os outros slots do mesmo prato** ficarem com ingredientes neutros (sem efeito) nessa combinação. Se dois slots diferentes só têm opções de efeitos diferentes disponíveis (nenhuma neutra), o prato nunca produz efeito — sempre cai em heal.
-
-## 3. Potência / Tier do efeito (CORRIGIDO — fonte: Zelda Dungeon Wiki, com exemplos resolvidos oficiais)
-
-**Atualização importante:** a versão anterior deste documento usava um threshold "global" (30/45) vindo de um post do Reddit, cruzado com a aba `Ingredients` da planilha (escala 7/14/21). Isso está **errado como modelo oficial** — era uma re-normalização inventada pelo autor daquela planilha, só pra usar um único par de threshold pra todos os efeitos. A escala real e pequena (1/2/3 pontos por ingrediente) da aba `Ingredients True Potency` é a correta, confirmada agora com exemplos oficiais da wiki:
-
-> 4× Armoranth (1pt cada = 4 pts) < threshold Mid de Tough (5) → resultado **Low**
-> 3× Ironshroom (2pts cada) + 1× Armored Porgy (3pts) = 9pts ≥ 7 (threshold High de Tough) → resultado **High**
-
-### Thresholds oficiais por efeito
-
-| Efeito (nome do jogo) | Nosso `EffectId`                        | Low                                            | Mid | High            |
-| --------------------- | --------------------------------------- | ---------------------------------------------- | --- | --------------- |
-| Mighty                | `attack`                                | 1                                              | 5   | 7               |
-| Tough                 | `defense`                               | 1                                              | 5   | 7               |
-| Sneaky                | `stealth`                               | 1                                              | 6   | 9               |
-| Hasty                 | `speed`                                 | 1                                              | 5   | 7               |
-| Electro               | `electric-resist`                       | 1                                              | 4   | 6               |
-| Spicy                 | `cold-resist`                           | 1                                              | 6   | — (só 2 níveis) |
-| Chilly                | `heat-resist`                           | 1                                              | 6   | — (só 2 níveis) |
-| Fireproof             | (sem ingrediente de comida — só elixir) | —                                              | —   | —               |
-| Hearty                | `extra-hearts`                          | linear, +1 coração amarelo por ponto, sem tier |
-| Energizing            | `restore-stamina`                       | escala própria, ver seção 9                    |
-| Enduring              | `extra-stamina`                         | escala própria, ver seção 9                    |
-
-Efeitos com só 2 linhas (Spicy/Chilly) não têm um terceiro nível — o "Mid" já é o teto.
-
-```
-potência total = soma(points de cada ingrediente pro efeito)
-resultado = comparar contra a linha do efeito na tabela acima
-```
-
-### Tabela de pontos por ingrediente (fonte oficial, substitui qualquer estimativa anterior)
-
-**Mighty (Attack Up):** Mighty Thistle=1 · Mighty Bananas=2, Mighty Carp=2, Razorshroom=2, Razorclaw Crab=2 · Mighty Porgy=3
-
-**Tough (Defense Up):** Armoranth=1 · Armored Carp=2, Ironshroom=2, Fortified Pumpkin=2, Ironshell Crab=2 · Armored Porgy=3
-
-**Sneaky (Stealth Up):** Blue Nightshade=1, Sneaky River Snail=1 · Silent Shroom=2, Stealthfin Trout=2 · Silent Princess=3
-
-**Hasty (Speed Up):** Rushroom=1, Swift Carrot=1 · Swift Violet=2, Fleet-Lotus Seeds=2 (não tem tier 3)
-
-**Electro (Shock Resistance):** Electric Safflina=1, Voltfruit=1 · Zapshroom=2 · Voltfin Trout=3
-
-**Spicy (Cold Resistance):** Warm Safflina=1, Spicy Pepper=1 · Sunshroom=2, Sizzlefin Trout=2 (não tem tier 3)
-
-**Chilly (Heat Resistance):** Cool Safflina=1, Hydromelon=1 · Chillshroom=2, Chillfin Trout=2 (não tem tier 3)
-
-**Energizing (vigor atual):** Stamella Shroom=1 · Courser Bee Honey=2, Bright-Eyed Crab=2 · Staminoka Bass=5 (corrigido por teste manual, ver seção 9)
-
-**Enduring (vigor máximo temporário):** Endura Shroom=0.5 · Endura Carrot=2
-
-**Hearty (corações amarelos):** Hearty Truffle=1 · Hearty Bass=2 · Hearty Blueshell Snail=3, Hearty Radish=3 · Hearty Salmon=4, Hearty Durian=4, Big Hearty Truffle=4 · Big Hearty Radish=5
-
-(Insetos/monstros usados em elixir têm pontos próprios, já cobertos pela aba `ELIXIRS` da planilha — não repetidos aqui.)
-
-## 4. Time boosts (ingredientes neutros)
-
-Ingredientes tipo Casca-de-Árvore-Chickaloo, Bolota, Arroz Hyliano, Halita, Trigo de Tabantha, Açúcar, Leite Fresco, Manteiga de Cabra, Ovo, Especiaria Goron somam um bônus de duração **fixo por tipo**, mas:
-
-- Não contam pra potência.
-- **O bônus só se aplica uma vez por tipo de ingrediente na receita.** Um segundo item do mesmo tipo conta só como ingrediente comum (+30s genérico), sem repetir o bônus especial.
-
-## 5. Partes de dragão (regra especial)
-
-- **Escama:** +1:00 de duração (funciona como time boost comum)
-- **Garra:** +3:00 de duração
-- **Chifre:** **substitui** (não soma) a duração total do prato — fixa em **30:00**, ignorando o resto do cálculo de duração
-- Qualquer parte de dragão também força um crítico garantido (ver seção 7)
-
-No modelo de dados, isso vira um campo tipo `overridesDurationSeconds` no material, usado só pelo Chifre.
-
-## 6. Elixires
-
-- Pra virar elixir, precisa incluir pelo menos 1 reagente de monstro junto dos ingredientes de efeito. Sem reagente, mesmo com ingredientes corretos, o prato sai "duvidoso".
-- Reagentes têm 3 tiers de duração, aplicados como time boost: **Tier 1 = 0:40, Tier 2 = 1:20, Tier 3 = 2:40**.
-- Cada monstro tem drops em ordem Comum → Incomum → Raro mapeando pra Tier 1 → 2 → 3 (ex: Bocoblin: Chifre=T1, Presa=T2, Vísceras=T3). Exceção: Geleca de Chulchul normal = T1, colorida = T2 (só 2 tiers pra chulchul).
-- É possível misturar ingredientes de comida normal com reagente de monstro — o resultado vira elixir mesmo assim.
-
-## 7. Crítico (bônus aleatório — NÃO entra nos dados, é RNG)
-
-~10% de chance por prato cozido, **exceto** quando: já tem Estrela Cadente ou parte de dragão (crítico garantido), ou o prato é Comida Duvidosa/Rock-Hard (nunca cricam). Garantido também das 23:30 à 00:30 durante lua de sangue. Um dos 5 bônus abaixo é aplicado com chance igual entre as opções válidas pro prato (não é sempre o mesmo, e só considera bônus que fazem sentido pro tipo de prato — ex: um prato de Tough não pode rolar vigor extra):
-
-- +3 corações restaurados
-- +5:00 de duração
-- +1 tier de potência (Low→Mid, Mid→High)
-- +1 coração amarelo extra
-- +2 ou +5 de vigor (verde/amarelo)
-
-**Decisão de modelagem:** isso continua fora do `recipes.ts` — vira nota fixa de UI, como já decidido antes.
-
-## 8. Monster Extract (também RNG, também fora dos dados)
-
-Randomiza corações (1/4 do valor base / sem mudança / +3 corações), potência (-1 tier / sem mudança / +1 tier) e duração (1:00 / 10:00 / 30:00) — com percentuais próprios pra cada resultado. Nunca dá o bônus de crítico normal (são mutuamente exclusivos). Mesma decisão: fica de fora dos dados calculados, vira nota de UI.
-
-## 9. Hearty e Vigor/Endura (efeitos sem tier)
-
-- **Hearty (`extra-hearts`):** linear, sem tier — soma direta dos pontos de cada ingrediente Hearty = quantidade de corações amarelos extras. Há um **teto de 30 corações totais** (base + amarelos) por prato, segundo os testes da comunidade.
-
-- **Enduring/`extra-stamina` (RESOLVIDO):** cada ponto = **1/5 de uma roda de vigor**, arredondado pra baixo, ciclando a cada 5 pontos (1 roda cheia). Confirmado pela nota oficial da wiki: _"5 Endura Shrooms (2,5 pontos) só dá 2/5 de roda"_ — e exceção: se Endura Shroom for o único ingrediente Enduring do prato, o mínimo garantido é 1/5, mesmo dando menos que isso na conta. **Sem o bônus de +1 por mistura de tipos que o Energizing tem** — testado manualmente: Endura Carrot(2pt) + 2x Endura Shroom(0,5pt cada = 1pt) = soma 3 → deu exatamente 3/5, sem bônus.
-
-  ```
-  rodas_de_vigor_extra = floor(soma_de_pontos_enduring) / 5
-  // pontos 1,2,3,4 → 1/5,2/5,3/5,4/5 de roda
-  // 5 → 1 roda cheia · 6,7,8,9 → 1 roda + 1/5,2/5,3/5,4/5 · 10 → 2 rodas cheias
-  ```
-
-- **Energizing/`restore-stamina` (RESOLVIDO — testado manualmente em emulador, 9 combinações confirmadas):**
-
-  ```
-  gomos = soma(points de cada ingrediente Energizing)
-        + 1 bônus FIXO, SE o prato tiver 2 OU MAIS tipos diferentes de ingrediente
-          Energizing (o bônus não escala com o número de tipos, é sempre +1)
-  rodas_de_vigor = floor(gomos / 5) rodas cheias + (gomos mod 5)/5 de resto
-  ```
-
-  O bônus de +1 só aparece ao misturar tipos diferentes — empilhar o mesmo tipo (ex: 2x Energimelo) soma linear, sem bônus, e usar 3 tipos diferentes não dá mais bônus que usar 2. Testes confirmados: Energimelo(1pt)=1/5 · Mel de Abelha(2pt)=2/5 · Robalo Enérgico(5pt)=5/5 exato · 2x Energimelo(1+1pt, mesmo tipo)=2/5 · Energimelo+Mel(1+2pt, 2 tipos)=3+1=4/5 · Robalo+Energimelo(5+1pt)=6+1=7 → 1 roda+2/5 · Robalo+Mel(5+2pt)=7+1=8 → 1 roda+3/5 · 2x Energimelo+Mel(1+1+2pt, 2 tipos)=4+1=5/5 · Energimelo+Mel+Robalo(1+2+5pt, 3 tipos)=8+1=9 → 1 roda+4/5 (confirma que o bônus não escala com 3 tipos).
-
-  **Correção:** `Staminoka Bass` tinha `points: 4` documentado aqui e em `materials.ts` — o valor real confirmado por teste é **5** (bate exato sozinho, sem sobra, e em toda combinação testada).
-
-- Ingredientes Hearty e Endura sempre restauram vida/vigor **por completo**, independente de outros ingredientes de cura no prato.
-
-## 9.1. Cura total independente da vida atual (PENDÊNCIA — não modelado)
-
-Existem dois casos de "cura completa" no jogo que hoje não têm representação no modelo de dados (`hearts` em `Recipe` é sempre um número fixo, não existe um valor tipo "full"):
-
-- **Fada como ingrediente:** qualquer prato/elixir que leve uma Fada cura os corações por completo e revive automaticamente 1x ao morrer (efeito de Poção de Fada). O material `fairy` já tem essa nota, mas nenhuma `Recipe` com Fada existe em `recipes.ts` ainda.
-- **Hearty/Endura crus (não cozidos):** comer o ingrediente direto, sem cozinhar, restaura vida/vigor por completo. É uma mecânica de "ingrediente cru", fora do escopo de receitas cozidas do app.
-
-Antes de modelar, decidir: (a) se isso entra no v1 como uma `Recipe` especial (com um jeito de marcar "cura total" em vez de um número em `hearts`), ou (b) fica de fora e só vira nota de UI, como já foi decidido pro Monster Extract (seção 8).
-
-## 10. Conclusões práticas (pra escolher que combos virar receita "otimizada")
-
-- "Prato perfeito" = bater o mais perto possível do threshold de 45 (High) com o menor número de ingredientes de efeito, preenchendo os slots restantes com Vísceras de Bocoblin/Moblin (potência 0, servem só pra ocupar espaço e reduzir a chance de precisar de ingrediente raro).
-- Combos com Chifre de Dragão são o teto absoluto de duração (30:00 fixos) mas dependem de item raro — por isso faz sentido ter as duas variantes lado a lado na mesma tela (com e sem Chifre), como já decidido no `spec.md`.
-- Ingredientes de "time boost" (tempero) valem mais a pena em efeitos de duração curta (Attack Up, Defense Up = 0:20 base) do que em efeitos que já têm duração base longa (Cold/Heat/Shock Resistance = 2:00), onde o ganho proporcional é menor.
+# Fórmula de cozimento (BOTW)
+
+Validada empiricamente no jogo (ver seção 8).
+
+Os nomes de campo abaixo usam a nomenclatura de `types.ts` (`Material`/`Recipe`).
+
+## 1. Entrada
+
+Uma lista de materiais escolhidos, um por slot de `Recipe.ingredients` (`IngredientSlot.materialIds`
+é um grupo OR — você escolhe 1 item de cada slot). Repetições do mesmo material contam como
+"múltiplas cópias" e afetam potência/duração/preço de formas diferentes (seções 3-5).
+
+## 2. Determinar a categoria (efeito) do prato
+
+Percorre todos os materiais escolhidos. Só materiais com `Material.effect` definido participam:
+
+- Se nenhum material tem `effect` → prato sem efeito (`Recipe.effect` fica `undefined`).
+- Se todos os materiais com `effect` concordam → esse é o efeito do prato.
+- Se **dois materiais com `effect` divergem entre si** → o prato perde o efeito (`Recipe.effect`
+  fica `undefined`), mesmo que outros campos ainda sejam calculados normalmente.
+
+Importante: só contam pra essa regra os materiais que o jogo trata como "fonte de efeito real".
+Partes de monstro (caudas, chifres, presas, vísceras, gelecas, asas — mesmo as variantes elementais
+como Cauda de Lagalfos Ígneo) **nunca** têm `effect`, mesmo quando o nome sugere resistência
+elemental — confirmado no jogo (seção 9). Só bichos capturados vivos (insetos, lagartos, sapos,
+grilos, besouros) carregam efeito de fato, além das plantas/comidas "normais" com efeito.
+
+## 3. Elixir vs. prato de comida
+
+Se **qualquer** ingrediente tiver `Material.forElixir: true` (insetos e partes de monstro), o
+resultado é um elixir (`Recipe.isElixir: true`). Isso muda a regra de corações (seção 5).
+
+## 4. Duração (`Recipe.durationSeconds`)
+
+- Se o prato não tem efeito (categoria nula) → duração é `null`/não relevante — normalmente vira
+  Comida Duvidosa ("Gororoba") em vez de um prato/elixir válido de verdade quando não há nenhum
+  ingrediente com efeito real (confirmado no jogo, seção 9).
+- Se o efeito for **Hearty/extra-hearts, Enduring/extra-stamina ou Energizing/restore-stamina** →
+  duração é `null` (esses efeitos não usam timer, usam corações/rodas de estamina — seção 6).
+- Caso contrário, soma por ingrediente:
+  - Primeira cópia de um material: usa `Material.durationSecondsForFirstCopy` se existir, senão
+    `Material.durationSeconds`.
+  - Cópias seguintes do mesmo material: sempre `Material.durationSeconds` (a regra "primeira cópia"
+    não se repete).
+  - Soma tudo, incluindo o(s) ingrediente(s) "neutro(s)"/de preenchimento normalmente.
+
+**Validado no jogo** (Libélula Gélida `durationSeconds: 150` + Chifre de Koboblin
+`durationSeconds: 70`, repetido):
+
+| Chifres | Duração calculada        | Duração no jogo                                                                       |
+| ------- | ------------------------ | ------------------------------------------------------------------------------------- |
+| 1       | 150 + 70 = 220s (3:40)   | 3:40 ✓                                                                                |
+| 2       | 150 + 70×2 = 290s (4:50) | 4:50 ✓                                                                                |
+| 3       | 150 + 70×3 = 360s (6:00) | 6:00 ✓                                                                                |
+| 4       | 150 + 70×4 = 430s (7:10) | 7:10 ✓ (um teste anterior deu 12:10 — bônus aleatório de cozimento, não reproduzível) |
+
+## 5. Potência (`potency`)
+
+Só calculada se o prato tem efeito (categoria não-nula). Por ingrediente:
+
+- Se `Material.potency` é uma **tabela** (`PotencyTable`): só conta na **primeira**
+  cópia daquele material, indexando pela posição `quantidadeDeCópias - 1` (ex.: 3 Endura Shroom
+  numa receita usam `potency[2]`). Repetir o mesmo material além da 1ª cópia não soma nada extra —
+  a posição na tabela já embute o efeito da quantidade total escolhida.
+- Se `Material.potency` é um **número simples**: soma a cada cópia adicional — potência cresce
+  linear (usar 3 unidades de um material com `potency: 1` dá potência 3, não 1).
+
+**Só materiais de categoria Hearty/extra-hearts usam potência escalar** (Durião/Trufa/Rabanete/
+Salmão/Perca/Caracol/Lagarto Nutritivos) — todos os outros efeitos usam tabela. Faz sentido: como o
+`hp` de um prato Hearty é sempre fixo em 120 (cura total, não somado — seção 6), a potência não
+serve pra calcular cura ali; ela vira os **corações-bônus temporários** (os amarelos, acima do
+máximo), que fazem mais sentido crescendo linear por cópia do que "platôs" por tabela. Reparar
+também que o valor escalar acompanha o `hp` cru do próprio ingrediente (ex.: Rabanete Nutritivo
+Grande tem o maior `hp` e o maior `potency`, Trufa Nutritiva tem os menores dos dois).
+
+**Tamanho da tabela**: a maioria tem 5 posições (1 a 5 cópias), mas materiais com `forElixir: true`
+(insetos/lagartos/sapos/grilos/besouros que viram elixir) têm só **4** posições. Motivo: um elixir
+só é válido com pelo menos 1 parte de monstro/reagente além do bicho-efeito (confirmado no jogo —
+seção 9); numa panela de 5 vagas, isso deixa no máximo 4 cópias do mesmo bicho numa receita válida,
+então a tabela nunca precisa ir até 5 pra esses materiais.
+
+Depois de somar a potência de todos os ingredientes distintos, se o efeito for Enduring/Energizing/
+Hearty, o total é limitado por um teto por categoria:
+
+| Efeito                       | Teto de potência |
+| ---------------------------- | ---------------- |
+| Chilly (heat-resist)         | 2                |
+| Electro (electric-resist)    | 3                |
+| Enduring (extra-stamina)     | 10               |
+| Energizing (restore-stamina) | 15               |
+| Fireproof                    | 2                |
+| Hasty (speed)                | 3                |
+| Hearty (extra-hearts)        | 25               |
+| Mighty (attack)              | 3                |
+| Sneaky (stealth)             | 3                |
+| Spicy (cold-resist)          | 2                |
+| Tough (defense)              | 3                |
+
+## 6. Corações (`Recipe.hearts`)
+
+Três unidades diferentes entram em jogo aqui — importante não confundir:
+
+| Unidade                                                  | O que é                                             | Exemplo (Maçã)               |
+| -------------------------------------------------------- | --------------------------------------------------- | ---------------------------- |
+| `Material.hp` (interno da fórmula)                       | quarto-de-coração cru, antes de cozinhar            | `hp: 2` = 0,5 coração cru    |
+| Acumulador da fórmula (`2 × hp`, somado por ingrediente) | quarto-de-coração, já cozido                        | `2×2 = 4` = 1 coração cozido |
+| `Recipe.hearts` (o que o catálogo guarda)                | **meio-coração** (não é coração inteiro nem quarto) | `hearts: 2` = 1 coração real |
+
+Ou seja: `Recipe.hearts = acumulador da fórmula ÷ 2`. **Pra mostrar "corações reais" pro usuário
+(o número que aparece no jogo, tipo "cura 2,5 corações"), divida `Recipe.hearts` por 2.**
+
+Confirmado no jogo: Maçã crua = 0,5 coração (bate com `hp: 2` em quarto-de-coração). Cozinhando 1
+Maçã sozinha (receita "Cozido de Frutas") = 1 coração real no jogo, e o catálogo guarda
+`hearts: 2` pra essa receita — `2 ÷ 2 = 1` ✓.
+
+Cálculo do acumulador (antes de aplicar a divisão acima), por ingrediente (com 3 exceções hardcoded
+por material específico — não seguem a regra geral e não dependem do campo `hp` daquele material):
+
+- Se não há ingredientes → 0.
+- Se o efeito é **Hearty/extra-hearts** → sempre **120** (valor-sentinela de cura total, não é uma
+  soma — é fixo independente dos ingredientes usados, contanto que o efeito seja Hearty). Isso daria
+  `Recipe.hearts = 60`, mas ver seção 10 — essa regra é uma simplificação do site que não reflete a
+  cura real de combos Hearty fracos; nesses casos confie no valor já gravado no catálogo, vindo da
+  wiki, em vez de recalcular.
+- Senão, soma por ingrediente:
+  - Se o prato é elixir (`isElixir`) **e** o ingrediente não é Fada → **não conta hp nenhum** pra
+    esse ingrediente (elixires não curam, só a exceção da Fada abaixo).
+  - **Fada** (`fairy`): só soma um bônus fixo de **+28** na primeira cópia, e só se: a receita tem
+    só 1 ingrediente no total, OU há mais de 1 Fada, OU o prato já é elixir por outro motivo. Fora
+    disso a Fada não contribui aqui (a Poção de Fada de verdade tem sua própria mecânica à parte —
+    ver seção 7).
+  - **Bolota / Fruto-de-árvore Chickaloo** (`acorn`, `chickaloo-tree-nut`): contribuição **fixa**
+    (+4 na primeira cópia, +2 nas repetições), **ignorando o campo `hp` desses materiais**.
+  - Qualquer outro material: soma `2 × Material.hp` (a cozinha sempre dobra o valor cru de cura).
+- Se depois de tudo o acumulado deu 0 → resultado é 0 (se elixir) ou 1 (se prato de comida — piso
+  mínimo de cura, "não pode curar zero corações num prato válido").
+- Senão, o resultado é a soma acumulada.
+- Por fim, **divida por 2** pra chegar em `Recipe.hearts` (a unidade de meio-coração do catálogo).
+
+## 7. Poção de Fada (Tônico Feérico)
+
+A Fada foge inteiramente dessa fórmula quando é o único ingrediente da receita — o jogo trata isso
+como um item especial fixo, testado manualmente (ver `recipes.ts`, receitas `fairy-tonic-*`):
+
+| Quantidade | Corações                      |
+| ---------- | ----------------------------- |
+| 1 Fada     | 7                             |
+| 2 Fadas    | 17                            |
+| 3 Fadas    | 27                            |
+| 4 Fadas    | cura total (`fullHeal: true`) |
+
+Também revive automaticamente 1x ao morrer.
+
+## 8. Preço de venda (`sellPrice`, se você quiser exibir isso)
+
+Soma por ingrediente: `Material.sellPrice × multiplicador`, onde o multiplicador depende de quantas
+cópias daquele mesmo material entram na receita:
+
+| Cópias do mesmo material | Multiplicador |
+| ------------------------ | ------------- |
+| 1                        | 1.5×          |
+| 2                        | 1.8×          |
+| 3                        | 2.1×          |
+| 4                        | 2.4×          |
+| 5                        | 2.8×          |
+
+O total é arredondado pra cima, múltiplo de 10 (`10 × ceil(soma / 10)`).
+
+## 9. Confirmações feitas no jogo (Switch, pt-br)
+
+- **Libélula Gélida (Cold Darner) + Chifre de Koboblin** → Elixir Gélido, 3:40 (bate com a fórmula,
+  seção 4).
+- **Cauda de Lagalfos Ígneo/Elétrico + parte de monstro neutra** → **Comida Duvidosa (Gororoba)**,
+  não um elixir de resistência elemental. Confirma que essas caudas não têm `effect` de verdade,
+  apesar do nome.
+- **Geleca de Chuchu (variante elemental) + parte de monstro neutra** → mesmo resultado, Gororoba.
+- Regra geral confirmada: **bicho vivo capturado com rede/na mão (inseto, lagarto, sapo, grilo,
+  besouro) carrega efeito real; parte de monstro (derrubada em combate) nunca carrega efeito**,
+  mesmo quando o nome é elemental (só serve pela duração/preenchimento).
+- **1 Libélula sozinha, ou 1 Cauda sozinha** → Gororoba (comida). Item com `forElixir` sozinho, sem
+  mais nada, não forma prato/elixir válido — precisa de pelo menos mais 1 ingrediente.
+- Testes de duração com múltiplas cópias do mesmo ingrediente (seção 4) confirmaram a soma linear;
+  um resultado fora da curva (12:10 em vez de 7:10 pra 4 cópias) foi atribuído ao bônus aleatório de
+  "crítico de cozimento" do jogo — um novo teste limpo confirmou o valor previsto pela fórmula.
+- **Maçã crua = 0,5 coração**; cozinhar 1 Maçã sozinha ("Cozido de Frutas") = **1 coração real**.
+  Confirmou a unidade de `Material.hp` (quarto-de-coração) e a de `Recipe.hearts` (meio-coração) —
+  ver seção 6.
+
+## 10. O que ainda não foi confirmado/está em aberto
+
+- A regra especial da Especiaria Goron (`durationSecondsForFirstCopy: 90` vs. `durationSeconds: 30`)
+  não foi testada no jogo ainda (falta o item). Usada como extraída da base, mas sem confirmação
+  empírica direta.
+- 22 receitas do catálogo (`recipes.ts`) tinham duração divergente da fórmula antes de serem
+  corrigidas (basicamente todo elixir "básico" e alguns espetos com Especiaria Goron) — corrigidas
+  usando esta fórmula como fonte de verdade, mas sem reteste individual de cada uma no jogo.

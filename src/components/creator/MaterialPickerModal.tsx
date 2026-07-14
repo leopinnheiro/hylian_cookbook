@@ -1,32 +1,48 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import { Search, X } from "lucide-react";
+import { Clock, Gauge, X } from "lucide-react";
 import type { Material } from "../../data/types";
 import { materials } from "../../data";
-import { assetUrl } from "../../lib/format";
+import { normalizeSearch } from "../../lib/format";
+import {
+  previewIngredientContribution,
+  type IngredientContribution,
+} from "../../lib/cookingFormula";
 import { getViableMaterials } from "../../lib/matchRecipes";
+import { SearchBar } from "../SearchBar";
 import { Toggle } from "../Toggle";
+import { MaterialOptionRow } from "./MaterialOptionRow";
+import { SortToggleButton, type SortDirection } from "./SortToggleButton";
+
+type SortKey = "potency" | "duration";
+interface SortCriterion {
+  key: SortKey;
+  direction: SortDirection;
+}
 
 interface MaterialPickerModalProps {
   slotIndex: number;
   selection: (string | null)[];
   onSelect: (materialId: string) => void;
-  onClear: () => void;
   onClose: () => void;
 }
 
 const TRANSITION_MS = 200;
 const ALL_MATERIAL_IDS = materials.map((m) => m.id);
+const SORT_PROPERTY: Record<SortKey, keyof IngredientContribution> = {
+  potency: "potency",
+  duration: "durationSeconds",
+};
 
 export function MaterialPickerModal({
   slotIndex,
   selection,
   onSelect,
-  onClear,
   onClose,
 }: MaterialPickerModalProps) {
   const [query, setQuery] = useState("");
   const [showAll, setShowAll] = useState(false);
+  const [sortStack, setSortStack] = useState<SortCriterion[]>([]);
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -39,14 +55,56 @@ export function MaterialPickerModal({
     ? materials
     : materials.filter((m) => viableIds.has(m.id));
 
-  const needle = query.trim().toLowerCase();
-  const filtered = needle
+  const needle = normalizeSearch(query.trim());
+  const searched = needle
     ? candidates.filter(
         (material) =>
-          material.name["pt-br"].toLowerCase().includes(needle) ||
-          material.name.en.toLowerCase().includes(needle),
+          normalizeSearch(material.name["pt-br"]).includes(needle) ||
+          normalizeSearch(material.name.en).includes(needle),
       )
     : candidates;
+
+  const previewById = useMemo(() => {
+    const map = new Map<string, IngredientContribution>();
+    for (const material of searched) {
+      map.set(
+        material.id,
+        previewIngredientContribution(material.id, selection, slotIndex),
+      );
+    }
+    return map;
+  }, [searched, selection, slotIndex]);
+
+  // Cada botão empilha um critério de ordenação (clicar de novo alterna
+  // desc -> asc -> desliga); o primeiro ativado manda, o segundo desempata.
+  const filtered = useMemo(() => {
+    if (sortStack.length === 0) return searched;
+    return [...searched].sort((a, b) => {
+      for (const { key, direction } of sortStack) {
+        const property = SORT_PROPERTY[key];
+        const valueA = previewById.get(a.id)?.[property] ?? -1;
+        const valueB = previewById.get(b.id)?.[property] ?? -1;
+        const diff = direction === "desc" ? valueB - valueA : valueA - valueB;
+        if (diff !== 0) return diff;
+      }
+      return 0;
+    });
+  }, [searched, sortStack, previewById]);
+
+  const toggleSort = (key: SortKey) => {
+    setSortStack((current) => {
+      const index = current.findIndex((c) => c.key === key);
+      if (index === -1) return [...current, { key, direction: "desc" }];
+      if (current[index].direction === "desc") {
+        const next = [...current];
+        next[index] = { key, direction: "asc" };
+        return next;
+      }
+      return current.filter((c) => c.key !== key);
+    });
+  };
+
+  const sortOf = (key: SortKey) => sortStack.find((c) => c.key === key);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => setVisible(true));
@@ -58,8 +116,6 @@ export function MaterialPickerModal({
     setTimeout(onClose, TRANSITION_MS);
   };
   const shown = visible && !closing;
-
-  const currentMaterialId = selection[slotIndex];
 
   return createPortal(
     <div
@@ -88,69 +144,66 @@ export function MaterialPickerModal({
               <X className="h-5 w-5" />
             </button>
           </div>
-          <div className="mb-3 flex items-center gap-2 border border-ash-steel/40 bg-panel px-3 py-1.5">
-            <Search className="h-4 w-4 shrink-0 text-sheikah" aria-hidden="true" />
-            <input
-              type="search"
+          <div className="mb-3">
+            <SearchBar
               value={query}
-              onChange={(event) => setQuery(event.target.value)}
+              onChange={setQuery}
               placeholder="Buscar ingrediente…"
-              aria-label="Buscar ingrediente"
-              className="w-full bg-transparent font-chrome text-sm text-rune-paper placeholder:text-ash-steel focus:outline-none"
+              label="Buscar ingrediente"
             />
           </div>
-          <div className="flex items-center justify-between gap-2">
+
+          <div className="flex justify-between items-center">
             <Toggle
               checked={showAll}
               onChange={setShowAll}
-              label="Exibir todos os ingredientes"
+              label="Exibir todos"
             />
-            {currentMaterialId && (
-              <button
-                type="button"
-                onClick={() => {
-                  onClear();
-                  handleClose();
-                }}
-                className="font-chrome text-xs uppercase tracking-wide text-ash-steel hover:text-sheikah"
-              >
-                Remover
-              </button>
-            )}
+            <div className="flex items-center gap-2">
+              <span className="font-chrome text-[11px] uppercase tracking-wide text-ash-steel">
+                Ordenar por
+              </span>
+              <SortToggleButton
+                icon={Gauge}
+                active={sortOf("potency") !== undefined}
+                direction={sortOf("potency")?.direction}
+                label="Ordenar por potência"
+                onClick={() => toggleSort("potency")}
+              />
+              <SortToggleButton
+                icon={Clock}
+                active={sortOf("duration") !== undefined}
+                direction={sortOf("duration")?.direction}
+                label="Ordenar por duração"
+                onClick={() => toggleSort("duration")}
+              />
+            </div>
           </div>
         </div>
 
         <ul className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto p-4">
           {filtered.map((material) => (
             <li key={material.id}>
-              <button
-                type="button"
-                onClick={() => {
+              <MaterialOptionRow
+                material={material}
+                preview={
+                  previewById.get(material.id) ?? {
+                    potency: null,
+                    durationSeconds: null,
+                  }
+                }
+                onSelect={() => {
                   onSelect(material.id);
                   handleClose();
                 }}
-                className="flex w-full items-center gap-2 bg-panel px-2 py-1.5 text-left text-sm font-chrome transition-colors hover:bg-panel/70"
-              >
-                <img
-                  src={assetUrl(material.image)}
-                  alt=""
-                  className="h-6 w-6 object-contain"
-                  loading="lazy"
-                />
-                <span className="flex-1 text-rune-paper">
-                  {material.name["pt-br"]}
-                </span>
-                <span className="text-right text-xs text-ash-steel">
-                  {material.name.en}
-                </span>
-              </button>
+              />
             </li>
           ))}
           {filtered.length === 0 && (
             <li className="px-2 py-6 text-center text-xs text-ash-steel">
               {showAll
                 ? "Nenhum ingrediente encontrado."
-                : "Nenhum ingrediente viável encontrado — tente \"Exibir todos os ingredientes\"."}
+                : "Nenhum ingrediente viável encontrado - tente marcar \"Exibir todos\"."}
             </li>
           )}
         </ul>

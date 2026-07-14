@@ -3,7 +3,6 @@ import type { EffectId } from "../data/types";
 import { SearchBar } from "./SearchBar";
 import { EffectIconFilter } from "./EffectIconFilter";
 import { CategoryFilter } from "./materials/CategoryFilter";
-import { Toggle } from "./Toggle";
 import type { Tab } from "../lib/tabs";
 
 const TAB_LABELS: Record<Tab, string> = {
@@ -25,10 +24,8 @@ interface AppHeaderProps {
   onMaterialsQueryChange: (query: string) => void;
   selectedCategory: string | null;
   onSelectedCategoryChange: (category: string | null) => void;
-  sortByTier: boolean;
-  onSortByTierChange: (value: boolean) => void;
-  sortByDuration: boolean;
-  onSortByDurationChange: (value: boolean) => void;
+  favoritesQuery: string;
+  onFavoritesQueryChange: (query: string) => void;
 }
 
 export function AppHeader({
@@ -42,16 +39,14 @@ export function AppHeader({
   onMaterialsQueryChange,
   selectedCategory,
   onSelectedCategoryChange,
-  sortByTier,
-  onSortByTierChange,
-  sortByDuration,
-  onSortByDurationChange,
+  favoritesQuery,
+  onFavoritesQueryChange,
 }: AppHeaderProps) {
   const isMaterials = tab === "materials";
-  const isAllRecipes = tab === "all";
+  const isFavorites = tab === "favorites";
   const hasFilters =
     tab === "all" || tab === "materials" || tab === "favorites";
-  const hasSearchBar = tab === "all" || tab === "materials";
+  const hasSearchBar = tab === "all" || tab === "materials" || tab === "favorites";
 
   return (
     <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 py-4 backdrop-blur border">
@@ -91,6 +86,13 @@ export function AppHeader({
                   placeholder="Buscar material (pt-br ou en)…"
                   label="Buscar material por nome"
                 />
+              ) : isFavorites ? (
+                <SearchBar
+                  value={favoritesQuery}
+                  onChange={onFavoritesQueryChange}
+                  placeholder="Buscar combinação salva (pt-br ou en)…"
+                  label="Buscar combinação salva por nome"
+                />
               ) : (
                 <SearchBar value={query} onChange={onQueryChange} />
               ))}
@@ -105,21 +107,6 @@ export function AppHeader({
                 selected={selectedEffects}
                 onChange={onSelectedEffectsChange}
               />
-            )}
-
-            {isAllRecipes && (
-              <div className="flex flex-wrap items-center gap-4 pt-1 justify-between">
-                <Toggle
-                  checked={sortByTier}
-                  onChange={onSortByTierChange}
-                  label="Ordenar por nível"
-                />
-                <Toggle
-                  checked={sortByDuration}
-                  onChange={onSortByDurationChange}
-                  label="Ordenar por duração"
-                />
-              </div>
             )}
           </>
         )}

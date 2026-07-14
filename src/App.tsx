@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { effects, materials, recipes } from "./data";
-import type { EffectId, Material, Recipe } from "./data/types";
+import { effects, materials, materialsById, recipeTemplates } from "./data";
+import type { EffectId, Material, Recipe, RecipeTemplate } from "./data/types";
 import type { Tab } from "./lib/tabs";
 import { AppHeader } from "./components/AppHeader";
 import { AppFooter } from "./components/AppFooter";
@@ -12,56 +12,43 @@ import { RecipeCreatorView } from "./components/creator/RecipeCreatorView";
 import { SavedCombosView } from "./components/creator/SavedCombosView";
 import { AdvantageCalculatorView } from "./components/calculator/AdvantageCalculatorView";
 import { useSavedCombos } from "./hooks/useSavedCombos";
-import { recipeToSelection } from "./lib/matchRecipes";
+import {
+  findMatchingDishes,
+  ingredientsToSelection,
+  pickDisplayDish,
+  sortJunkLast,
+  templateEffects,
+} from "./lib/matchRecipes";
 import { computeDish } from "./lib/cookingFormula";
-import { tierCount } from "./lib/format";
+import { normalizeSearch } from "./lib/format";
 
-function matchesRecipeSearch(recipe: Recipe, query: string): boolean {
+function matchesRecipeSearch(template: RecipeTemplate, query: string): boolean {
   if (!query.trim()) return true;
-  const needle = query.trim().toLowerCase();
+  const needle = normalizeSearch(query.trim());
   return (
-    recipe.name["pt-br"].toLowerCase().includes(needle) ||
-    recipe.name.en.toLowerCase().includes(needle)
+    normalizeSearch(template.name["pt-br"]).includes(needle) ||
+    normalizeSearch(template.name.en).includes(needle)
   );
 }
 
 function matchesMaterialSearch(material: Material, query: string): boolean {
   if (!query.trim()) return true;
-  const needle = query.trim().toLowerCase();
+  const needle = normalizeSearch(query.trim());
   return (
-    material.name["pt-br"].toLowerCase().includes(needle) ||
-    material.name.en.toLowerCase().includes(needle) ||
-    material.id.toLowerCase().includes(needle)
+    normalizeSearch(material.name["pt-br"]).includes(needle) ||
+    normalizeSearch(material.name.en).includes(needle) ||
+    normalizeSearch(material.id).includes(needle)
   );
 }
 
-function sortWithinEffect(
-  list: Recipe[],
-  sortByTier: boolean,
-  sortByDuration: boolean,
-): Recipe[] {
-  return [...list].sort((a, b) => {
-    const genericDiff = Number(Boolean(a.isGeneric)) - Number(Boolean(b.isGeneric));
-    if (genericDiff !== 0) return genericDiff;
-    if (sortByTier) {
-      const tierDiff = tierCount(b) - tierCount(a);
-      if (tierDiff !== 0) return tierDiff;
-    }
-    if (sortByDuration) {
-      return b.durationSeconds - a.durationSeconds;
-    }
-    return 0;
-  });
-}
 
 function App() {
   const [tab, setTab] = useState<Tab>("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [selectedEffects, setSelectedEffects] = useState<EffectId[]>([]);
-  const [sortByTier, setSortByTier] = useState(true);
-  const [sortByDuration, setSortByDuration] = useState(true);
   const [materialsQuery, setMaterialsQuery] = useState("");
+  const [favoritesQuery, setFavoritesQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const { combos, saveCombo, removeCombo } = useSavedCombos();
   const [creatorSeed, setCreatorSeed] = useState<(string | null)[] | undefined>(
@@ -74,41 +61,90 @@ function App() {
     toast("Combinação salva nos favoritos", { icon: "⭐" });
   };
 
-  const handleOpenInCreator = (recipe: Recipe) => {
-    setCreatorSeed(recipeToSelection(recipe));
+  const openInCreator = (ingredients: Recipe["ingredients"]) => {
+    setCreatorSeed(ingredientsToSelection(ingredients));
     setCreatorSeedKey((key) => key + 1);
     setTab("creator");
   };
 
-  const filteredRecipes = useMemo(() => {
-    return recipes
-      .filter((recipe) =>
+  const handleOpenTemplateInCreator = (template: RecipeTemplate) => {
+    openInCreator(template.ingredients);
+  };
+
+  const handleOpenRecipeInCreator = (recipe: Recipe) => {
+    openInCreator(recipe.ingredients);
+  };
+
+  const filteredTemplates = useMemo(() => {
+    return recipeTemplates
+      .filter((template) =>
         selectedEffects.length > 0
-          ? selectedEffects.includes(recipe.effect)
+          ? templateEffects(template).some((effect) =>
+              selectedEffects.includes(effect),
+            )
           : true,
       )
-      .filter((recipe) => matchesRecipeSearch(recipe, query));
+      .filter((template) => matchesRecipeSearch(template, query));
   }, [selectedEffects, query]);
 
   const groups = useMemo(() => {
-    return effects
-      .map((effect) => ({
-        effect,
-        items: sortWithinEffect(
-          filteredRecipes.filter((recipe) => recipe.effect === effect.id),
-          sortByTier,
-          sortByDuration,
+    const effectGroups = effects.map((effect) => ({
+      effect,
+      items: sortJunkLast(
+        filteredTemplates.filter((template) =>
+          templateEffects(template).includes(effect.id),
         ),
-      }))
-      .filter((group) => group.items.length > 0);
-  }, [filteredRecipes, sortByTier, sortByDuration]);
+      ),
+    }));
+    const noEffectGroup = {
+      effect: {
+        id: "none",
+        name: { "pt-br": "Comida Duvidosa", en: "Dubious Food" },
+        icon: "icons/heart.svg",
+      },
+      items:
+        selectedEffects.length === 0
+          ? sortJunkLast(
+              filteredTemplates.filter(
+                (template) => templateEffects(template).length === 0,
+              ),
+            )
+          : [],
+    };
+    return [...effectGroups, noEffectGroup].filter(
+      (group) => group.items.length > 0,
+    );
+  }, [filteredTemplates, selectedEffects]);
 
   const filteredCombos = useMemo(() => {
-    if (selectedEffects.length === 0) return combos;
-    return combos.filter((combo) =>
-      selectedEffects.includes(computeDish(combo.materialIds).effect),
-    );
-  }, [combos, selectedEffects]);
+    return combos
+      .filter((combo) => {
+        if (selectedEffects.length === 0) return true;
+        const effect = computeDish(combo.materialIds).effect;
+        return effect !== undefined && selectedEffects.includes(effect);
+      })
+      .filter((combo) => {
+        if (!favoritesQuery.trim()) return true;
+        const needle = normalizeSearch(favoritesQuery.trim());
+        const dish = pickDisplayDish(
+          combo.materialIds,
+          findMatchingDishes(combo.materialIds),
+        );
+        if (dish) {
+          return (
+            normalizeSearch(dish.name["pt-br"]).includes(needle) ||
+            normalizeSearch(dish.name.en).includes(needle)
+          );
+        }
+        return combo.materialIds.some(
+          (id) =>
+            id &&
+            normalizeSearch(materialsById[id]?.name["pt-br"] ?? "").includes(
+              needle,
+            ),
+        );
+      });
+  }, [combos, selectedEffects, favoritesQuery]);
 
   const filteredMaterials = useMemo(() => {
     return materials
@@ -157,14 +193,12 @@ function App() {
           onQueryChange={setQuery}
           selectedEffects={selectedEffects}
           onSelectedEffectsChange={setSelectedEffects}
-          sortByTier={sortByTier}
-          onSortByTierChange={setSortByTier}
-          sortByDuration={sortByDuration}
-          onSortByDurationChange={setSortByDuration}
           materialsQuery={materialsQuery}
           onMaterialsQueryChange={setMaterialsQuery}
           selectedCategory={selectedCategory}
           onSelectedCategoryChange={setSelectedCategory}
+          favoritesQuery={favoritesQuery}
+          onFavoritesQueryChange={setFavoritesQuery}
         />
 
         <div className="flex-1 overflow-y-auto">
@@ -187,14 +221,14 @@ function App() {
             />
           ) : tab === "calculator" ? (
             <AdvantageCalculatorView
-              recipes={recipes}
-              onOpenInCreator={handleOpenInCreator}
+              recipes={[]}
+              onOpenInCreator={handleOpenRecipeInCreator}
             />
           ) : (
             <RecipesView
               groups={groups}
               showEmptySearch={showEmptySearch}
-              onOpenInCreator={handleOpenInCreator}
+              onOpenInCreator={handleOpenTemplateInCreator}
             />
           )}
 

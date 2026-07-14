@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { materials } from "../../data";
-import { FilterChip } from "../FilterChip";
+import { FilterBar } from "../FilterBar";
 import { CATEGORY_LABELS } from "./categoryLabels";
 
 interface CategoryFilterProps {
@@ -15,27 +15,18 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
     return Array.from(set).sort();
   }, []);
 
+  const items = categories.map((category) => ({
+    id: category,
+    label: CATEGORY_LABELS[category] ?? category,
+  }));
+
   return (
-    <div
-      className="flex flex-wrap gap-2"
-      role="group"
-      aria-label="Filtrar por categoria"
-    >
-      <FilterChip
-        label="Todos"
-        active={selected === null}
-        accent="var(--color-sheikah)"
-        onClick={() => onSelect(null)}
-      />
-      {categories.map((category) => (
-        <FilterChip
-          key={category}
-          label={CATEGORY_LABELS[category] ?? category}
-          active={selected === category}
-          accent="var(--color-sheikah)"
-          onClick={() => onSelect(category)}
-        />
-      ))}
-    </div>
+    <FilterBar
+      items={items}
+      selected={selected ? [selected] : []}
+      onChange={(ids) => onSelect(ids[0] ?? null)}
+      multiple={false}
+      ariaLabel="Filtrar por categoria"
+    />
   );
 }
