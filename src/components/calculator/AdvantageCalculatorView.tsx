@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { Info } from "lucide-react";
+import { ChevronDown, Info } from "lucide-react";
 import type { EffectId, Recipe } from "../../data/types";
 import {
   bucketRecipesByHearts,
@@ -87,6 +87,7 @@ export function AdvantageCalculatorView({
   } = useCalculatorInputs();
   const [infoOpen, setInfoOpen] = useState(false);
   const [selectedEffects, setSelectedEffects] = useState<EffectId[]>([]);
+  const [inputsCollapsed, setInputsCollapsed] = useState(false);
 
   const effectFilteredRecipes = useMemo(
     () =>
@@ -115,61 +116,91 @@ export function AdvantageCalculatorView({
   );
 
   return (
-    <main className="mx-auto flex max-w-4xl flex-col gap-4 px-4 py-6">
-      <div className="flex justify-end">
-        <button
-          type="button"
-          onClick={() => setInfoOpen(true)}
-          aria-label="Como funciona a calculadora"
-          className="flex items-center gap-1 font-chrome text-xs uppercase tracking-wide text-ash-steel hover:text-sheikah"
+    <main className="mx-auto flex h-full max-w-4xl flex-col">
+      <div className="flex flex-none flex-col gap-3 border-b border-ash-steel/20 px-4 pb-3 pt-6">
+        <div className="flex items-center justify-between">
+          <button
+            type="button"
+            onClick={() => setInputsCollapsed((current) => !current)}
+            aria-expanded={!inputsCollapsed}
+            aria-label={
+              inputsCollapsed ? "Mostrar filtros" : "Esconder filtros"
+            }
+            className="flex items-center gap-1 font-chrome text-xs uppercase tracking-wide text-ash-steel hover:text-sheikah"
+          >
+            <ChevronDown
+              className={`h-4 w-4 transition-transform duration-300 ease-out ${
+                inputsCollapsed ? "rotate-0" : "rotate-180"
+              }`}
+            />
+            {inputsCollapsed ? "Mostrar filtros" : "Esconder filtros"}
+          </button>
+          <button
+            type="button"
+            onClick={() => setInfoOpen(true)}
+            aria-label="Como funciona a calculadora"
+            className="flex items-center gap-1 font-chrome text-xs uppercase tracking-wide text-ash-steel hover:text-sheikah"
+          >
+            <Info className="h-4 w-4" />
+            Como funciona
+          </button>
+        </div>
+
+        {infoOpen && <CalculatorInfoModal onClose={() => setInfoOpen(false)} />}
+
+        <div
+          className={`grid overflow-hidden transition-[grid-template-rows] duration-300 ease-out ${
+            inputsCollapsed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"
+          }`}
         >
-          <Info className="h-4 w-4" />
-          Como funciona
-        </button>
+          <div className="flex min-h-0 flex-col gap-4 overflow-hidden">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+              <HeartsInput
+                label="Corações atuais"
+                value={currentHearts}
+                min={MIN_HEARTS}
+                max={MAX_HEARTS}
+                onChange={setCurrentHearts}
+              />
+
+              <StaminaInput
+                label="Vigor atual"
+                value={currentStaminaWheels}
+                min={MIN_STAMINA_WHEELS}
+                max={MAX_STAMINA_WHEELS}
+                onChange={setCurrentStaminaWheels}
+              />
+            </div>
+
+            <EffectIconFilter
+              selected={selectedEffects}
+              onChange={setSelectedEffects}
+              multiple={false}
+              excludeEffectIds={["extra-hearts", "extra-stamina"]}
+            />
+          </div>
+        </div>
       </div>
 
-      {infoOpen && <CalculatorInfoModal onClose={() => setInfoOpen(false)} />}
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 py-6">
+        <div className="flex flex-col gap-4">
+          <BucketSection
+            title="Corações"
+            unitLabel={(value) => `${value} corações`}
+            buckets={heartsBuckets}
+            hasFavorites={recipes.length > 0}
+            onOpenInCreator={onOpenInCreator}
+          />
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <HeartsInput
-          label="Corações atuais"
-          value={currentHearts}
-          min={MIN_HEARTS}
-          max={MAX_HEARTS}
-          onChange={setCurrentHearts}
-        />
-
-        <StaminaInput
-          label="Vigor atual"
-          value={currentStaminaWheels}
-          min={MIN_STAMINA_WHEELS}
-          max={MAX_STAMINA_WHEELS}
-          onChange={setCurrentStaminaWheels}
-        />
+          <BucketSection
+            title="Vigor"
+            unitLabel={(value) => `${(value / 5).toFixed(1)} rodas`}
+            buckets={staminaBuckets}
+            hasFavorites={recipes.length > 0}
+            onOpenInCreator={onOpenInCreator}
+          />
+        </div>
       </div>
-
-      <EffectIconFilter
-        selected={selectedEffects}
-        onChange={setSelectedEffects}
-        multiple={false}
-        excludeEffectIds={["extra-hearts", "extra-stamina"]}
-      />
-
-      <BucketSection
-        title="Corações"
-        unitLabel={(value) => `${value} corações`}
-        buckets={heartsBuckets}
-        hasFavorites={recipes.length > 0}
-        onOpenInCreator={onOpenInCreator}
-      />
-
-      <BucketSection
-        title="Vigor"
-        unitLabel={(value) => `${(value / 5).toFixed(1)} rodas`}
-        buckets={staminaBuckets}
-        hasFavorites={recipes.length > 0}
-        onOpenInCreator={onOpenInCreator}
-      />
     </main>
   );
 }

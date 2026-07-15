@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Clock, Plus, X } from "lucide-react";
 import { effects, materialsById } from "../../data";
-import { computeDish } from "../../lib/cookingFormula";
+import { computeDish, tierLabelForPotency } from "../../lib/cookingFormula";
 import {
   findMatchingDishes,
   isJunkTemplate,
@@ -52,6 +52,9 @@ export function RecipeCreatorView({
   const displayDuration = isJunk ? null : result.durationSeconds;
   const effect = effects.find((entry) => entry.id === displayEffect);
   const staminaIcons = getStaminaIcons(displayEffect, result.staminaWheels);
+  const tierLabel = isJunk
+    ? undefined
+    : tierLabelForPotency(result.effect, result.potency);
 
   return (
     <main className="mx-auto flex h-full max-w-4xl flex-col">
@@ -153,6 +156,11 @@ export function RecipeCreatorView({
                       >
                         <Clock className="h-4 w-4 text-ash-steel" />
                         {formatDuration(displayDuration)}
+                      </span>
+                    )}
+                    {tierLabel && (
+                      <span className="font-chrome text-[11px] font-bold uppercase tracking-[0.15em] text-sheikah">
+                        NV. {result.potency}
                       </span>
                     )}
                   </div>

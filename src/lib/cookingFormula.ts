@@ -39,6 +39,37 @@ const POTENCY_CEILING: Record<EffectId, number> = {
 // (docs/cooking-formula.md seção 8).
 const SELL_PRICE_MULTIPLIER = [1.5, 1.8, 2.1, 2.4, 2.8];
 
+// Efeitos cuja potência corresponde diretamente ao nível de tier (Low/Mid/High
+// no jogo = potency 1/2/3, ou 1/2 pros dois que só têm 2 níveis) — ver
+// docs/cooking-formula.md seção 5. `extra-hearts`/`extra-stamina`/
+// `restore-stamina` também escalam por potência mas não são "tiers" nesse
+// sentido (viram corações/vigor bônus, não nível de efeito).
+const TIERED_EFFECTS = new Set<EffectId>([
+  "attack",
+  "defense",
+  "electric-resist",
+  "stealth",
+  "speed",
+  "cold-resist",
+  "heat-resist",
+]);
+
+/**
+ * Deriva o variantLabel "Tier N" a partir da potência calculada ao vivo, pro
+ * badge "NV. X" (`tierCount()`) já existente na UI reconhecer sem precisar de
+ * dado estático pré-cadastrado. Só se aplica a efeitos de TIERED_EFFECTS e só
+ * a partir de potency >= 2 (potency 1 é o padrão implícito, sem badge).
+ */
+export function tierLabelForPotency(
+  effect: EffectId | undefined,
+  potency: number | null | undefined,
+): { "pt-br": string; en: string } | undefined {
+  if (!effect || !potency || potency < 2 || !TIERED_EFFECTS.has(effect)) {
+    return undefined;
+  }
+  return { "pt-br": `Nível ${potency}`, en: `Tier ${potency}` };
+}
+
 const FAIRY_ID = "fairy";
 const FAIRY_HEARTS_BONUS = 28;
 // Corações da Poção de Fada quando só há Fada(s) na receita, sem mais nada —

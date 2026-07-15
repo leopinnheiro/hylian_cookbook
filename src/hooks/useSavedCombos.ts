@@ -1,10 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "hylian-cookbook:saved-combos";
 
 export interface SavedCombo {
   id: string;
   materialIds: (string | null)[];
+}
+
+function normalizeSignature(materialIds: (string | null)[]): string {
+  return materialIds
+    .filter((id): id is string => Boolean(id))
+    .sort()
+    .join("|");
 }
 
 function readStoredCombos(): SavedCombo[] {
@@ -26,6 +33,8 @@ function readStoredCombos(): SavedCombo[] {
 
 export function useSavedCombos() {
   const [combos, setCombos] = useState<SavedCombo[]>(() => readStoredCombos());
+  const combosRef = useRef(combos);
+  combosRef.current = combos;
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(combos));
@@ -41,12 +50,22 @@ export function useSavedCombos() {
     return () => window.removeEventListener("storage", onStorage);
   }, []);
 
+  // Duas combinações são "a mesma" se usam os mesmos materiais, independente
+  // de slot/ordem — não faz sentido duplicar o registro só porque o
+  // ingrediente foi colocado num slot diferente.
   const saveCombo = useCallback((materialIds: (string | null)[]) => {
+    const signature = normalizeSignature(materialIds);
+    const alreadySaved = combosRef.current.some(
+      (combo) => normalizeSignature(combo.materialIds) === signature,
+    );
+    if (alreadySaved) return false;
+
     const id =
       typeof crypto !== "undefined" && "randomUUID" in crypto
         ? crypto.randomUUID()
         : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     setCombos((current) => [...current, { id, materialIds }]);
+    return true;
   }, []);
 
   const removeCombo = useCallback((id: string) => {

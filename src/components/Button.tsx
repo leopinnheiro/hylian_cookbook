@@ -30,14 +30,14 @@ export function Button({
             ? "var(--color-sheikah)"
             : "var(--color-ash-steel)",
         }
-      : {
-          color: "var(--color-sheikah)",
-          borderColor: "var(--color-sheikah)",
-        };
+      : undefined;
 
+  // Cor/borda do variant "action" via classe (não `style`) — um `style`
+  // inline com `color` tem especificidade maior que qualquer classe
+  // `hover:`, fazendo o texto sumir no hover (mesma cor do fundo preenchido).
   const actionClass =
     variant === "action"
-      ? "hover:bg-sheikah hover:text-obsidian disabled:hover:bg-transparent disabled:hover:text-sheikah"
+      ? "border-sheikah text-sheikah hover:bg-sheikah hover:text-obsidian disabled:hover:bg-transparent disabled:hover:text-sheikah"
       : "";
 
   return (

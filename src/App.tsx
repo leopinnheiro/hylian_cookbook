@@ -58,8 +58,12 @@ function App() {
   const [creatorSeedKey, setCreatorSeedKey] = useState(0);
 
   const handleSaveCombo = (materialIds: (string | null)[]) => {
-    saveCombo(materialIds);
-    toast("Combinação salva nos favoritos", { icon: "⭐" });
+    const saved = saveCombo(materialIds);
+    if (saved) {
+      toast("Combinação salva em Minhas Combinações", { icon: "⭐" });
+    } else {
+      toast("Essa combinação já está salva", { icon: "ℹ️" });
+    }
   };
 
   const openInCreator = (ingredients: Recipe["ingredients"]) => {
@@ -211,7 +215,7 @@ function App() {
         />
 
         <div
-          className={`flex-1 ${tab === "creator" ? "overflow-hidden" : "overflow-y-auto"}`}
+          className={`flex-1 ${tab === "creator" || tab === "calculator" ? "overflow-hidden" : "overflow-y-auto"}`}
         >
           {tab === "materials" ? (
             <MaterialsView

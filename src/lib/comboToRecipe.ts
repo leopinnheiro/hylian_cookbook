@@ -1,6 +1,6 @@
 import type { Recipe } from "../data/types";
 import type { SavedCombo } from "../hooks/useSavedCombos";
-import { computeDish } from "./cookingFormula";
+import { computeDish, tierLabelForPotency } from "./cookingFormula";
 import { findMatchingDishes, isJunkTemplate, pickDisplayDish } from "./matchRecipes";
 
 const FALLBACK_NAME = {
@@ -29,7 +29,12 @@ export function comboToRecipe(combo: SavedCombo): Recipe {
   return {
     id: combo.id,
     effect: isJunk ? undefined : result.effect,
-    variantLabel: { "pt-br": "Prato Cozido", en: "Cooked Dish" },
+    variantLabel: isJunk
+      ? { "pt-br": "Prato Cozido", en: "Cooked Dish" }
+      : (tierLabelForPotency(result.effect, result.potency) ?? {
+          "pt-br": "Prato Cozido",
+          en: "Cooked Dish",
+        }),
     name: dish?.name ?? FALLBACK_NAME,
     hearts: result.hearts,
     durationSeconds: isJunk ? null : result.durationSeconds,
