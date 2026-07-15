@@ -50,7 +50,7 @@ export function Sidebar({ tab, onTabChange, open, onClose }: SidebarProps) {
           </button>
         </div>
 
-        <nav className="flex flex-col gap-1 p-3">
+        <nav className="flex flex-col gap-2 p-3">
           {ITEMS.map(({ tab: itemTab, label, icon: Icon }) => (
             <Button
               key={itemTab}
@@ -62,7 +62,6 @@ export function Sidebar({ tab, onTabChange, open, onClose }: SidebarProps) {
                 onTabChange(itemTab);
                 onClose();
               }}
-              className="text-sm"
             >
               {label}
             </Button>

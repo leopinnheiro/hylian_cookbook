@@ -201,7 +201,9 @@ function App() {
           onFavoritesQueryChange={setFavoritesQuery}
         />
 
-        <div className="flex-1 overflow-y-auto">
+        <div
+          className={`flex-1 ${tab === "creator" ? "overflow-hidden" : "overflow-y-auto"}`}
+        >
           {tab === "materials" ? (
             <MaterialsView
               items={filteredMaterials}

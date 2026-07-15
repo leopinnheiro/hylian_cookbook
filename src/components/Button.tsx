@@ -17,7 +17,8 @@ export function Button({
   ...rest
 }: ButtonProps) {
   const base =
-    "flex items-center gap-2 border px-3 py-1.5 font-chrome text-xs uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-40";
+    "flex items-center gap-2 border px-3 py-1.5 font-chrome uppercase tracking-wide transition-colors disabled:cursor-not-allowed disabled:opacity-40";
+  const sizeClass = variant === "nav" ? "text-sm" : "text-xs";
   const justifyClass = variant === "nav" ? "justify-start" : "justify-center";
 
   const style =
@@ -42,7 +43,7 @@ export function Button({
   return (
     <button
       type="button"
-      className={`${base} ${justifyClass} ${actionClass} ${className}`}
+      className={`${base} ${sizeClass} ${justifyClass} ${actionClass} ${className}`}
       style={style}
       {...rest}
     >

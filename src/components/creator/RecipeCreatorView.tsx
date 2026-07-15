@@ -54,7 +54,8 @@ export function RecipeCreatorView({
   const staminaIcons = getStaminaIcons(displayEffect, result.staminaWheels);
 
   return (
-    <main className="mx-auto flex max-w-4xl flex-col gap-3 px-4 py-6">
+    <main className="mx-auto flex h-full max-w-4xl flex-col">
+      <div className="flex flex-none flex-col gap-3 border-b border-ash-steel/20 px-4 pb-3 pt-6">
       <div className="grid grid-cols-5 justify-items-center gap-2">
         {selection.map((materialId, index) => {
           const material = materialId ? materialsById[materialId] : undefined;
@@ -180,41 +181,44 @@ export function RecipeCreatorView({
           Salvar combinação
         </Button>
       </div>
+      </div>
 
-      {filledCount > 0 && (
-        <div className="flex flex-col gap-2">
-          <h3 className="font-chrome text-xs uppercase tracking-[0.15em] text-ash-steel">
-            Receitas possíveis com essa combinação
-          </h3>
-          {displayableDishes.length === 0 ? (
-            <p className="text-xs text-ash-steel">
-              Nenhuma receita catalogada bate com essa combinação ainda.
-            </p>
-          ) : (
-            <ul className="flex flex-col gap-2">
-              {displayableDishes.map((dish) => (
-                <li key={dish.id}>
-                  <RecipeTemplateCard
-                    template={dish}
-                    possibleEffectIds={templateEffects(dish)}
-                    onOpenInCreator={
-                      isJunkTemplate(dish.id)
-                        ? undefined
-                        : () =>
-                            setSelection((current) =>
-                              mergeSelectionIntoTemplate(
-                                current,
-                                dish.ingredients,
-                              ),
-                            )
-                    }
-                  />
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      )}
+      <div className="min-h-0 flex-1 overflow-y-auto px-4 pb-6">
+        {filledCount > 0 && (
+          <div className="flex flex-col gap-2 pt-3">
+            <h3 className="font-chrome text-xs uppercase tracking-[0.15em] text-ash-steel">
+              Receitas possíveis com essa combinação
+            </h3>
+            {displayableDishes.length === 0 ? (
+              <p className="text-xs text-ash-steel">
+                Nenhuma receita catalogada bate com essa combinação ainda.
+              </p>
+            ) : (
+              <ul className="flex flex-col gap-2">
+                {displayableDishes.map((dish) => (
+                  <li key={dish.id}>
+                    <RecipeTemplateCard
+                      template={dish}
+                      possibleEffectIds={templateEffects(dish)}
+                      onOpenInCreator={
+                        isJunkTemplate(dish.id)
+                          ? undefined
+                          : () =>
+                              setSelection((current) =>
+                                mergeSelectionIntoTemplate(
+                                  current,
+                                  dish.ingredients,
+                                ),
+                              )
+                      }
+                    />
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
 
       {openSlot !== null && (
         <MaterialPickerModal
