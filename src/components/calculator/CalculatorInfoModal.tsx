@@ -54,11 +54,16 @@ export function CalculatorInfoModal({ onClose }: CalculatorInfoModalProps) {
         <div className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto p-4">
           <p className="font-dish text-base text-ash-steel">
             Informe quantos corações e quantas rodas de vigor você tem agora. A
-            lista mostra só receitas que não estouram esse valor, agrupadas do
-            maior pro menor, com as opções mais baratas (menos ingredientes)
-            primeiro. Corações/vigor extra (Hearty/Enduring) não entram aqui.
-            Use os ícones de efeito pra filtrar a lista por um efeito
-            específico.
+            lista busca entre as suas combinações salvas em Minhas Combinações
+            e mostra só as que não estouram esse valor, agrupadas do maior pro
+            menor, com as opções mais baratas (menos ingredientes) primeiro.
+            Corações/vigor extra (Hearty/Enduring) não entram aqui. Use os
+            ícones de efeito pra filtrar a lista por um efeito específico.
+          </p>
+          <p className="font-dish text-base text-ash-steel">
+            Sem nenhum combo salvo ainda? Monte uma combinação no Criar
+            Receita e salve em Minhas Combinações — é de lá que a Calculadora
+            puxa as opções.
           </p>
 
           <div className="flex flex-col gap-2 border-t border-ash-steel/20 pt-4">

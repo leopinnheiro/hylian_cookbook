@@ -20,8 +20,8 @@ export function SavedCombosView({
           title={hasCombos ? "Nenhum resultado" : "Nenhuma combinação salva ainda"}
           description={
             hasCombos
-              ? "Nenhum favorito corresponde à busca ou ao filtro de efeito atual. Tente outro termo ou limpe o filtro."
-              : "Monte uma combinação no Criar Receita e salve pra guardar aqui — seus favoritos ficam salvos neste dispositivo."
+              ? "Nenhuma combinação corresponde à busca ou ao filtro de efeito atual. Tente outro termo ou limpe o filtro."
+              : "Monte uma combinação no Criar Receita e salve pra guardar aqui — suas combinações ficam salvas neste dispositivo."
           }
         />
       ) : (

@@ -8,9 +8,9 @@ import type { Tab } from "../lib/tabs";
 
 const TAB_LABELS: Record<Tab, string> = {
   all: "Receitas",
-  favorites: "Favoritos",
+  favorites: "Minhas Combinações",
   materials: "Materiais",
-  creator: "Criar Receita WIP",
+  creator: "Criar Receita",
   calculator: "Calculadora",
 };
 

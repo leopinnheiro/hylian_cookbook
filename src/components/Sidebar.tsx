@@ -11,9 +11,9 @@ interface SidebarProps {
 
 const ITEMS: { tab: Tab; label: string; icon: typeof BookOpen }[] = [
   { tab: "all", label: "Receitas", icon: BookOpen },
-  { tab: "favorites", label: "Favoritos", icon: Star },
+  { tab: "favorites", label: "Minhas Combinações", icon: Star },
   { tab: "materials", label: "Materiais", icon: Package },
-  { tab: "creator", label: "Criar Receita WIP", icon: ChefHat },
+  { tab: "creator", label: "Criar Receita", icon: ChefHat },
   { tab: "calculator", label: "Calculadora", icon: Calculator },
 ];
 

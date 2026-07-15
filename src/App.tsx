@@ -20,6 +20,7 @@ import {
   templateEffects,
 } from "./lib/matchRecipes";
 import { computeDish } from "./lib/cookingFormula";
+import { comboToRecipe } from "./lib/comboToRecipe";
 import { normalizeSearch } from "./lib/format";
 
 function matchesRecipeSearch(template: RecipeTemplate, query: string): boolean {
@@ -146,6 +147,14 @@ function App() {
       });
   }, [combos, selectedEffects, favoritesQuery]);
 
+  // A Calculadora não tem mais um catálogo estático pra filtrar por vantagem
+  // (ver docs/cooking-formula.md) — usa as próprias combinações salvas como
+  // fonte, convertidos pro resultado exato via computeDish.
+  const calculatorRecipes = useMemo(
+    () => combos.map(comboToRecipe),
+    [combos],
+  );
+
   const filteredMaterials = useMemo(() => {
     return materials
       .filter((material) =>
@@ -223,7 +232,7 @@ function App() {
             />
           ) : tab === "calculator" ? (
             <AdvantageCalculatorView
-              recipes={[]}
+              recipes={calculatorRecipes}
               onOpenInCreator={handleOpenRecipeInCreator}
             />
           ) : (

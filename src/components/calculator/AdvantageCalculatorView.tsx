@@ -30,11 +30,13 @@ function BucketSection({
   title,
   unitLabel,
   buckets,
+  hasFavorites,
   onOpenInCreator,
 }: {
   title: string;
   unitLabel: (value: number) => string;
   buckets: RecipeBucket[];
+  hasFavorites: boolean;
   onOpenInCreator: (recipe: Recipe) => void;
 }) {
   return (
@@ -45,7 +47,11 @@ function BucketSection({
       {buckets.length === 0 ? (
         <EmptyState
           title="Nenhuma receita disponível"
-          description="Nenhuma receita cabe no valor informado sem estourar. Tente um número maior."
+          description={
+            hasFavorites
+              ? "Nenhum favorito cabe no valor informado sem estourar. Tente um número maior."
+              : "Você ainda não tem combinações salvas em Minhas Combinações — monte uma no Criar Receita e salve pra ela aparecer aqui."
+          }
         />
       ) : (
         buckets.map(({ value, items }) => (
@@ -153,6 +159,7 @@ export function AdvantageCalculatorView({
         title="Corações"
         unitLabel={(value) => `${value} corações`}
         buckets={heartsBuckets}
+        hasFavorites={recipes.length > 0}
         onOpenInCreator={onOpenInCreator}
       />
 
@@ -160,6 +167,7 @@ export function AdvantageCalculatorView({
         title="Vigor"
         unitLabel={(value) => `${(value / 5).toFixed(1)} rodas`}
         buckets={staminaBuckets}
+        hasFavorites={recipes.length > 0}
         onOpenInCreator={onOpenInCreator}
       />
     </main>
