@@ -119,13 +119,13 @@ export function MaterialPickerModal({
 
   return createPortal(
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-obsidian/80 p-4 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-obsidian/80 p-4 pt-12 transition-opacity duration-300 ${
         shown ? "opacity-100" : "opacity-0"
       }`}
       onClick={handleClose}
     >
       <div
-        className={`flex max-h-[80vh] w-full max-w-[90vw] flex-col border border-ash-steel/40 bg-deep-steel transition-[opacity,transform] duration-300 ease-out sm:max-w-md ${
+        className={`flex max-h-[85vh] w-full max-w-[90vw] flex-none flex-col border border-ash-steel/40 bg-deep-steel transition-[opacity,transform] duration-300 ease-out sm:max-w-md ${
           shown ? "scale-100 opacity-100" : "scale-95 opacity-0"
         }`}
         onClick={(event) => event.stopPropagation()}
