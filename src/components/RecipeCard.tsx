@@ -140,7 +140,7 @@ export function RecipeCard({
                 className="flex items-center gap-1"
                 title="Duração do efeito"
               >
-                <Clock className="h-4 w-4 text-ash-steel" />
+                <Clock className="h-4 w-4 text-sheikah" />
                 {formatDuration(recipe.durationSeconds)}
               </span>
             </div>

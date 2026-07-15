@@ -39,7 +39,9 @@ export function VendorModal({
     >
       <div
         className={`flex max-h-[80vh] w-full max-w-[90vw] flex-col border border-ash-steel/40 bg-deep-steel transition-[opacity,transform] duration-300 ease-out sm:max-w-sm ${
-          shown ? "scale-100 opacity-100" : "scale-95 opacity-0"
+          shown
+            ? "translate-y-0 scale-100 opacity-100"
+            : "translate-y-4 scale-95 opacity-0"
         }`}
         onClick={(event) => event.stopPropagation()}
       >

@@ -47,7 +47,7 @@ export function MaterialCard({ material }: MaterialCardProps) {
           </span>
           {(material.durationSeconds ?? 0) > 0 && (
             <span
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 text-sheikah"
               title="Duração adicionada"
             >
               <Clock className="h-3.5 w-3.5" />
@@ -88,7 +88,7 @@ export function MaterialCard({ material }: MaterialCardProps) {
           />
           {basePotency !== undefined && (
             <span
-              className="flex items-center gap-1 font-mono text-xs text-ash-steel"
+              className="flex items-center gap-1 font-mono text-xs text-sheikah"
               title="Potência do ingrediente"
             >
               <Gauge className="h-3.5 w-3.5" />

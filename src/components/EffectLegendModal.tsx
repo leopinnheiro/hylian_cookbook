@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { X } from "lucide-react";
-import { EffectLegendList } from "../EffectLegendList";
+import { EffectLegendList } from "./EffectLegendList";
 
-interface CalculatorInfoModalProps {
+interface EffectLegendModalProps {
   onClose: () => void;
 }
 
 const TRANSITION_MS = 200;
 
-export function CalculatorInfoModal({ onClose }: CalculatorInfoModalProps) {
+export function EffectLegendModal({ onClose }: EffectLegendModalProps) {
   const [visible, setVisible] = useState(false);
   const [closing, setClosing] = useState(false);
 
@@ -41,7 +41,7 @@ export function CalculatorInfoModal({ onClose }: CalculatorInfoModalProps) {
       >
         <div className="flex items-start justify-between gap-2 border-b border-ash-steel/20 p-4">
           <h4 className="font-chrome text-sm uppercase tracking-[0.15em] text-sheikah">
-            Como funciona
+            Legenda dos efeitos
           </h4>
           <button
             type="button"
@@ -52,27 +52,8 @@ export function CalculatorInfoModal({ onClose }: CalculatorInfoModalProps) {
             <X className="h-5 w-5" />
           </button>
         </div>
-        <div className="flex max-h-[70vh] flex-col gap-4 overflow-y-auto p-4">
-          <p className="font-dish text-base text-ash-steel">
-            Informe quantos corações e quantas rodas de vigor você tem agora. A
-            lista busca entre as suas combinações salvas em Minhas Combinações
-            e mostra só as que não estouram esse valor, agrupadas do maior pro
-            menor, com as opções mais baratas (menos ingredientes) primeiro.
-            Corações/vigor extra (Hearty/Enduring) não entram aqui. Use os
-            ícones de efeito pra filtrar a lista por um efeito específico.
-          </p>
-          <p className="font-dish text-base text-ash-steel">
-            Sem nenhum combo salvo ainda? Monte uma combinação no Criar
-            Receita e salve em Minhas Combinações — é de lá que a Calculadora
-            puxa as opções.
-          </p>
-
-          <div className="flex flex-col gap-2 border-t border-ash-steel/20 pt-4">
-            <h5 className="font-chrome text-xs uppercase tracking-[0.15em] text-ash-steel">
-              Legenda dos efeitos
-            </h5>
-            <EffectLegendList />
-          </div>
+        <div className="max-h-[70vh] overflow-y-auto p-4">
+          <EffectLegendList />
         </div>
       </div>
     </div>,

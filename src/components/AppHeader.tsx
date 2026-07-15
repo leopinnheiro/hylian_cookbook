@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { ChevronDown, Menu } from "lucide-react";
+import { ChevronDown, Info, Menu } from "lucide-react";
 import type { EffectId } from "../data/types";
 import { SearchBar } from "./SearchBar";
 import { EffectIconFilter } from "./EffectIconFilter";
 import { CategoryFilter } from "./materials/CategoryFilter";
+import { EffectLegendModal } from "./EffectLegendModal";
 import type { Tab } from "../lib/tabs";
 
 const TAB_LABELS: Record<Tab, string> = {
@@ -50,6 +51,7 @@ export function AppHeader({
   const hasSearchBar =
     tab === "all" || tab === "materials" || tab === "favorites";
   const [filtersCollapsed, setFiltersCollapsed] = useState(false);
+  const [legendOpen, setLegendOpen] = useState(false);
 
   return (
     <header className="flex-none border-ash-steel/30 bg-deep-steel/80 px-4 pt-4 pb-3 backdrop-blur border">
@@ -72,12 +74,27 @@ export function AppHeader({
               {TAB_LABELS[tab]}
             </h1>
           </div>
-          <img
-            src={`${import.meta.env.BASE_URL}logo.svg`}
-            alt="Hylian Cookbook"
-            className="h-8 w-auto"
-          />
+          <div className="flex items-center gap-3">
+            <button
+              type="button"
+              onClick={() => setLegendOpen(true)}
+              aria-label="Legenda dos efeitos"
+              title="Legenda dos efeitos"
+              className="text-ash-steel hover:text-sheikah"
+            >
+              <Info className="h-5 w-5" />
+            </button>
+            <img
+              src={`${import.meta.env.BASE_URL}logo.svg`}
+              alt="Hylian Cookbook"
+              className="h-8 w-auto"
+            />
+          </div>
         </div>
+
+        {legendOpen && (
+          <EffectLegendModal onClose={() => setLegendOpen(false)} />
+        )}
 
         {hasFilters && (
           <>
