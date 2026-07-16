@@ -181,9 +181,10 @@ export function computeDish(materialIds: (string | null)[]): DishResult {
         sum += FAIRY_HEARTS_BONUS;
       }
     }
-    // O acumulador acima está em quarto-de-coração cozido; Recipe.hearts usa
-    // meio-coração, então divide por 2 (docs/cooking-formula.md seção 6).
-    hearts = sum > 0 ? Math.round(sum / 2) : isElixir ? 0 : 1;
+    // Recipe.hearts usa quarto-de-coração, a mesma unidade do acumulador
+    // acima e de Material.hp (docs/cooking-formula.md seção 6) — dá pra
+    // exibir com precisão de quarto via getHeartIcons().
+    hearts = sum > 0 ? sum : isElixir ? 0 : 1;
   }
 
   // rodas de estamina: mesma unidade da potência pra Enduring/Energizing.

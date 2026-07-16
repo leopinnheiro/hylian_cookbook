@@ -98,30 +98,24 @@ Hearty, o total é limitado por um teto por categoria:
 
 ## 6. Corações (`Recipe.hearts`)
 
-Três unidades diferentes entram em jogo aqui — importante não confundir:
+`Recipe.hearts` usa a mesma unidade de `Material.hp`: **quarto-de-coração**. Não tem mais conversão
+de unidade no meio do caminho — o valor final é a soma acumulada direto, sem dividir por nada. Pra
+exibir com precisão de quarto (ícones `heart-0.svg`..`heart-4.svg`, um "notch" por quarto igual ao
+indicador de vida clássico da série), use `getHeartIcons()` em `src/lib/format.ts` (mesmo padrão de
+`getWheelIcons()` pro vigor). Pra mostrar só o número de corações reais (sem ícone), divida por 4.
 
-| Unidade                                                  | O que é                                             | Exemplo (Maçã)               |
-| -------------------------------------------------------- | --------------------------------------------------- | ---------------------------- |
-| `Material.hp` (interno da fórmula)                       | quarto-de-coração cru, antes de cozinhar            | `hp: 2` = 0,5 coração cru    |
-| Acumulador da fórmula (`2 × hp`, somado por ingrediente) | quarto-de-coração, já cozido                        | `2×2 = 4` = 1 coração cozido |
-| `Recipe.hearts` (o que o catálogo guarda)                | **meio-coração** (não é coração inteiro nem quarto) | `hearts: 2` = 1 coração real |
+Exemplo (Maçã): `hp: 2` = 0,5 coração cru. Cozinhando 1 Maçã sozinha (receita "Cozido de Frutas"),
+acumulador = `2 × 2 = 4` quarto-de-coração = 1 coração real — e é esse `4` que vai direto pra
+`Recipe.hearts`.
 
-Ou seja: `Recipe.hearts = acumulador da fórmula ÷ 2`. **Pra mostrar "corações reais" pro usuário
-(o número que aparece no jogo, tipo "cura 2,5 corações"), divida `Recipe.hearts` por 2.**
-
-Confirmado no jogo: Maçã crua = 0,5 coração (bate com `hp: 2` em quarto-de-coração). Cozinhando 1
-Maçã sozinha (receita "Cozido de Frutas") = 1 coração real no jogo, e o catálogo guarda
-`hearts: 2` pra essa receita — `2 ÷ 2 = 1` ✓.
-
-Cálculo do acumulador (antes de aplicar a divisão acima), por ingrediente (com 3 exceções hardcoded
-por material específico — não seguem a regra geral e não dependem do campo `hp` daquele material):
+Cálculo do acumulador, por ingrediente (com 3 exceções hardcoded por material específico — não
+seguem a regra geral e não dependem do campo `hp` desse material):
 
 - Se não há ingredientes → 0.
 - Se o efeito é **Hearty/extra-hearts** → sempre **120** (valor-sentinela de cura total, não é uma
-  soma — é fixo independente dos ingredientes usados, contanto que o efeito seja Hearty). Isso daria
-  `Recipe.hearts = 60`, mas ver seção 10 — essa regra é uma simplificação do site que não reflete a
-  cura real de combos Hearty fracos; nesses casos confie no valor já gravado no catálogo, vindo da
-  wiki, em vez de recalcular.
+  soma — é fixo independente dos ingredientes usados, contanto que o efeito seja Hearty; ver seção
+  10 — essa regra é uma simplificação do site que não reflete a cura real de combos Hearty fracos;
+  nesses casos confie no valor já gravado no catálogo, vindo da wiki, em vez de recalcular).
 - Senão, soma por ingrediente:
   - Se o prato é elixir (`isElixir`) **e** o ingrediente não é Fada → **não conta hp nenhum** pra
     esse ingrediente (elixires não curam, só a exceção da Fada abaixo).
@@ -132,10 +126,10 @@ por material específico — não seguem a regra geral e não dependem do campo 
   - **Bolota / Fruto-de-árvore Chickaloo** (`acorn`, `chickaloo-tree-nut`): contribuição **fixa**
     (+4 na primeira cópia, +2 nas repetições), **ignorando o campo `hp` desses materiais**.
   - Qualquer outro material: soma `2 × Material.hp` (a cozinha sempre dobra o valor cru de cura).
-- Se depois de tudo o acumulado deu 0 → resultado é 0 (se elixir) ou 1 (se prato de comida — piso
-  mínimo de cura, "não pode curar zero corações num prato válido").
-- Senão, o resultado é a soma acumulada.
-- Por fim, **divida por 2** pra chegar em `Recipe.hearts` (a unidade de meio-coração do catálogo).
+- Se depois de tudo o acumulado deu 0 → resultado é 0 (se elixir) ou 1 quarto-de-coração (se prato
+  de comida — piso mínimo de cura, "não pode curar zero corações num prato válido"; ver seção 10,
+  esse piso ainda não foi confirmado no jogo pra unidade de quarto).
+- Senão, o resultado é a soma acumulada, sem mais nenhuma divisão.
 
 ## 7. Poção de Fada (Tônico Feérico)
 
@@ -183,11 +177,15 @@ O total é arredondado pra cima, múltiplo de 10 (`10 × ceil(soma / 10)`).
   um resultado fora da curva (12:10 em vez de 7:10 pra 4 cópias) foi atribuído ao bônus aleatório de
   "crítico de cozimento" do jogo — um novo teste limpo confirmou o valor previsto pela fórmula.
 - **Maçã crua = 0,5 coração**; cozinhar 1 Maçã sozinha ("Cozido de Frutas") = **1 coração real**.
-  Confirmou a unidade de `Material.hp` (quarto-de-coração) e a de `Recipe.hearts` (meio-coração) —
-  ver seção 6.
+  Confirmou a unidade de `Material.hp` (quarto-de-coração) — ver seção 6.
 
 ## 10. O que ainda não foi confirmado/está em aberto
 
+- `Recipe.hearts` passou a usar quarto-de-coração direto (antes tinha uma divisão por 2 pro meio-
+  coração, removida — ver seção 6). A tabela da Poção de Fada (`FAIRY_ONLY_HEARTS`, seção 7) e o
+  piso mínimo de 1 pra prato sem ingrediente com hp (seção 6) foram escritos/testados sob a unidade
+  antiga e **não foram reconferidos** contra a unidade nova — se algum desses valores estiver errado
+  agora, é aqui que precisa ajustar.
 - A regra especial da Especiaria Goron (`durationSecondsForFirstCopy: 90` vs. `durationSeconds: 30`)
   não foi testada no jogo ainda (falta o item). Usada como extraída da base, mas sem confirmação
   empírica direta.

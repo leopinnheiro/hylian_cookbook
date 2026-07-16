@@ -13,6 +13,7 @@ const TAB_LABELS: Record<Tab, string> = {
   materials: "Materiais",
   creator: "Criar Receita",
   calculator: "Calculadora",
+  recommended: "Recomendadas",
 };
 
 interface AppHeaderProps {

@@ -23,6 +23,7 @@ interface SortCriterion {
 interface MaterialPickerModalProps {
   slotIndex: number;
   selection: (string | null)[];
+  lastPickedId: string | null;
   onSelect: (materialId: string) => void;
   onClose: () => void;
 }
@@ -37,6 +38,7 @@ const SORT_PROPERTY: Record<SortKey, keyof IngredientContribution> = {
 export function MaterialPickerModal({
   slotIndex,
   selection,
+  lastPickedId,
   onSelect,
   onClose,
 }: MaterialPickerModalProps) {
@@ -77,7 +79,7 @@ export function MaterialPickerModal({
 
   // Cada botão empilha um critério de ordenação (clicar de novo alterna
   // desc -> asc -> desliga); o primeiro ativado manda, o segundo desempata.
-  const filtered = useMemo(() => {
+  const sorted = useMemo(() => {
     if (sortStack.length === 0) return searched;
     return [...searched].sort((a, b) => {
       for (const { key, direction } of sortStack) {
@@ -90,6 +92,20 @@ export function MaterialPickerModal({
       return 0;
     });
   }, [searched, sortStack, previewById]);
+
+  // Último ingrediente escolhido (em qualquer slot) sobe pro topo da lista,
+  // ignorando ordenação/busca — cobre o caso comum de querer repetir o mesmo
+  // ingrediente em vários slots (ex: 3x Bananas valentes) sem ter que
+  // procurar de novo toda vez.
+  const filtered = useMemo(() => {
+    if (!lastPickedId) return sorted;
+    const lastPickedIndex = sorted.findIndex((m) => m.id === lastPickedId);
+    if (lastPickedIndex <= 0) return sorted;
+    const next = [...sorted];
+    const [lastPicked] = next.splice(lastPickedIndex, 1);
+    next.unshift(lastPicked);
+    return next;
+  }, [sorted, lastPickedId]);
 
   const toggleSort = (key: SortKey) => {
     setSortStack((current) => {
@@ -188,6 +204,7 @@ export function MaterialPickerModal({
             <li key={material.id}>
               <MaterialOptionRow
                 material={material}
+                isLastPicked={material.id === lastPickedId}
                 preview={
                   previewById.get(material.id) ?? {
                     potency: null,

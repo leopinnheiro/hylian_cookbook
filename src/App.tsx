@@ -11,6 +11,8 @@ import { Sidebar } from "./components/Sidebar";
 import { RecipeCreatorView } from "./components/creator/RecipeCreatorView";
 import { SavedCombosView } from "./components/creator/SavedCombosView";
 import { AdvantageCalculatorView } from "./components/calculator/AdvantageCalculatorView";
+import { RecommendedView } from "./components/recommended/RecommendedView";
+import { recommendedCombos } from "./data/recommended";
 import { useSavedCombos } from "./hooks/useSavedCombos";
 import {
   findMatchingDishes,
@@ -237,6 +239,11 @@ function App() {
           ) : tab === "calculator" ? (
             <AdvantageCalculatorView
               recipes={calculatorRecipes}
+              onOpenInCreator={handleOpenRecipeInCreator}
+            />
+          ) : tab === "recommended" ? (
+            <RecommendedView
+              combos={recommendedCombos}
               onOpenInCreator={handleOpenRecipeInCreator}
             />
           ) : (

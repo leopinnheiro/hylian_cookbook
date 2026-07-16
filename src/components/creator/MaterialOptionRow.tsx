@@ -8,12 +8,14 @@ interface MaterialOptionRowProps {
   material: Material;
   preview: IngredientContribution;
   onSelect: () => void;
+  isLastPicked?: boolean;
 }
 
 export function MaterialOptionRow({
   material,
   preview,
   onSelect,
+  isLastPicked,
 }: MaterialOptionRowProps) {
   const effect = material.effect
     ? effects.find((entry) => entry.id === material.effect)
@@ -23,7 +25,9 @@ export function MaterialOptionRow({
     <button
       type="button"
       onClick={onSelect}
-      className="flex w-full items-center gap-2 bg-panel px-2 py-1.5 text-left text-sm font-chrome transition-colors hover:bg-panel/70"
+      className={`flex w-full items-center gap-2 bg-panel px-2 py-1.5 text-left text-sm font-chrome transition-colors hover:bg-panel/70 ${
+        isLastPicked ? "border-l-2 border-sheikah" : ""
+      }`}
     >
       <img
         src={assetUrl(material.image)}

@@ -5,6 +5,7 @@ import { effects, materialsById } from "../data";
 import {
   assetUrl,
   formatDuration,
+  getHeartsDisplay,
   getStaminaIcons,
   groupIngredientSlots,
   tierCount,
@@ -33,6 +34,7 @@ export function RecipeCard({
   const [openSlot, setOpenSlot] = useState<IngredientSlot | null>(null);
 
   const staminaIcons = getStaminaIcons(recipe.effect, recipe.staminaWheels);
+  const heartsDisplay = isFullHeal ? null : getHeartsDisplay(recipe.hearts);
 
   return (
     <article className="flex flex-col overflow-hidden border border-ash-steel/30 bg-deep-steel">
@@ -77,19 +79,44 @@ export function RecipeCard({
 
           {recipe.hearts > 0 && (
             <span
-              className="flex items-center gap-1 font-mono text-sm text-rune-paper"
+              className="flex items-center gap-0.5 font-mono text-sm text-rune-paper"
               title={
                 isFullHeal
                   ? "Restaura a vida por completo, não é um valor fixo"
                   : "Corações restaurados"
               }
             >
-              <img
-                src={assetUrl("icons/heart.svg")}
-                alt=""
-                className="h-4 w-4 object-contain"
-              />
-              {isFullHeal ? "Total" : recipe.hearts}
+              {isFullHeal ? (
+                <>
+                  <img
+                    src={assetUrl("icons/heart.svg")}
+                    alt=""
+                    className="h-4 w-4 object-contain"
+                  />
+                  Total
+                </>
+              ) : (
+                heartsDisplay && (
+                  <>
+                    <img
+                      src={assetUrl("icons/heart.svg")}
+                      alt=""
+                      className="h-4 w-4 object-contain"
+                    />
+                    {heartsDisplay.whole}
+                    {heartsDisplay.remainder > 0 && (
+                      <>
+                        <img
+                          src={assetUrl(heartsDisplay.remainderIcon)}
+                          alt=""
+                          className="h-4 w-4 object-contain"
+                        />
+                        {heartsDisplay.remainderFraction}
+                      </>
+                    )}
+                  </>
+                )
+              )}
             </span>
           )}
 

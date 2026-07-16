@@ -1,4 +1,12 @@
-import { BookOpen, Calculator, ChefHat, Package, Star, X } from "lucide-react";
+import {
+  BookOpen,
+  Calculator,
+  ChefHat,
+  Package,
+  Sparkles,
+  Star,
+  X,
+} from "lucide-react";
 import type { Tab } from "../lib/tabs";
 import { Button } from "./Button";
 
@@ -15,6 +23,7 @@ const ITEMS: { tab: Tab; label: string; icon: typeof BookOpen }[] = [
   { tab: "creator", label: "Criar Receita", icon: ChefHat },
   { tab: "favorites", label: "Minhas Combinações", icon: Star },
   { tab: "calculator", label: "Calculadora", icon: Calculator },
+  { tab: "recommended", label: "Recomendadas", icon: Sparkles },
 ];
 
 export function Sidebar({ tab, onTabChange, open, onClose }: SidebarProps) {

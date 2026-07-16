@@ -16,6 +16,36 @@ export function getWheelIcons(prefix: string, fifths: number): string[] {
   return icons;
 }
 
+// Glifo unicode de fração pra cada resto de 1-3 quartos (0 nunca é usado —
+// getHeartsDisplay só preenche remainderFraction quando remainder > 0).
+const QUARTER_FRACTION_GLYPHS: Record<number, string> = {
+  1: "¼",
+  2: "½",
+  3: "¾",
+};
+
+export interface HeartsDisplay {
+  whole: number;
+  remainder: number; // 1-3 quartos de coração, 0 se exato
+  remainderIcon: string; // icons/heart-N.svg do resto (só relevante se remainder > 0)
+  remainderFraction: string; // "¼" | "½" | "¾" (só relevante se remainder > 0)
+}
+
+// Decompõe Recipe.hearts (unidade de quarto-de-coração, ver
+// docs/cooking-formula.md secao 6) em corações inteiros + resto em quartos —
+// pra exibir como "N e ¾" com o icone heart-N.svg do resto, em vez de repetir
+// um icone de coração por unidade.
+export function getHeartsDisplay(quarterHearts: number): HeartsDisplay {
+  const whole = Math.floor(quarterHearts / 4);
+  const remainder = quarterHearts % 4;
+  return {
+    whole,
+    remainder,
+    remainderIcon: `icons/heart-${remainder}.svg`,
+    remainderFraction: QUARTER_FRACTION_GLYPHS[remainder] ?? "",
+  };
+}
+
 export function getStaminaIcons(
   effect: EffectId | undefined,
   staminaWheels: number | undefined,
