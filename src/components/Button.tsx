@@ -4,8 +4,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   icon?: ReactNode;
   active?: boolean;
   /** "action" = botão de ação tipo "Salvar" (borda sheikah, hover preenche).
-   * "nav" = item de navegação (ex: sidebar), com estado ativo/inativo. */
-  variant?: "action" | "nav";
+   * "nav" = item de navegação (ex: sidebar), com estado ativo/inativo.
+   * "danger" = ação destrutiva tipo "Limpar" (mesmo vermelho da categoria
+   * Frutas no filtro de Materiais, ver CATEGORY_COLORS). */
+  variant?: "action" | "nav" | "danger";
 }
 
 export function Button({
@@ -32,13 +34,18 @@ export function Button({
         }
       : undefined;
 
-  // Cor/borda do variant "action" via classe (não `style`) — um `style`
-  // inline com `color` tem especificidade maior que qualquer classe
+  // Cor/borda dos variants "action"/"danger" via classe (não `style`) — um
+  // `style` inline com `color` tem especificidade maior que qualquer classe
   // `hover:`, fazendo o texto sumir no hover (mesma cor do fundo preenchido).
+  // "danger" usa o mesmo vermelho da categoria Frutas (CATEGORY_COLORS.fruit)
+  // via valor arbitrário do Tailwind, já que não faz parte da paleta
+  // âmbar/ciano do chrome.
   const actionClass =
     variant === "action"
       ? "border-sheikah text-sheikah hover:bg-sheikah hover:text-obsidian disabled:hover:bg-transparent disabled:hover:text-sheikah"
-      : "";
+      : variant === "danger"
+        ? "border-[#ef6461] text-[#ef6461] hover:bg-[#ef6461] hover:text-obsidian disabled:hover:bg-transparent disabled:hover:text-[#ef6461]"
+        : "";
 
   return (
     <button

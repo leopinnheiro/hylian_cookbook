@@ -224,9 +224,25 @@ export function RecipeCreatorView({
             )}
           </div>
 
-          <Button disabled={!dishName} onClick={() => onSave(selection)}>
-            Salvar combinação
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="danger"
+              disabled={filledCount === 0}
+              onClick={() => {
+                setSelection(Array(SLOT_COUNT).fill(null));
+                setLastPickedId(null);
+              }}
+            >
+              Limpar
+            </Button>
+            <Button
+              className="flex-1"
+              disabled={!dishName}
+              onClick={() => onSave(selection)}
+            >
+              Salvar combinação
+            </Button>
+          </div>
         </div>
       </div>
 
