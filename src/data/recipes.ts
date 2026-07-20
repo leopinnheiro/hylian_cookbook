@@ -3736,7 +3736,20 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "hearty-elixir",
     name: { "pt-br": "Elixir Robusto", en: "Hearty Elixir" },
     ingredients: [
-      { materialIds: ["hearty-lizard"] },
+      {
+        label: { "pt-br": "Ingrediente de corações", en: "Extra Hearts Ingredient" },
+        materialIds: [
+          "hearty-durian",
+          "big-hearty-truffle",
+          "hearty-truffle",
+          "big-hearty-radish",
+          "hearty-radish",
+          "hearty-salmon",
+          "hearty-bass",
+          "hearty-blueshell-snail",
+          "hearty-lizard",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -3781,7 +3794,17 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "energizing-elixir",
     name: { "pt-br": "Elixir Vigoroso", en: "Energizing Elixir" },
     ingredients: [
-      { label: { "pt-br": "Gafanhoto Agitado ou Escaravelho Vibrante", en: "Restless Cricket or Energetic Rhino Beetle" }, materialIds: ["restless-cricket", "energetic-rhino-beetle"] },
+      {
+        label: { "pt-br": "Ingrediente de vigor", en: "Restore Stamina Ingredient" },
+        materialIds: [
+          "stamella-shroom",
+          "courser-bee-honey",
+          "staminoka-bass",
+          "bright-eyed-crab",
+          "restless-cricket",
+          "energetic-rhino-beetle",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -3826,7 +3849,10 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "enduring-elixir",
     name: { "pt-br": "Elixir Revitalizante", en: "Enduring Elixir" },
     ingredients: [
-      { materialIds: ["tireless-frog"] },
+      {
+        label: { "pt-br": "Ingrediente de vigor extra", en: "Extra Stamina Ingredient" },
+        materialIds: ["endura-shroom", "endura-carrot", "tireless-frog"],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -3941,7 +3967,15 @@ export const recipeTemplates: RecipeTemplate[] = [
     name: { "pt-br": "Elixir Gélido", en: "Chilly Elixir" },
     ingredients: [
       {
-        label: { "pt-br": "Insetos gélidos ou invernais", en: "Cold or Winter Bugs" }, materialIds: ["winterwing-butterfly", "cold-darner"],
+        label: { "pt-br": "Ingrediente de resistência ao calor", en: "Heat-Resist Ingredient" },
+        materialIds: [
+          "hydromelon",
+          "chillshroom",
+          "cool-safflina",
+          "chillfin-trout",
+          "winterwing-butterfly",
+          "cold-darner",
+        ],
       },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
@@ -4009,7 +4043,17 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "spicy-elixir",
     name: { "pt-br": "Elixir Apimentado", en: "Spicy Elixir" },
     ingredients: [
-      { label: { "pt-br": "Insetos estivais ou cálidos", en: "Warm or Summer Bugs" }, materialIds: ["summerwing-butterfly", "warm-darner"] },
+      {
+        label: { "pt-br": "Ingrediente de resistência ao frio", en: "Cold-Resist Ingredient" },
+        materialIds: [
+          "spicy-pepper",
+          "sunshroom",
+          "warm-safflina",
+          "sizzlefin-trout",
+          "summerwing-butterfly",
+          "warm-darner",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -4076,7 +4120,17 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "electro-elixir",
     name: { "pt-br": "Elixir Elétrico", en: "Electro Elixir" },
     ingredients: [
-      { label: { "pt-br": "Insetos trovejantes ou elétricos", en: "Thunder or Electric Bugs" }, materialIds: ["thunderwing-butterfly", "electric-darner"] },
+      {
+        label: { "pt-br": "Ingrediente de resistência elétrica", en: "Electric-Resist Ingredient" },
+        materialIds: [
+          "voltfruit",
+          "zapshroom",
+          "electric-safflina",
+          "voltfin-trout",
+          "thunderwing-butterfly",
+          "electric-darner",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -4143,7 +4197,17 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "hasty-elixir",
     name: { "pt-br": "Elixir Veloz", en: "Hasty Elixir" },
     ingredients: [
-      { label: { "pt-br": "Sapo Apressado ou Lagarto Fujão", en: "Hot-Footed Frog or Hightail Lizard" }, materialIds: ["hot-footed-frog", "hightail-lizard"] },
+      {
+        label: { "pt-br": "Ingrediente de velocidade", en: "Speed Ingredient" },
+        materialIds: [
+          "fleet-lotus-seeds",
+          "rushroom",
+          "swift-carrot",
+          "swift-violet",
+          "hot-footed-frog",
+          "hightail-lizard",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -4210,7 +4274,17 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "sneaky-elixir",
     name: { "pt-br": "Elixir Furtivo", en: "Sneaky Elixir" },
     ingredients: [
-      { materialIds: ["sunset-firefly"] },
+      {
+        label: { "pt-br": "Ingrediente de furtividade", en: "Stealth Ingredient" },
+        materialIds: [
+          "silent-shroom",
+          "blue-nightshade",
+          "silent-princess",
+          "stealthfin-trout",
+          "sneaky-river-snail",
+          "sunset-firefly",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
@@ -4355,7 +4429,18 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "tough-elixir",
     name: { "pt-br": "Elixir Blindado", en: "Tough Elixir" },
     ingredients: [
-      { materialIds: ["rugged-rhino-beetle"] },
+      {
+        label: { "pt-br": "Ingrediente de defesa", en: "Defense Ingredient" },
+        materialIds: [
+          "ironshroom",
+          "fortified-pumpkin",
+          "armoranth",
+          "armored-carp",
+          "armored-porgy",
+          "ironshell-crab",
+          "rugged-rhino-beetle",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [
