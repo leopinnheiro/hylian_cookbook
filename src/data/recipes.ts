@@ -4277,7 +4277,18 @@ export const recipeTemplates: RecipeTemplate[] = [
     id: "mighty-elixir",
     name: { "pt-br": "Elixir Poderoso", en: "Mighty Elixir" },
     ingredients: [
-      { materialIds: ["bladed-rhino-beetle"] },
+      {
+        label: { "pt-br": "Ingrediente de ataque", en: "Attack Ingredient" },
+        materialIds: [
+          "mighty-bananas",
+          "razorshroom",
+          "mighty-thistle",
+          "mighty-carp",
+          "mighty-porgy",
+          "razorclaw-crab",
+          "bladed-rhino-beetle",
+        ],
+      },
       {
         label: { "pt-br": "Partes de monstro", en: "Monster Parts" },
         materialIds: [

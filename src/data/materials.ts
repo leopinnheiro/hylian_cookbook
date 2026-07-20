@@ -295,7 +295,7 @@ export const materials: Material[] = [
   },
   {
     id: "warm-safflina",
-    name: { "pt-br": "*Cártamo Quente", en: "Warm Safflina" },
+    name: { "pt-br": "Erva geleira", en: "Warm Safflina" },
     image: "materials/warm_safflina_icon.png",
     hp: 0,
     effect: "cold-resist",
@@ -306,7 +306,7 @@ export const materials: Material[] = [
   },
   {
     id: "electric-safflina",
-    name: { "pt-br": "*Cártamo Elétrico", en: "Electric Safflina" },
+    name: { "pt-br": "Erva relampagueira", en: "Electric Safflina" },
     image: "materials/electric_safflina_icon.png",
     hp: 0,
     effect: "electric-resist",
@@ -317,7 +317,7 @@ export const materials: Material[] = [
   },
   {
     id: "swift-violet",
-    name: { "pt-br": "*Violeta Veloz", en: "Swift Violet" },
+    name: { "pt-br": "Violeta Veloz", en: "Swift Violet" },
     image: "materials/swift_violet_icon.png",
     hp: 0,
     effect: "speed",
@@ -399,7 +399,7 @@ export const materials: Material[] = [
   },
   {
     id: "raw-bird-thigh",
-    name: { "pt-br": "*Sobrecoxa de Ave Crua", en: "Raw Bird Thigh" },
+    name: { "pt-br": "Sobrecoxa", en: "Raw Bird Thigh" },
     image: "materials/raw_bird_thigh_icon.png",
     hp: 6,
     durationSeconds: 30,
@@ -1051,7 +1051,7 @@ export const materials: Material[] = [
   {
     id: "rugged-rhino-beetle",
     name: {
-      "pt-br": "*Besouro-Rinoceronte Robusto",
+      "pt-br": "Escaravelho resguardado",
       en: "Rugged Rhino Beetle",
     },
     image: "materials/rugged_rhino_beetle_icon.png",
@@ -1574,7 +1574,7 @@ export const materials: Material[] = [
   },
   {
     id: "hinox-guts",
-    name: { "pt-br": "*Vísceras de Hinox", en: "Hinox Guts" },
+    name: { "pt-br": "Vísceras de Rinox", en: "Hinox Guts" },
     image: "materials/hinox_guts_icon.png",
     hp: 0,
     durationSeconds: 190,

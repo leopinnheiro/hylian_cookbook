@@ -43,6 +43,21 @@ export const recommendedCombos: RecommendedCombo[] = [
     },
   },
   {
+    id: "attack-razorshroom-elixir",
+    materialIds: [
+      "razorshroom",
+      "razorshroom",
+      "razorshroom",
+      "bladed-rhino-beetle",
+      "bokoblin-fang",
+    ],
+    tip: {
+      "pt-br":
+        "Elixir Poderoso Nível 3. Talhamelo cresce em bloco perto de montanhas/penhascos e Bokoblins largam presa e besouro brigão o tempo todo — tudo fácil de estocar.",
+      en: "Mighty Elixir Tier 3. Razorshroom grows in clusters near mountains/cliffs, and Bokoblins reliably drop fang and bladed rhino beetle — everything easy to stock up.",
+    },
+  },
+  {
     id: "defense-fortified-pumpkin",
     materialIds: Array(5).fill("fortified-pumpkin"),
     tip: {
