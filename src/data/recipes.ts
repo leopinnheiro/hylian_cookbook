@@ -611,6 +611,7 @@ export const recipeTemplates: RecipeTemplate[] = [
         materialIds: [
           "hearty-durian",
           "palm-fruit",
+          "apple",
           "wildberry",
           "hydromelon",
           "spicy-pepper",
@@ -1938,6 +1939,7 @@ export const recipeTemplates: RecipeTemplate[] = [
         materialIds: [
           "hearty-durian",
           "palm-fruit",
+          "apple",
           "wildberry",
           "hydromelon",
           "spicy-pepper",
